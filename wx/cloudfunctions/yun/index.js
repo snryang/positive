@@ -4,6 +4,7 @@ const cloud = require('wx-server-sdk')
 const articleService = require("article.js")
 const habitService = require("habit.js")
 const configService = require("config.js")
+const userService = require("user.js")
 
 cloud.init()
 
@@ -22,16 +23,18 @@ cloud.init()
 // 云函数入口函数
 exports.main = async (event, context) => {
   // console.log(event)
-  // console.log(context)
+  console.log(context)
 
   let tag = event.a.split(".");
   switch(tag[0]){
     case "article":
-      return await articleService[tag[1]](event.b,cloud);      
+      return await articleService[tag[1]](event.b, cloud, event.c);
     case "habit":
-      return await habitService[tag[1]](event.b,cloud);
+      return await habitService[tag[1]](event.b, cloud, event.c);
     case "config":
-      return await configService[tag[1]](event.b,cloud);
+      return await configService[tag[1]](event.b, cloud, event.c);
+    case "user":
+      return await userService[tag[1]](event.b, cloud, event.c);
   }
   return true;
 }

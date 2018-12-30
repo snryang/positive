@@ -1,8 +1,7 @@
 {
   "pages": [
-    
-    "pages/md/md",
     "pages/habit/habit",
+    "pages/md/md",    
     "pages/index/index",
     "pages/userConsole/userConsole",
     "pages/storageConsole/storageConsole",

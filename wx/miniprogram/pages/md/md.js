@@ -23,7 +23,7 @@ Page({
 
       //微信开发者工具云数据库不支持换行字符录入，暂时使用\n代替换行
       let article = app.towxml.toJson(
-        res.result.replace(/\\n/g, "\n"),               // `markdown`或`html`文本内容
+        res.result.replace(/\-/g, "\n-").replace(/\\n/g, "\n"),               // `markdown`或`html`文本内容
         'markdown'              // `markdown`或`html`
       );
       this.setData({article})

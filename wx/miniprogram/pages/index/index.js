@@ -1,4 +1,5 @@
 //index.js
+const commonApi = require('../../api/commonApi.js');  
 const app = getApp()
 
 Page({
@@ -17,7 +18,7 @@ Page({
       })
       return
     }
-
+    
 
     // 获取用户信息
     wx.getSetting({
@@ -27,6 +28,8 @@ Page({
           wx.getUserInfo({            
             success: res => {
               console.log(res);
+              app.currentUser = res.userInfo;
+              
               this.setData({
                 avatarUrl: res.userInfo.avatarUrl,
                 userInfo: res.userInfo
@@ -36,6 +39,10 @@ Page({
         }
       }
     })
+  },
+
+  doUpdateUser:function(e){
+    commonApi.updateUser();
   },
 
   onGetUserInfo: function(e) {

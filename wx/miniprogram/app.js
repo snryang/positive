@@ -15,5 +15,6 @@ App({
 
     this.globalData = {}
   },
-  towxml: new Towxml()
+  towxml: new Towxml(),
+  currentUser:{}
 })

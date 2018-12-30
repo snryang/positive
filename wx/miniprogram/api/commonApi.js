@@ -1,12 +1,12 @@
 let app = getApp()
 
-exports.get = (key) => {
+exports.updateUser = () => {
   console.log(app.currentUser);
   return wx.cloud.callFunction({
     name: 'yun',
     data: {
-      a: "config.get",
-      b: key,
+      a: "user.update",
+      b: "",
       c: app.currentUser
     }
   })
