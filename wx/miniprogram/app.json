@@ -29,7 +29,7 @@
       },
       {
         "pagePath": "pages/habit/habit",
-        "text": "习惯"
+        "text": "例行公事"
       },
       {
         "pagePath": "pages/deployFunctions/deployFunctions",

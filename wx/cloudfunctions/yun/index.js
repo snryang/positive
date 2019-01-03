@@ -28,13 +28,13 @@ exports.main = async (event, context) => {
   let tag = event.a.split(".");
   switch(tag[0]){
     case "article":
-      return await articleService[tag[1]](event.b, cloud, event.c);
+      return await articleService[tag[1]](event.b, cloud,);
     case "habit":
-      return await habitService[tag[1]](event.b, cloud, event.c);
+      return await habitService[tag[1]](event.b, cloud);
     case "config":
-      return await configService[tag[1]](event.b, cloud, event.c);
+      return await configService[tag[1]](event.b, cloud);
     case "user":
-      return await userService[tag[1]](event.b, cloud, event.c);
+      return await userService[tag[1]](event.b, cloud);
   }
   return true;
 }
