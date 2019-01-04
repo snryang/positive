@@ -19,3 +19,9 @@ exports.update = async(currentUser, cloud) => {
         })
     }
 }
+
+exports.selectUsers = async(openIds,cloud) =>{
+    return await cloud.database().collection('users').where({
+        openId: cloud.database().command.in(openIds)
+      }).get()
+}

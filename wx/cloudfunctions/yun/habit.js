@@ -72,3 +72,18 @@ exports.myHabits = async(num, cloud) => {
 
     return res.data;
 }
+
+
+exports.selectHabits = async (filter, cloud) => {
+    //filter:{openId:'',pageIndex:1,pageSize}
+    filter.pageIndex = filter.pageIndex || 1;
+    filter.pageSize = filter.pageSize || 30;
+    var list = cloud.database().collection('habits');
+    if (filter.hasOwnProperty('openId')) {
+      list = list.where({ openId: filter.openId });
+    }
+    if (filter.pageIndex > 1) {
+      list = list.skip((filter.pageIndex - 1) * filter.pageSize);
+    }
+    return await list.limit(filter.pageSize).orderBy('lastTime', 'desc').get();
+  }

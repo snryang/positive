@@ -1,50 +1,25 @@
+let {yun} = require("./yun.js");
+
 exports.myHabits = () => {
-    return wx.cloud.callFunction({
-        name: 'yun',
-        data: {
-            a: "habit.myHabits",
-            b: 30
-        }
-    })
+    return yun("habit.myHabits",30);
 }
 
-//删除习惯
 exports.del = (habitId) => {
-    return wx.cloud.callFunction({
-        name: 'yun',
-        data: {
-            a: "habit.del",
-            b: habitId
-        }
-    })
+    return yun("habit.del",habitId);
 }
 
 exports.currentHabit = () => {
-    return wx.cloud.callFunction({
-        name: 'yun',
-        data: {
-            a: "habit.currentHabit",
-            b: 30
-        }
-    })
+    return yun("habit.currentHabit",30);
 }
 
 exports.add = (name) => {
-    return wx.cloud.callFunction({
-        name: 'yun',
-        data: {
-            a: "habit.add",
-            b: name
-        }
-    })
+    return yun("habit.add",name);
 }
 
 exports.inc = (habitId) => {
-    return wx.cloud.callFunction({
-        name: 'yun',
-        data: {
-            a: "habit.inc",
-            b: habitId
-        }
-    })
+    return yun("habit.inc",habitId);
+}
+
+exports.selectHabits = (filter) =>{
+    return yun("habit.selectHabits",filter);
 }

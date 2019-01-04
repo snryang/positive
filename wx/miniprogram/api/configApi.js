@@ -1,10 +1,6 @@
 
+let {yun} = require("./yun.js");
+
 exports.get = (key) => {
-  return wx.cloud.callFunction({
-    name: 'yun',
-    data: {
-      a: "config.get",
-      b: key
-    }
-  })
+  return yun("config.get",key);
 }

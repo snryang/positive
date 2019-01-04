@@ -1,26 +1,26 @@
-let articles = {
-  _id: '',
-  title: '',
-  content: '',
-  time: '',
-  like: 0,
-  reply: 0,
-  anonymity: false,
-  openId: ''
-}
+// let articles = {
+//   _id: '',
+//   title: '',
+//   content: '',
+//   time: '',
+//   like: 0,
+//   reply: 0,
+//   anonymity: false,
+//   openId: ''
+// }
 
-let articleLike = {
-  openId: '',
-  articleId: ''
-}
+// let articleLike = {
+//   openId: '',
+//   articleId: ''
+// }
 
-let articleReply = {
-  openId: '',
-  articleId: '',
-  content: "",
-  at:'',
-  time: '',
-}
+// let articleReply = {
+//   openId: '',
+//   articleId: '',
+//   content: "",
+//   at:'',
+//   time: '',
+// }
 
 exports.selectReplies = async (filter,cloud) =>{
     //filter:{articleId:'',pageIndex:1,pageSize}
@@ -123,8 +123,3 @@ exports.addArticle = async (article, cloud) => {
   return article;
 }
 
-exports.update = async (article, cloud) => {
-  console.log(article);
-  console.log(cloud);
-  return false;
-}
