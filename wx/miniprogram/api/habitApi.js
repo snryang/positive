@@ -23,3 +23,7 @@ exports.inc = (habitId) => {
 exports.selectHabits = (filter) =>{
     return yun("habit.selectHabits",filter);
 }
+
+exports.latestHabitByOpenId = (openId) =>{
+    return yun("habit.latestHabitByOpenId",openId);
+}

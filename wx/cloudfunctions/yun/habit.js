@@ -49,6 +49,13 @@ exports.add = async(name, cloud) => {
         return habit;
     }
 }
+
+exports.latestHabitByOpenId = async (openId,cloud) =>{
+    let res = await cloud.database().collection('habits').where({openId}).orderBy('createTime', 'desc').limit(1).get();
+    if(res.data.length > 0) return res.data[0].name;
+    return "";
+}
+
 //当前正在进行的习惯
 exports.currentHabit = async(num, cloud) => {
     let openId = cloud.getWXContext().OPENID
