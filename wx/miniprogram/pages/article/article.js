@@ -1,27 +1,128 @@
-var sliderWidth = 96; // 需要设置slider的宽度，用于计算中间位置
+import regeneratorRuntime from '../../utils/runtime.js'
+let api = require("../../api/articleApi.js")
+let commonApi = require("../../api/commonApi.js");
+let habitApi = require("../../api/habitApi.js");
+let R = require("../../utils/ramda.min.js")
+
 
 Page({
+
+    /**
+     * 页面的初始数据
+     */
     data: {
-        tabs: ["日记广场", "我的"],
-        activeIndex: 1,
-        sliderOffset: 0,
-        sliderLeft: 0
+        pageIndex: 1,
+        items: []
     },
-    onLoad: function () {
-        var that = this;
-        wx.getSystemInfo({
-            success: function(res) {
-                that.setData({
-                    sliderLeft: (res.windowWidth / that.data.tabs.length - sliderWidth) / 2,
-                    sliderOffset: res.windowWidth / that.data.tabs.length * that.data.activeIndex
-                });
-            }
-        });
+
+    /**
+     * 生命周期函数--监听页面加载
+     */
+    onLoad: function(options) {
+
     },
-    tabClick: function (e) {
-        this.setData({
-            sliderOffset: e.currentTarget.offsetLeft,
-            activeIndex: e.currentTarget.id
+
+    /**
+     * 生命周期函数--监听页面初次渲染完成
+     */
+    onReady: function() {
+        let that = this;
+        this.loadArticle(1);
+    },
+    async loadArticle(pageIndex) {
+        let that = this;
+        wx.showLoading({
+            title: '加载中',
+        })
+
+
+        let res = await api.selectArticles({
+            pageIndex: that.data.pageIndex,
+            pageSize: 30
         });
+        let articles = res.result.data;
+        let openIds = R.pluck('openId')(articles);
+        let res2 = await commonApi.selectUsers(openIds);
+        let users = res2.result.data;        
+
+        R.map(async p => {
+            let user = R.find(R.propEq('openId', p.openId))(users);
+            let habitRes = await habitApi.latestHabitByOpenId(p.openId);
+            console.log(habitRes);
+            let obj = {
+                nickName: user.userInfo.nickName,
+                avatarUrl: user.userInfo.avatarUrl,
+                habit: habitRes.result,
+                article: p
+            }            
+            that.setData({
+                items: that.data.items.concat([obj])
+            });
+            console.log(obj)
+        }, articles);
+        
+        wx.hideLoading()
+    },
+    /**
+     * 生命周期函数--监听页面显示
+     */
+    onShow: function() {
+
+    },
+
+    /**
+     * 生命周期函数--监听页面隐藏
+     */
+    onHide: function() {
+
+    },
+
+    /**
+     * 生命周期函数--监听页面卸载
+     */
+    onUnload: function() {
+
+    },
+
+    /**
+     * 页面相关事件处理函数--监听用户下拉动作
+     */
+    onPullDownRefresh: function() {
+        console.log("onPullDownRefresh");
+        if(this.data.items.length < this.data.pageIndex * 30){
+            wx.showToast({
+                title: '没有日志了',
+                icon: 'none',
+                duration: 1500
+            })
+        }else{
+            let pageIndex = this.data.pageIndex++;
+            this.setData({pageIndex})
+            this.loadArticle(pageIndex);
+        }
+    },
+
+    /**
+     * 页面上拉触底事件的处理函数
+     */
+    onReachBottom: function() {
+
+    },
+
+    /**
+     * 用户点击右上角分享
+     */
+    onShareAppMessage: function() {
+
+    },
+    //转到详细
+    bindToDetail(e) {
+        console.log(e.currentTarget.id)
+        console.log(e)
+    },
+    bindToWrite(e) {
+        wx.navigateTo({
+            url: '../articleWrite/index'
+        })
     }
-});
+})

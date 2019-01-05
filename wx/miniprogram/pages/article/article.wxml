@@ -1,16 +1,46 @@
-<view class="page">
-    <view class="weui-panel">
-        <view class="weui-panel__hd">文字列表附来源</view>
-        <view class="weui-panel__bd">
-            <view class="weui-media-box weui-media-box_text">
-                <view class="weui-media-box__title weui-media-box__title_in-text">标题一</view>
-                <view class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</view>
-                <view class="weui-media-box__info">
-                    <view class="weui-media-box__info__meta">文字来源</view>
-                    <view class="weui-media-box__info__meta">时间</view>
-                    <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">其它信息</view>
+<!--index.wxml-->
+
+<view class="container">
+    <block wx:for="{{items}}" >
+        <view class="feed-item" id="{{item.article._id}}" bindtap="bindToDetail">            
+            <view class="feed-source">                
+                <view class="avatar">
+                    <image src="{{item.avatarUrl}}"></image>
+                </view>     
+                <view class="habit">               
+                    <text>{{item.habit}}</text>
+                </view>                
+            </view>
+            <view class="feed-content">
+                <view class="question" wx:if="item.article.title.length > 0">
+                    <a class="question-link">
+                        <text>{{item.article.title}}</text>
+                    </a>
+                </view>
+                <view class="answer-body">
+                    <view>
+                        <text class="answer-txt" >{{item.article.content}}</text>
+                    </view>
+                    <view class="answer-actions">
+                        <view class="like dot">
+                            <a>{{item.article.like}} 赞 </a>
+                        </view>
+                        <view class="comments dot">
+                            <a>{{item.article.reply}} 评论 </a>
+                        </view>
+                        <view class="follow-it dot2">
+                            <a>{{item.article.time}}</a>
+                        </view>
+                        <view class="follow-it">
+                            <a>{{item.nickName}}</a>
+                        </view>
+                    </view>
                 </view>
             </view>
         </view>
-    </view> 
+    </block>
+
+    <image class="imgWrite" src="../../images/index_focus.png" bindtap="bindToWrite"></image>
 </view>
+
+

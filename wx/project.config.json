@@ -6,11 +6,12 @@
 		"es6": true,
 		"postcss": true,
 		"minified": true,
-		"newFeature": true
+		"newFeature": true,
+		"autoAudits": false
 	},
 	"appid": "wx573c20ad06eb8a6f",
 	"projectname": "%E7%A7%AF%E6%9E%81%E7%9A%84%E4%BA%BA",
-	"libVersion": "2.4.2",
+	"libVersion": "2.4.3",
 	"condition": {
 		"search": {
 			"current": -1,

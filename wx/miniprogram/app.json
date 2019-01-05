@@ -1,40 +1,43 @@
 {
-  "pages": [
-    "pages/habit/habit",
-    "pages/md/md",    
-    "pages/index/index",
-    "pages/userConsole/userConsole",
-    "pages/storageConsole/storageConsole",
-    "pages/databaseGuide/databaseGuide",
-    "pages/addFunction/addFunction",
-    "pages/deployFunctions/deployFunctions",
-    "pages/chooseLib/chooseLib",
-    "pages/blogDetail/blogDetail"    
-  ],
-  "window": {
-    "backgroundColor": "#F6F6F6",
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#F6F6F6",
-    "navigationBarTitleText": "积极的人",
-    "navigationBarTextStyle": "black"
-  },
-  "tabBar": {
-    "color": "#a9b7b7",
-    "selectedColor": "#11cd6e",
-    "borderStyle": "black",
-    "list": [
-      {
-        "pagePath": "pages/index/index",
-        "text": "首页"
-      },
-      {
-        "pagePath": "pages/habit/habit",
-        "text": "例行公事"
-      },
-      {
-        "pagePath": "pages/deployFunctions/deployFunctions",
-        "text": "我的"
-      }
-    ]
-  }
+    "pages": [
+        "pages/article/article",
+        "pages/articleWrite/index",
+        
+        "pages/habit/habit",
+        "pages/md/md",
+        "pages/userConsole/userConsole",
+        "pages/storageConsole/storageConsole",
+        "pages/databaseGuide/databaseGuide",
+        "pages/addFunction/addFunction",
+        "pages/deployFunctions/deployFunctions",
+        "pages/chooseLib/chooseLib",
+        "pages/articleDetail/articleDetail"
+        
+    ],
+    "window": {
+        "backgroundColor": "#F6F6F6",
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#F6F6F6",
+        "navigationBarTitleText": "积极的人",
+        "navigationBarTextStyle": "black"
+    },
+    "tabBar": {
+        "color": "#a9b7b7",
+        "selectedColor": "#11cd6e",
+        "borderStyle": "black",
+        "list": [
+            {
+                "pagePath": "pages/article/article",
+                "text": "日记"
+            },
+            {
+                "pagePath": "pages/habit/habit",
+                "text": "例行公事"
+            },
+            {
+                "pagePath": "pages/deployFunctions/deployFunctions",
+                "text": "我的"
+            }
+        ]
+    }
 }

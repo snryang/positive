@@ -40,7 +40,7 @@ exports.addReply = async (reply, cloud) => {
   let result = await cloud.database().collection('articleReplies').add({
     data: reply
   });
-  reply._id = result.data._id;
+  reply._id = result._id;
 
   await cloud.database().collection('articles').doc(reply.articleId).update({ data: { reply: cloud.database().command.inc(1) } })
   return reply;
@@ -118,7 +118,8 @@ exports.addArticle = async (article, cloud) => {
   let result = await cloud.database().collection('articles').add({
     data: article
   });
-  article._id = result.data._id;
+  console.log(result);
+  article._id = result._id;
 
   return article;
 }

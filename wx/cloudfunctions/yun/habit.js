@@ -56,6 +56,8 @@ exports.latestHabitByOpenId = async (openId,cloud) =>{
     return "";
 }
 
+
+
 //当前正在进行的习惯
 exports.currentHabit = async(num, cloud) => {
     let openId = cloud.getWXContext().OPENID
