@@ -1,7 +1,6 @@
 import regeneratorRuntime from '../../utils/runtime.js'
 let api = require("../../api/articleApi.js")
 let commonApi = require("../../api/commonApi.js");
-let habitApi = require("../../api/habitApi.js");
 let R = require("../../utils/ramda.min.js")
 
 
@@ -47,12 +46,10 @@ Page({
 
         R.map(async p => {
             let user = R.find(R.propEq('openId', p.openId))(users);
-            let habitRes = await habitApi.latestHabitByOpenId(p.openId);
-            console.log(habitRes);
             let obj = {
                 nickName: user.userInfo.nickName,
                 avatarUrl: user.userInfo.avatarUrl,
-                habit: habitRes.result,
+                habit: user.habit,
                 article: p
             }            
             that.setData({
@@ -89,6 +86,19 @@ Page({
      */
     onPullDownRefresh: function() {
         console.log("onPullDownRefresh");
+        this.setData({
+            pageIndex:1,
+            items:[]
+        });
+
+        this.loadArticle(1);
+    },
+
+    /**
+     * 页面上拉触底事件的处理函数
+     */
+    onReachBottom: function() {
+        console.log("onReachBottom");
         if(this.data.items.length < this.data.pageIndex * 30){
             wx.showToast({
                 title: '没有日志了',
@@ -100,13 +110,6 @@ Page({
             this.setData({pageIndex})
             this.loadArticle(pageIndex);
         }
-    },
-
-    /**
-     * 页面上拉触底事件的处理函数
-     */
-    onReachBottom: function() {
-
     },
 
     /**

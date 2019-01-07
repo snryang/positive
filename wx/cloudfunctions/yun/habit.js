@@ -44,6 +44,25 @@ exports.add = async(name, cloud) => {
         });
         habit._id = res._id;
         console.log(res);
+
+        //将习惯更新到用户表，去数据库不支持group by ，查询不方便。
+        try {
+            return await cloud.database().collection('users').where({
+                openId
+            }).update({
+                data: {
+                    habit: name
+                },
+            });
+        } catch (e) {
+            return await cloud.database().collection("users").add({
+                data: {
+                    openId,
+                    habit:name
+                }
+            })
+        }
+
         return habit;
     } else {
         return habit;

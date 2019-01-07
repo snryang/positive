@@ -12,3 +12,5 @@ mpvue和mpvue-weui只是对微信原生组件的封装，微信官方文档js和
 ###参考项目 
 - https://github.com/kesixin/MP_MambaBlog_Online
 - https://github.com/jaxQin/mpvue-cnode
+- https://github.com/sherlock221/wx-flexbox  
+- https://github.com/sherlock221/zhihuZhuanlan

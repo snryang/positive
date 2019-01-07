@@ -33,6 +33,11 @@ exports.selectReplies = async (filter,cloud) =>{
     return await list.limit(filter.pageSize).orderBy('time', 'desc').get();
 }
 
+exports.delReply = async (replyId,cloud) =>{
+  let openId = cloud.getWXContext().OPENID;
+  
+}
+
 exports.addReply = async (reply, cloud) => {
   reply.time = new Date();
   reply.openId = cloud.getWXContext().OPENID;

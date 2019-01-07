@@ -13,11 +13,9 @@ Page({
     data: {
         showTopTips: false,
         //页面状态 1创建新习惯 2每日打卡
-        loading: true,
         habitName: "",
         pageStatus: 1,
         disabled: false,
-        btnText: "创建新习惯",
         myHabits:[],
         currentHabit:{}
     },
@@ -39,13 +37,11 @@ Page({
             if(res.result == null){
                 this.setData({
                     pageStatus: 1,
-                    loading: false
                 })
             }else{
                 this.setData({
                     pageStatus: 2,
                     currentHabit: res.result,
-                    loading: false
                 })
             }
         })
