@@ -86,7 +86,16 @@ exports.currentHabit = async(num, cloud) => {
 
 //删除习惯
 exports.del = async(habitId, cloud) => {
-    return await cloud.database().collection("habits").doc(habitId).remove();
+
+    let openId = cloud.getWXContext().OPENID;
+    cloud.database().collection('habits').doc(habitId).get().then(res => {
+      if(res.data.openId == openId){
+        cloud.database().collection("habits").doc(habitId).remove();
+      }    
+    })
+    return true; 
+
+    //return await cloud.database().collection("habits").doc(habitId).remove();
 }
 
 //获取我的习惯

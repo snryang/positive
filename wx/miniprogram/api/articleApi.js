@@ -7,6 +7,9 @@ exports.selectReplies = (filter) =>{
 exports.addReply = (reply) => {
     return yun("article.addReply",reply);
 }
+exports.delReply = (replyId) =>{
+    return yun("article.delReply",replyId)
+}
 
 exports.like = (articleId) => {
     return yun("article.like",articleId);
@@ -32,3 +35,6 @@ exports.addArticle = (article) => {
     return yun("article.addArticle",article);
 }
 
+exports.delArticle = (articleId) =>{
+    return yun("article.delArticle",articleId)
+}

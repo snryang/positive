@@ -35,7 +35,12 @@ exports.selectReplies = async (filter,cloud) =>{
 
 exports.delReply = async (replyId,cloud) =>{
   let openId = cloud.getWXContext().OPENID;
-  
+  cloud.database().collection('articleReplies').doc(replyId).get().then(res => {
+    if(res.data.openId == openId){
+      cloud.database().collection("articleReplies").doc(replyId).remove();
+    }    
+  })
+  return true; 
 }
 
 exports.addReply = async (reply, cloud) => {
@@ -129,3 +134,12 @@ exports.addArticle = async (article, cloud) => {
   return article;
 }
 
+exports.delArticle = async (articleId,cloud) =>{
+  let openId = cloud.getWXContext().OPENID;
+  cloud.database().collection('articles').doc(articleId).get().then(res => {
+    if(res.data.openId == openId){
+      cloud.database().collection("articles").doc(articleId).remove();
+    }    
+  })
+  return true; 
+}
