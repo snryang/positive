@@ -1,6 +1,4 @@
 
 let {yun} = require("./yun.js");
 
-exports.get = (key) => {
-  return yun("config.get",key);
-}
+exports.get = yun("config.get");

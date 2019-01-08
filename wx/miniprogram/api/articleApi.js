@@ -1,40 +1,21 @@
 let {yun} = require("./yun.js");
 
-exports.selectReplies = (filter) =>{
-    return yun("article.selectReplies",filter);
-}
+exports.selectReplies = yun("article.selectReplies")
 
-exports.addReply = (reply) => {
-    return yun("article.addReply",reply);
-}
-exports.delReply = (replyId) =>{
-    return yun("article.delReply",replyId)
-}
+exports.addReply = yun("article.addReply")
 
-exports.like = (articleId) => {
-    return yun("article.like",articleId);
-}
+exports.delReply = yun("article.delReply")
 
-exports.unlike = (articleId) => {
-    return yun("article.unlike",articleId);
-}
+exports.like = yun("article.like")
 
-exports.selectArticles = (filter) => {
-    return yun("article.selectArticles",filter);
-}
+exports.unlike = yun("article.unlike")
 
-exports.getArticle = (articleId) => {
-    return yun("article.getArticle",articleId);
-}
+exports.selectArticles = yun("article.selectArticles")
 
-exports.updateArticle = (article) => {
-    return yun("article.updateArticle",article);
-}
+exports.getArticle = yun("article.getArticle")
 
-exports.addArticle = (article) => {
-    return yun("article.addArticle",article);
-}
+exports.updateArticle = yun("article.updateArticle")
 
-exports.delArticle = (articleId) =>{
-    return yun("article.delArticle",articleId)
-}
+exports.addArticle = yun("article.addArticle")
+
+exports.delArticle = yun("article.delArticle")
