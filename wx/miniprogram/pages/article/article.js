@@ -3,6 +3,7 @@ let api = require("../../api/articleApi.js")
 let commonApi = require("../../api/commonApi.js");
 let R = require("../../utils/ramda.min.js")
 
+let pageIndex = 1;
 
 Page({
 
@@ -10,7 +11,6 @@ Page({
      * 页面的初始数据
      */
     data: {
-        pageIndex: 1,
         items: []
     },
 
@@ -26,17 +26,16 @@ Page({
      */
     onReady: function() {
         let that = this;
-        this.loadArticle(1);
+        this.loadArticle();
     },
-    async loadArticle(pageIndex) {
+    async loadArticle() {
         let that = this;
         wx.showLoading({
             title: '加载中',
         })
 
-
         let res = await api.selectArticles({
-            pageIndex: that.data.pageIndex,
+            pageIndex: pageIndex,
             pageSize: 30
         });
         let articles = res.result.data;
@@ -86,12 +85,9 @@ Page({
      */
     onPullDownRefresh: function() {
         console.log("onPullDownRefresh");
-        this.setData({
-            pageIndex:1,
-            items:[]
-        });
-
-        this.loadArticle(1);
+        pageIndex = 1;
+        this.setData({items: []});
+        this.loadArticle();
     },
 
     /**
@@ -99,16 +95,15 @@ Page({
      */
     onReachBottom: function() {
         console.log("onReachBottom");
-        if(this.data.items.length < this.data.pageIndex * 30){
+        if(this.data.items.length < pageIndex * 30){
             wx.showToast({
                 title: '没有日志了',
                 icon: 'none',
                 duration: 1500
             })
         }else{
-            let pageIndex = this.data.pageIndex++;
-            this.setData({pageIndex})
-            this.loadArticle(pageIndex);
+            pageIndex++;
+            this.loadArticle();
         }
     },
 
