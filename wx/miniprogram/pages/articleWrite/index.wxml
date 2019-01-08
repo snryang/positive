@@ -1,13 +1,13 @@
 <!--miniprogram/pages/articleWrite/index.wxml-->
-<view class="ywb-page">
-    <view class="fx-row fx-row-center">
+<view class="">
+    <view class="fx-row fx-row-center mh-15 mt-5">
         <view class='fx-1'>
             <navigator url="/pages/md/md?key=articleRule" class="link">
                 日记建议
             </navigator>
         </view>
         <view class='fx-1 anonymity'>
-            <switch bindchange="switchChange" />            
+            <switch bindchange="switchChange" />
             <text wx:if="{{anonymity}}">匿名</text>
         </view>
         <view class="fx-1" style="text-align: right ">
@@ -15,12 +15,10 @@
         </view>
     </view>
 
-    <view class="page-section">
-        <view class="weui-cells weui-cells_after-title">
-            <view class="weui-cell weui-cell_input">
-                <input class="weui-input" bindinput='titleInput' maxlength="20" placeholder="日记标题(可选)" />
-            </view>
-        </view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <input class="weui-input" bindinput='titleInput' maxlength="20" placeholder="日记标题(可选)" />
+      </view>
     </view>
 
     <view class="page-section">

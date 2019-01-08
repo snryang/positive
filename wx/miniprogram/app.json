@@ -1,9 +1,10 @@
 {
     "pages": [
+        "pages/article/article",
         
         "pages/articleWrite/index",
         "pages/habit/habit",
-        "pages/article/article",       
+        
         
         
         "pages/md/md",
