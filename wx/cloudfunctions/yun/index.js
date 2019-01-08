@@ -22,8 +22,8 @@ cloud.init()
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-  // console.log(event)
-  console.log(context)
+  
+  console.log(event.a+":" + JSON.stringify( event.b))
 
   let tag = event.a.split(".");
   switch(tag[0]){

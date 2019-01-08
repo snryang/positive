@@ -16,9 +16,9 @@ async function getRunningHabit(openId, num, cloud) {
 
 //习惯次数加一
 exports.inc = async(habitId, cloud) => {
-    return await db.collection('habits').doc(habitId).update({
+    return await cloud.database().collection('habits').doc(habitId).update({
         data: {
-            num: _.inc(1),
+            num: cloud.database().command.inc(1),
             lastTime: new Date()
         }
     })
@@ -37,17 +37,16 @@ exports.add = async(name, cloud) => {
             num: 0,
             openId: openId,
             createTime: new Date(),
-            lastTime: new Date(),
+            lastTime: null,
         }
         let res = await cloud.database().collection("habits").add({
             data: habit
         });
         habit._id = res._id;
-        console.log(res);
 
         //将习惯更新到用户表，去数据库不支持group by ，查询不方便。
         try {
-            return await cloud.database().collection('users').where({
+            await cloud.database().collection('users').where({
                 openId
             }).update({
                 data: {
@@ -55,10 +54,10 @@ exports.add = async(name, cloud) => {
                 },
             });
         } catch (e) {
-            return await cloud.database().collection("users").add({
+            await cloud.database().collection("users").add({
                 data: {
                     openId,
-                    habit:name
+                    habit: name
                 }
             })
         }
@@ -69,9 +68,11 @@ exports.add = async(name, cloud) => {
     }
 }
 
-exports.latestHabitByOpenId = async (openId,cloud) =>{
-    let res = await cloud.database().collection('habits').where({openId}).orderBy('createTime', 'desc').limit(1).get();
-    if(res.data.length > 0) return res.data[0].name;
+exports.latestHabitByOpenId = async(openId, cloud) => {
+    let res = await cloud.database().collection('habits').where({
+        openId
+    }).orderBy('createTime', 'desc').limit(1).get();
+    if (res.data.length > 0) return res.data[0].name;
     return "";
 }
 
@@ -88,14 +89,14 @@ exports.currentHabit = async(num, cloud) => {
 exports.del = async(habitId, cloud) => {
 
     let openId = cloud.getWXContext().OPENID;
-    cloud.database().collection('habits').doc(habitId).get().then(res => {
-      if(res.data.openId == openId){
-        cloud.database().collection("habits").doc(habitId).remove();
-      }    
-    })
-    return true; 
-
-    //return await cloud.database().collection("habits").doc(habitId).remove();
+    let res = await cloud.database().collection('habits').doc(habitId).get();
+    console.log(res);
+    if (res.data.openId == openId) {
+        await cloud.database().collection("habits").doc(habitId).remove();
+        return true;
+    } else {
+        return false;
+    }
 }
 
 //获取我的习惯
@@ -111,16 +112,18 @@ exports.myHabits = async(num, cloud) => {
 }
 
 
-exports.selectHabits = async (filter, cloud) => {
+exports.selectHabits = async(filter, cloud) => {
     //filter:{openId:'',pageIndex:1,pageSize}
     filter.pageIndex = filter.pageIndex || 1;
     filter.pageSize = filter.pageSize || 30;
     var list = cloud.database().collection('habits');
     if (filter.hasOwnProperty('openId')) {
-      list = list.where({ openId: filter.openId });
+        list = list.where({
+            openId: filter.openId
+        });
     }
     if (filter.pageIndex > 1) {
-      list = list.skip((filter.pageIndex - 1) * filter.pageSize);
+        list = list.skip((filter.pageIndex - 1) * filter.pageSize);
     }
     return await list.limit(filter.pageSize).orderBy('lastTime', 'desc').get();
-  }
+}

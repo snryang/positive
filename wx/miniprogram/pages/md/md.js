@@ -23,7 +23,7 @@ Page({
       let config = res.result || {};
 
       wx.setNavigationBarTitle({
-        title: config.desc || "..."
+        title: config.title || "..."
       })
 
       //微信开发者工具云数据库不支持换行字符录入，暂时使用\n代替换行

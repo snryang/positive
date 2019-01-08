@@ -2,6 +2,7 @@ import regeneratorRuntime from '../../utils/runtime.js'
 let api = require("../../api/articleApi.js")
 let commonApi = require("../../api/commonApi.js");
 let R = require("../../utils/ramda.min.js")
+import moment from "../../utils/moment.min.js"
 
 let pageIndex = 1;
 
@@ -44,6 +45,7 @@ Page({
         let users = res2.result.data;        
 
         R.map(async p => {
+            p.time = moment(p.time).format("YYYY-MM-DD HH:mm");
             let user = R.find(R.propEq('openId', p.openId))(users);
             let obj = {
                 nickName: user.userInfo.nickName,
@@ -53,10 +55,10 @@ Page({
             }            
             that.setData({
                 items: that.data.items.concat([obj])
-            });
-            console.log(obj)
+            });            
         }, articles);
-        
+        console.log(articles);
+        wx.stopPullDownRefresh()        
         wx.hideLoading()
     },
     /**

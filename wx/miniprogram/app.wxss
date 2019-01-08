@@ -1,4 +1,7 @@
 @import 'style/weui.wxss';
+@import "style/class-tools.wxss";
+@import "style/flex.wxss";
+
 
 /**app.wxss**/
 .container {
@@ -126,4 +129,15 @@
 }
 .container .feed-item .feed-content .answer-actions .dot ::after{
   content: "•";
+}
+
+
+.ywb-page{
+    padding: 5px 15px;
+    font-size: 14px;
+}
+
+.link {
+    color: #4183c4;
+    text-decoration:underline
 }

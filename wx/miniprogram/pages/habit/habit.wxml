@@ -1,19 +1,29 @@
 <!--pages/habit/habit.wxml-->
 <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}">不允许为空</view>
-<view class='habit'>
+<view class='ywb-page'>
+    <view class="fx-row">
+        <view class="fx-1">
+            <navigator url="/pages/md/md?key=habitRule" class="link">
+                例行公事规则
+            </navigator>
+        </view>
+        <!-- <view class="fx-1 fx-col-right">
+            <button bindtag='onDel' type="default" size="mini">删除当前例行公事</button>
+        </view> -->
+    </view>
 
-    <navigator url="/pages/md/md?key=habitRule" hover-class="navigator-hover">
-        查看例行公事规则
-    </navigator>
-
-    <!-- <navigator
-      url="/pages/index/index"
-      open-type="switchTab"
-      hover-class="other-navigator-hover"
-    >
-      indexu首页
-    </navigator> -->
-
+    <view wx:if="{{pageStatus==2}}">
+        <view class="fx-row habit-name">
+            <text>{{currentHabit.name}}</text>
+        </view>
+        <view class='fx-row'>
+            <view class="fx-1"></view>
+            <view class="fx-1" wx:if="{{currentHabit.num > 0}}">{{currentHabit.num}}:次</view>
+            <view class="fx-1">
+            <button bindtap='onDel' type="default" size="mini">删除</button>
+            </view>
+        </view>
+    </view> 
 
     <view class="weui-cells weui-cells_after-title" wx:if="{{pageStatus==1}}">
         <view class="weui-cell weui-cell_input">
@@ -22,24 +32,8 @@
             </view>
         </view>
     </view>
-    <view wx:if="{{pageStatus==2}}">
-        <view class="habit-name">
-            <text>{{habitName}}</text>
-        </view>
-        <view class="weui-flex">
-            <view class="weui-flex__item">
-                <view class="placeholder">{{currentHabit.lastTime}}</view>
-            </view>
-            <view class="weui-flex__item">
-                <view class="placeholder">{{currentHabit.num}}</view>
-            </view>
-        </view>
-    </view>
-    <button bindtap='onSubmit' class="weui-btn" type="primary" disabled="{{disabled}}">{{pageStatus==1?"创建例行公事":"今日打卡"}}</button>
-    <button bindtag='onDel' class="weui-btn mini-btn" type="default" size="mini" wx:if="{{pageStatus==2}}">删除当前例行公事</button>
-
-    <view wx:if="{{myHabits.length > 0}}">
+   
+    <button bindtap='onSubmit' class="weui-btn" type="primary" disabled="{{disabled}}">{{pageStatus==1?"创建例行公事":disabled?"今日已打卡":"今日打卡"}}</button>
     
-    </view>
 </view>
 

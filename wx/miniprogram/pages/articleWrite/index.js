@@ -24,7 +24,9 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-
+        wx.setNavigationBarTitle({
+            title: '写日记',
+        })
     },
 
     /**
@@ -93,6 +95,7 @@ Page({
         })
     },
     onSubmit(){
+        console.log(this.data);
         api.addArticle({
             title:this.data.title,
             content:this.data.content,
@@ -116,9 +119,12 @@ Page({
             
         });
     },
+    titleInput(e){
+        this.setData({title:e.detail.value})
+    },
     contentInput(e){
         console.log(e.detail.value)        
-        this.setData({ disabled: isEmpty(e.detail.value)});
+        this.setData({ disabled: isEmpty(e.detail.value), content: e.detail.value});
 
         wx.setStorage({
             key: contentCacheKey,

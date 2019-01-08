@@ -28,7 +28,7 @@
                         <view class="comments dot">
                             <a>{{item.article.reply}} 评论 </a>
                         </view>
-                        <view class="follow-it dot2">
+                        <view class="follow-it dot">
                             <a>{{item.article.time}}</a>
                         </view>
                         <view class="follow-it">
