@@ -1,93 +1,65 @@
 <!--miniprogram/pages/articleDetail/articleDetail.wxml-->
-<view class="container">
-    <view class="article-head">
-        <view>
-            <image />
+<view class="ywb-page">
+    <view class='fx-row'>
+        <view class="article-avator">
+            <image src="{{user.userInfo.avatarUrl}}" wx:if="{{!article.anonymity}}"></image>
+            <image src="../../images/logo.png" wx:if="{{article.anonymity}}"></image>
         </view>
-        <view>
-            <view class="article-title">
-            
-            </view>
-            <view class="article-content">
-            </view>
-            <view class="article-footer">
-            </view>
+        <view class="fx-1 habit pl-10">
+            <view class="article-nickName">{{article.anonymity?' ': user.userInfo.nickName}}</view>
+            <view class="article-time">{{article.time}}</view>
         </view>
-        <view class="article-reply">
-            <view class="article-reply-item">
-                <view>
-                    <image />
+        <view class="fx-1 follow" wx:if="{{!article.anonymity}}">
+            <button size='mini'>关注</button>
+        </view>
+    </view>
+    <view class="fx-row article-title" wx:if="article.title.length > 0">
+        <text>{{article.title}}</text>
+    </view>
+    <view class="fx-row article-content">
+        <text>{{article.content}}</text>
+    </view>
+
+    <view class="ywb-separator mv-15">
+    </view>
+
+    <view class="article-replies">
+        <view class="article-reply-item mv-10">
+            <view class='fx-row'>
+                <view class='reply-avator'>
+                    <image src="../../images/logo.png"></image>
                 </view>
-                <view>
-                    <text class="reply-at"></text>
-                    <text class="reply-content"></text>
-                    
+                <view class='fx-1'>
+                    <view class="reply-nickName">yx-ytwb</view>
+                    <view class="reply-time">2019-01-01 20:22</view>
+                </view>
+                <view class='fx-1' style='text-align: right'>
+                    <button size='mini' bindtap='reply' data-openid="sdfdf" data-nickname="yxywb">回复</button>
+                    <button size='mini'>删除</button>
                 </view>
             </view>
-        </view>
-    </view>
-</view>
-
-
-<view class="">
-
-    <view class="detail-banner">
-         <image catchtap="onPreImage"  data-img-src="{{detail.targetPost.titleImage}}" src="{{detail.targetPost.titleImage}}" mode="aspectFill" class="detail-banner-img"  />  
-    </view>
-    <view class="detail-header page-pd">
-      
-        <view class="detail-title page-pd">
-            <text class="">{{detail.targetPost.title}}</text>
-        </view>
-        <view class="fx-row fx-row-center" style="color:gray;font-size:14px;">
-            <image src="{{detail.targetPost.author.avatar.src}}" mode="aspectFit" class="detail-user"  />
-            <text>{{detail.targetPost.author.name}}</text>
-            <text style="margin-left:4px;">·{{detail.targetPost.publishedTime}}</text>
-        </view>
-    </view>  
-
-
-    <view class="detail-content page-pd">
-        {{detail.targetPost.summary}}
-    </view>
-
-    <view class="detail-comment page-pd">
-        <template is="titleBar" data="{{...barInfo.comment}}"  />    
-        <view class="comment-list">
-                <view class="comment-item" wx:for="{{commentList}}" wx:key="{{index}}">
-                    <view class="comment-bar fx-row fx-row-center">
-                        <image src="{{item.author.avatar.src}}" mode=""  class="comment-headr"/>
-                        <text class="comment-user-name">{{item.author.name}}</text>
-                    </view>
-                    <view class="comment-content">
-                        {{item.content}}
-                    </view>
-                    <view class="comment-util fx-row fx-row-center fx-row-left">
-                            <text>{{item.createdTime}}</text>
-                            <text class="ml10" >回复</text>
-                            <text class="ml10" >赞</text>
-                            <text class="ml10" >举报</text>
+            <view class='fx-row'>
+                <view class='fx-1'>
+                    <view class='reply-at'>@xxx</view>
+                    <view class='reply-content'>
+                        <text>{{article.content}}</text>
                     </view>
                 </view>
             </view>
-
-
-            <view  class="loading-more" >
-                 <!--<icon wx-if="{{isLoadMore}}" class="ani-loading" type="success" size="20" />-->
-                 <image  wx-if="{{isLoadMore}}" src="../../imgs/loading_48.png" class="loading-img ani-loading"  />
-                 <text class="loading-more-end-text" wx-if="{{isEnd}}">加载完成</text>
-            </view>           
-
+        </view>
     </view>
- 
 
-   <!--<view class="detail-recommend page-pd">
-        <template is="titleBar" data="{{...barInfo.recommend}}"  />    
-
-        
-
-   </view>-->
-
-
-
+    <view class="page-footer">
+        <view class="fx-row">
+            <view class='fx-1'></view>
+            <view class='fx-1 good'>
+                <image src="../../images/xg.png" ></image>
+                <text>128</text>
+            </view>
+            <view class='fx-1 '>
+                <button bindtap='reply'  data-openid="" data-nickname="" size='mini'>回复</button>
+            </view>
+            <view class='fx-1'></view>
+        </view>
+    </view>
 </view>

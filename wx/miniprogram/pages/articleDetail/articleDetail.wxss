@@ -1,1 +1,89 @@
 /* miniprogram/pages/articleDetail/articleDetail.wxss */
+
+.ywb-page {
+}
+
+.article-avator image {
+    display: inline-block;
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 100rpx;
+    top: 10rpx;
+    vertical-align: middle;
+}
+
+.article-nickName {
+    line-height: 50rpx;
+    font-weight: bold;
+    font-size: 28rpx;
+}
+
+.article-time {
+    line-height: 50rpx;
+    font-size: 24rpx;
+}
+
+.follow {
+    text-align: right;
+}
+
+.article-title {
+    font-size: 30rpx;
+    font-weight: bold;
+}
+
+.article-content {
+    font-size: 16px;
+    color: #5b5b5b;
+}
+
+.ywb-separator {
+    border-bottom: 5px solid #ebe8e8;
+}
+
+.reply-avator image {
+    display: inline-block;
+    width: 80rpx;
+    height: 80rpx;
+    border-radius: 80rpx;
+    top: 10rpx;
+    vertical-align: middle;
+}
+
+.reply-nickName {
+    line-height: 40rpx;
+    font-weight: bold;
+    font-size: 28rpx;
+}
+
+.reply-time {
+    line-height: 40rpx;
+    font-size: 24rpx;
+}
+
+.reply-at {
+    font-weight: bold;
+}
+
+.reply-content {
+    border-bottom: 2px solid #ebe8e8;
+}
+
+.page-footer {
+    position: fixed;
+    width: 100%;
+    line-height:  80rpx;
+    height: 80rpx;
+    bottom: 0;
+    right: 0;
+    background-color: #b7ddf3
+}
+
+.good image{
+    display: inline-block;
+    width: 50rpx;
+    height: 50rpx;
+    border-radius: 50rpx;
+    top: 10rpx;
+    vertical-align: middle;
+}

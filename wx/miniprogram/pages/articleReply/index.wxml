@@ -1,0 +1,26 @@
+<!--miniprogram/pages/articleWrite/index.wxml-->
+<view class="">
+    <view class="fx-row fx-row-center mh-15 mt-5">
+        <view class='fx-1'>
+           
+        </view>
+        <view class='fx-1 anonymity'>
+            <!-- <switch bindchange="switchChange" />
+            <text wx:if="{{anonymity}}">匿名</text> -->
+        </view>
+        <view class="fx-1" style="text-align: right ">
+            <button type='primary' bindtap='onSubmit' size="mini" disabled='{{disabled}}'>回复</button>
+        </view>
+    </view>
+
+    <view class='at pl-10'>
+        @杨文兵
+    </view>
+
+    <view class="page-section">
+        <view class="textarea-wrp" style="padding:10px 15px;">
+            <textarea auto-height bindinput="contentInput" value='{{content}}' placeholder="回复内容" />
+        </view>
+    </view>
+
+</view>

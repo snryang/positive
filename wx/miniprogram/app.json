@@ -1,21 +1,12 @@
 {
     "pages": [
+        "pages/index/index",
+        "pages/articleReply/index",
+        "pages/articleDetail/articleDetail",
         "pages/article/article",
-        
-        "pages/articleWrite/index",
         "pages/habit/habit",
-        
-        
-        
-        "pages/md/md",
-        "pages/userConsole/userConsole",
-        "pages/storageConsole/storageConsole",
-        "pages/databaseGuide/databaseGuide",
-        "pages/addFunction/addFunction",
-        "pages/deployFunctions/deployFunctions",
-        "pages/chooseLib/chooseLib",
-        "pages/articleDetail/articleDetail"
-        
+        "pages/articleWrite/index",
+        "pages/md/md"        
     ],
     "window": {
         "backgroundColor": "#F6F6F6",
@@ -38,7 +29,7 @@
                 "text": "例行公事"
             },
             {
-                "pagePath": "pages/deployFunctions/deployFunctions",
+                "pagePath": "pages/index/index",
                 "text": "我的"
             }
         ]

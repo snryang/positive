@@ -122,7 +122,7 @@ exports.selectArticles = async(filter, cloud) => {
 
 
 exports.getArticle = async(articleId, cloud) => {
-    return await cloud.database().collection('articles').doc(article._id).get();
+    return await cloud.database().collection('articles').doc(articleId).get();
 }
 
 exports.updateArticle = async(article, cloud) => {

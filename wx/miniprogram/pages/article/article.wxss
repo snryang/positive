@@ -1,67 +1,53 @@
 /**index.wxss**/
-
-.container .search {
-    width: 735rpx;
-    height: 65rpx;
-    padding: 12.5rpx 0 12.5rpx 15rpx;
-    background: #2a8ce5;
+.article-page{
+    padding: 5px 0;
+    font-size: 28rpx;
+    background-color: #f0f4f3;
 }
-
-.container .search-left {
-    flex: 8;
-    background: #4ea3e7;
-    text-align: left;
+.article-item{
+    background-color: #ffffff;
+    margin-bottom: 5px;
 }
-
-.container .search-left input {
+.article-item .avator image{
     display: inline-block;
-    height: 65rpx;
-    font-size: 26rpx;
+    width: 50rpx;
+    height: 50rpx;
+    border-radius: 50rpx;
+    top: 10rpx;
+    vertical-align: middle;
 }
-
-.search-placeholder {
-    color: #8ccefd;
-    line-height: 20rpx;
+.article-item .habit{
+    line-height: 50rpx;
 }
-
-.container .search .search-left image {
-    display: inline-block;
-    width: 35rpx;
-    height: 35rpx;
-    padding: 15rpx 15rpx 15rpx 20rpx;
-}
-
-.container .search .search-right {
-    flex: 1;
-}
-
-.container .search .search-right image {
-    width: 45rpx;
-    height: 45rpx;
-    padding: 10rpx;
-}
-
-.container {
-    padding: 0;
-    font-size: 14rpx;
-    background: #f0f4f3;
-    color: #000;
-}
-
-/*feed-item part is in app.wxss for multiplexing*/
-
-
-.feed-source {
-    align-items: center;
-    display: flex;
-}
-
-.feed-source .habit {
-    flex: 1;
+.article-item .habit text{    
     overflow: hidden; /*自动隐藏文字*/
     text-overflow: ellipsis; /*文字隐藏后添加省略号*/
     white-space: nowrap; /**强制不换行*/
 }
+.article-item .title {
+    font-weight: bold;
+    font-size: 28rpx;
+}
+.article-item .content text {    
+    display: -webkit-box;
+    font-size:28rpx;
+    color:#5b5b5b;
+    line-height: 40rpx;
+    word-break: break-all;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp:8;
+    overflow: hidden;
+    text-overflow:ellipsis;
+}
+.article-item .footer{
+    color:#a0acac;
+    font-size:24rpx;
+}
+.article-item .footer .dot ::after{
+    margin-right: 5px;
+    content: "•";
+}
+
 
 .imgWrite {
   position: fixed;

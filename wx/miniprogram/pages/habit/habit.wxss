@@ -8,5 +8,6 @@
     margin: 20px auto;
 }
 .firstHabit{
-    border-bottom: 1px solid gray
+    border-bottom: 1px solid gray;
+    height:45vh;
 }

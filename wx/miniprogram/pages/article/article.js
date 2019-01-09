@@ -49,7 +49,7 @@ Page({
                 items: []
             });
         }
-        let items = R.map(async p => {
+        let items = R.map(p => {
             p.time = moment(p.time).format("YYYY-MM-DD HH:mm");
             let user = R.find(R.propEq('openId', p.openId))(users);
             return {
@@ -124,6 +124,9 @@ Page({
     bindToDetail(e) {
         console.log(e.currentTarget.id)
         console.log(e)
+        wx.navigateTo({
+            url: '../articleDetail/articleDetail?id=' + e.currentTarget.id
+        })
     },
     bindToWrite(e) {
         wx.navigateTo({
