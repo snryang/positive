@@ -7,11 +7,8 @@ exports.myHabits = () => {
 
 exports.del = yun("habit.del")
 
-exports.currentHabit = () => {
-    return yun("habit.currentHabit",30);
-}
+exports.currentHabit = yun("habit.currentHabit")
 
 exports.add = yun("habit.add")
 exports.inc = yun("habit.inc")
 exports.selectHabits = yun("habit.selectHabits")
-exports.latestHabitByOpenId = yun("habit.latestHabitByOpenId")

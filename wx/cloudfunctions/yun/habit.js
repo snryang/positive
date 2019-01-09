@@ -1,11 +1,12 @@
 //习惯 例行工事 
 
 //获取执行中的习惯
-async function getRunningHabit(openId, num, cloud) {
+async function getRunningHabit(openId, type, cloud) {
     let _ = cloud.database().command
     let res = await cloud.database().collection('habits').where({
         openId,
-        num: _.lt(num)
+        type,
+        num: _.lt(30)
     }).get();
     if (res.data.length > 0) {
         return res.data[0];
@@ -26,14 +27,15 @@ exports.inc = async(habitId, cloud) => {
 
 
 //添加一个习惯
-exports.add = async(name, cloud) => {
+exports.add = async(obj, cloud) => {
 
     let openId = cloud.getWXContext().OPENID
-    let habit = await getRunningHabit(openId, 30, cloud)
+    let habit = await getRunningHabit(openId, obj.type, cloud)
     if (habit == null) {
         console.log("habits:add");
         let habit = {
-            name,
+            name:obj.name,
+            type:obj.type || 1,
             num: 0,
             openId: openId,
             createTime: new Date(),
@@ -50,14 +52,14 @@ exports.add = async(name, cloud) => {
                 openId
             }).update({
                 data: {
-                    habit: name
+                    habit: obj.name
                 },
             });
         } catch (e) {
             await cloud.database().collection("users").add({
                 data: {
                     openId,
-                    habit: name
+                    habit: obj.name
                 }
             })
         }
@@ -68,21 +70,11 @@ exports.add = async(name, cloud) => {
     }
 }
 
-exports.latestHabitByOpenId = async(openId, cloud) => {
-    let res = await cloud.database().collection('habits').where({
-        openId
-    }).orderBy('createTime', 'desc').limit(1).get();
-    if (res.data.length > 0) return res.data[0].name;
-    return "";
-}
-
-
-
 //当前正在进行的习惯
-exports.currentHabit = async(num, cloud) => {
+exports.currentHabit = async(type, cloud) => {
     let openId = cloud.getWXContext().OPENID
     let _ = cloud.database().command
-    return await getRunningHabit(openId, num, cloud)
+    return await getRunningHabit(openId, type, cloud)
 }
 
 //删除习惯

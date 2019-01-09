@@ -7,3 +7,6 @@
     color: red;
     margin: 20px auto;
 }
+.firstHabit{
+    border-bottom: 1px solid gray
+}

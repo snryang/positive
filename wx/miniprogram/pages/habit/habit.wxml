@@ -7,33 +7,58 @@
                 例行公事规则
             </navigator>
         </view>
-        <!-- <view class="fx-1 fx-col-right">
-            <button bindtag='onDel' type="default" size="mini">删除当前例行公事</button>
-        </view> -->
     </view>
 
-    <view wx:if="{{pageStatus==2}}">
-        <view class="fx-row habit-name">
-            <text>{{currentHabit.name}}</text>
-        </view>
-        <view class='fx-row'>
-            <view class="fx-1"></view>
-            <view class="fx-1" wx:if="{{currentHabit.num > 0}}">{{currentHabit.num}}:次</view>
-            <view class="fx-1">
-            <button bindtap='onDel' type="default" size="mini">删除</button>
-            </view>
-        </view>
-    </view> 
+    <view class="fx-column">
+        <view class="fx-1 firstHabit">
+            <view wx:if="{{pageStatus1==2}}">
+                <view class="fx-row habit-name">
+                    <text>{{currentHabit1.name}}</text>
+                </view>
+                <view class='fx-row'>
+                    <view class="fx-1"></view>
+                    <view class="fx-1" wx:if="{{currentHabit1.num > 0}}">{{currentHabit1.num}}:次</view>
+                    <view class="fx-1">
+                    <button bindtap='onDel1' type="default" size="mini">删除</button>
+                    </view>
+                </view>
+            </view> 
 
-    <view class="weui-cells weui-cells_after-title" wx:if="{{pageStatus==1}}">
-        <view class="weui-cell weui-cell_input">
-            <view class="weui-cell__bd">
-                <input class="weui-input" bindinput="bindInputHabitName" placeholder="请输入例行公事 最多20字" maxlength="20" />
+            <view class="weui-cells weui-cells_after-title" wx:if="{{pageStatus1==1}}">
+                <view class="weui-cell weui-cell_input">
+                    <view class="weui-cell__bd">
+                        <input class="weui-input" bindinput="bindInputHabitName1" placeholder="请输入例行公事 最多20字" maxlength="20" />
+                    </view>
+                </view>
             </view>
+        
+            <button bindtap='onSubmit1' class="weui-btn" type="primary" disabled="{{disabled1}}">{{pageStatus1==1?"创建例行公事":disabled1?"今日已打卡":"今日打卡"}}</button>
+        </view>
+        <view class="fx-1">
+            <view wx:if="{{pageStatus2==2}}">
+                <view class="fx-row habit-name">
+                    <text>{{currentHabit2.name}}</text>
+                </view>
+                <view class='fx-row'>
+                    <view class="fx-1"></view>
+                    <view class="fx-1" wx:if="{{currentHabit2.num > 0}}">{{currentHabit2.num}}:次</view>
+                    <view class="fx-1">
+                    <button bindtap='onDel2' type="default" size="mini">删除</button>
+                    </view>
+                </view>
+            </view> 
+
+            <view class="weui-cells weui-cells_after-title" wx:if="{{pageStatus2==1}}">
+                <view class="weui-cell weui-cell_input">
+                    <view class="weui-cell__bd">
+                        <input class="weui-input" bindinput="bindInputHabitName2" placeholder="请输入例行公事 最多20字" maxlength="20" />
+                    </view>
+                </view>
+            </view>
+        
+            <button bindtap='onSubmit2' class="weui-btn" type="primary" disabled="{{disabled2}}">{{pageStatus2==1?"创建例行公事":disabled2?"今日已打卡":"今日打卡"}}</button>
         </view>
     </view>
-   
-    <button bindtap='onSubmit' class="weui-btn" type="primary" disabled="{{disabled}}">{{pageStatus==1?"创建例行公事":disabled?"今日已打卡":"今日打卡"}}</button>
     
 </view>
 
