@@ -43,21 +43,26 @@ Page({
         let openIds = R.pluck('openId')(articles);
         let res2 = await commonApi.selectUsers(openIds);
         let users = res2.result.data;        
-
-        R.map(async p => {
+        
+        if(pageIndex == 1){
+            that.setData({
+                items: []
+            });
+        }
+        let items = R.map(async p => {
             p.time = moment(p.time).format("YYYY-MM-DD HH:mm");
             let user = R.find(R.propEq('openId', p.openId))(users);
-            let obj = {
+            return {
                 nickName: user.userInfo.nickName,
                 avatarUrl: user.userInfo.avatarUrl,
                 habit: user.habit,
                 article: p
-            }            
-            that.setData({
-                items: that.data.items.concat([obj])
-            });            
+            }
         }, articles);
-        console.log(articles);
+        that.setData({
+            items: that.data.items.concat(items)
+        });   
+        console.log(items);
         wx.stopPullDownRefresh()        
         wx.hideLoading()
     },
