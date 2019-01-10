@@ -25,3 +25,7 @@ exports.selectUsers = async(openIds,cloud) =>{
         openId: cloud.database().command.in(openIds)
       }).get()
 }
+
+exports.openid = async(any,cloud) =>{
+    return cloud.getWXContext().OPENID;
+}

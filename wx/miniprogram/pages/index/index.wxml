@@ -1,49 +1,31 @@
 <!--index.wxml-->
 <view class="container">
 
-  <!-- 用户 openid -->
-  <view class="userinfo">
-    <button 
-      open-type="getUserInfo" 
-      bindgetuserinfo="onGetUserInfo"
-      class="userinfo-avatar"
-      style="background-image: url({{avatarUrl}})"
-    ></button>
-    <view>
-      <button class="userinfo-nickname" bindtap="onGetOpenid">点击获取 openid</button>
+    <!-- 用户 openid -->
+    <view class="userinfo">
+        <open-data class="userinfo-avatar" type="userAvatarUrl"></open-data>
+        <view>
+            <button class="userinfo-nickname" bindtap="onGetOpenid">
+                <open-data class="userinfo-avatar" type="userNickName"></open-data>
+            </button>
+        </view>
+        <view wx:if="{{!logged}}">
+            <button open-type="getUserInfo" size='mini' lang="zh_CN" bindgetuserinfo="onGetUserInfo">授权</button>
+        </view>
     </view>
-  </view>
 
-  <!-- 上传图片 -->
-  <view class="uploader">
-    <view class="uploader-text" bindtap="doUpdateUser">
-      <text>更新用户信息</text>
-    </view>   
-  </view>
 
-  <!-- 上传图片 -->
-  <view class="uploader">
-    <view class="uploader-text" bindtap="doUpload">
-      <text>上传图片</text>
+    <!-- 上传图片 -->
+    <view class="uploader">
+        <view class="uploader-text" bindtap="toMyArticles">
+            <text>我的日记</text>
+        </view>
     </view>
-    <view class="uploader-container" wx:if="{{imgUrl}}">
-      <image class="uploader-image" src="{{imgUrl}}" mode="aspectFit" bindtap="previewImg"></image>
+
+    <view class="uploader">
+        <view class="uploader-text" bindtap="toMyHabits">
+            <text>我的例行公事</text>
+        </view>
     </view>
-  </view>
-
-
-  <!-- 操作数据库 -->
-  <view class="uploader">
-    <navigator url="../databaseGuide/databaseGuide" open-type="navigate" class="uploader-text">
-      <text>前端操作数据库</text>
-    </navigator>
-  </view>
-
-  <!-- 新建云函数 -->
-  <view class="uploader">
-    <navigator url="../addFunction/addFunction" open-type="navigate" class="uploader-text">
-      <text>快速新建云函数</text>
-    </navigator>
-  </view>
 
 </view>

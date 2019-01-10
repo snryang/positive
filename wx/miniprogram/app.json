@@ -1,12 +1,16 @@
 {
     "pages": [
+        "pages/habitList/index",
+        
         "pages/index/index",
         "pages/articleReply/index",
         "pages/articleDetail/articleDetail",
         "pages/article/article",
         "pages/habit/habit",
         "pages/articleWrite/index",
-        "pages/md/md"        
+        "pages/md/md",
+        "pages/positive/index"
+        
     ],
     "window": {
         "backgroundColor": "#F6F6F6",
@@ -21,6 +25,10 @@
         "borderStyle": "black",
         "list": [
             {
+                "pagePath": "pages/positive/index",
+                "text": "推荐序言"
+            },
+            {
                 "pagePath": "pages/article/article",
                 "text": "日记"
             },
@@ -30,7 +38,7 @@
             },
             {
                 "pagePath": "pages/index/index",
-                "text": "我的"
+                "text": "我的首页"
             }
         ]
     }

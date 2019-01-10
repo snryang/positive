@@ -1,0 +1,5 @@
+<!--pages/md/md.wxml-->
+<import src="/towxml/entry.wxml"/>
+<view class="ph-15">
+    <template is="entry" data="{{...article}}"/>
+</view>

@@ -1,0 +1,32 @@
+/* miniprogram/pages/habitList/index.wxss */
+.habit-item{
+    margin-top: 20px;    
+    border-bottom: solid 2px rgb(216, 214, 214);
+}
+.habit-item .avator image{
+    display: inline-block;
+    width: 80rpx;
+    height: 80rpx;
+    border-radius: 80rpx;
+    top: 10rpx;
+    vertical-align: middle;
+    
+}
+.habit-item .nickName{
+    font-weight: bold;
+    font-size: 30rpx;    
+}
+.habit-item .num{
+
+}
+.habit-item .time{
+    font-style: italic
+}
+.habit-item .habit{
+    font-size: 35rpx;
+    font-weight: bold;
+    text-align: center;
+    
+    color: red;
+    margin: 20px auto;
+}

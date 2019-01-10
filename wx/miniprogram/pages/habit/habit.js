@@ -15,13 +15,13 @@ Page({
         showTopTips: false,
         //页面状态 1创建新习惯 2每日打卡
         pageStatus1: 1,
-        habitName1: "",        
-        disabled1: false,        
-        currentHabit1:{},
+        habitName1: "",
+        disabled1: false,
+        currentHabit1: {},
         pageStatus2: 1,
-        habitName2: "",        
-        disabled2: false,        
-        currentHabit2:{}
+        habitName2: "",
+        disabled2: false,
+        currentHabit2: {}
     },
 
     /**
@@ -41,21 +41,21 @@ Page({
         this.pageInit();
 
         //this.showMyHabit()
-       
+
     },
-    async pageInit(){
+    async pageInit() {
         wx.showLoading({
             title: '加载中',
         })
         let res1 = await habitApi.currentHabit(1);
         let res2 = await habitApi.currentHabit(2);
 
-        if(res1.result == null){
+        if (res1.result == null) {
             this.setData({
                 pageStatus1: 1,
-                disabled1:false
+                disabled1: false
             })
-        }else{
+        } else {
             let lastTime = res1.result.lastTime;
             res1.result.lastTime = moment(lastTime).format("YYYY-MM-DD HH:mm");
 
@@ -66,12 +66,12 @@ Page({
             })
         }
 
-        if(res2.result == null){
+        if (res2.result == null) {
             this.setData({
                 pageStatus2: 1,
-                disabled2:false
+                disabled2: false
             })
-        }else{
+        } else {
             let lastTime = res2.result.lastTime;
             res2.result.lastTime = moment(lastTime).format("YYYY-MM-DD HH:mm");
 
@@ -128,20 +128,20 @@ Page({
 
     },
 
-    bindInputHabitName1(e){
+    bindInputHabitName1(e) {
         this.setData({
             habitName1: e.detail.value
         })
     },
-    bindInputHabitName2(e){
+    bindInputHabitName2(e) {
         this.setData({
             habitName2: e.detail.value
         })
     },
 
-    onSubmit1(){
-        if (this.data.pageStatus1 == 1){            
-            if (isEmpty(this.data.habitName1)){
+    onSubmit1() {
+        if (this.data.pageStatus1 == 1) {
+            if (isEmpty(this.data.habitName1)) {
                 this.setData({
                     showTopTips: true
                 });
@@ -153,7 +153,10 @@ Page({
                 return;
             }
             //创建习惯
-            habitApi.add({name:this.data.habitName1,type:1}).then(res =>{
+            habitApi.add({
+                name: this.data.habitName1,
+                type: 1
+            }).then(res => {
                 console.log(res);
                 // let lastTime = res.result.lastTime;
                 // res.result.lastTime = moment(lastTime).format("YYYY-MM-DD HH:mm");
@@ -169,31 +172,49 @@ Page({
                 });
             });
 
-        }else{
+        } else {
             //打卡
             wx.showLoading({
                 title: '处理中',
             })
-            habitApi.inc(this.data.currentHabit1._id).then(res=>{
-                this.setData({
-                    "currentHabit1.num":this.data.currentHabit1.num +1,
-                    "currentHabit1.lastTime":moment(new Date).format("yyyy-MM-DD HH:mm"),
-                    "disabled1":true
-                })
+            habitApi.inc(this.data.currentHabit1._id).then(res => {
                 wx.hideLoading()
-                wx.showToast({
-                    title: '打卡成功',
-                    icon: 'success',
-                    duration: 1500
-                });
+                let total = this.data.currentHabit1.num + 1;
+                if (total < 30) {
+                    this.setData({
+                        "currentHabit1.num": total,
+                        "currentHabit1.lastTime": moment(new Date).format("yyyy-MM-DD HH:mm"),
+                        "disabled1": true
+                    })
+                    wx.showToast({
+                        title: '打卡成功',
+                        icon: 'success',
+                        duration: 1500
+                    });
+                } else {
+                    this.setData({
+                        "currentHabit1.num": total,
+                    })
+                    var that = this;
+                    wx.showModal({
+                        title: '恭喜你！完成30次打卡',
+                        content: '奖励一下自己，准备接受新挑战吧',
+                        showCancel: false,
+                        success(res) {
+                            that.setData({
+                                pageStatus1: 1,
+                                disabled1: false
+                            })
+                        }
+                    })
+                }
             })
-
         }
     },
 
-    onSubmit2(){
-        if (this.data.pageStatus2 == 1){            
-            if (isEmpty(this.data.habitName2)){
+    onSubmit2() {
+        if (this.data.pageStatus2 == 1) {
+            if (isEmpty(this.data.habitName2)) {
                 this.setData({
                     showTopTips: true
                 });
@@ -205,7 +226,10 @@ Page({
                 return;
             }
             //创建习惯
-            habitApi.add({name:this.data.habitName2,type:2}).then(res =>{
+            habitApi.add({
+                name: this.data.habitName2,
+                type: 2
+            }).then(res => {
                 console.log(res);
                 // let lastTime = res.result.lastTime;
                 // res.result.lastTime = moment(lastTime).format("YYYY-MM-DD HH:mm");
@@ -221,37 +245,56 @@ Page({
                 });
             });
 
-        }else{
+        } else {
             //打卡
             wx.showLoading({
                 title: '处理中',
             })
-            habitApi.inc(this.data.currentHabit2._id).then(res=>{
-                this.setData({
-                    "currentHabit2.num":this.data.currentHabit2.num +1,
-                    "currentHabit2.lastTime":moment(new Date).format("yyyy-MM-DD HH:mm"),
-                    "disabled2":true
-                })
+            habitApi.inc(this.data.currentHabit2._id).then(res => {
                 wx.hideLoading()
-                wx.showToast({
-                    title: '打卡成功',
-                    icon: 'success',
-                    duration: 1500
-                });
+                let total = this.data.currentHabit2.num + 1;
+                if (total < 30) {
+                    this.setData({
+                        "currentHabit2.num": total,
+                        "currentHabit2.lastTime": moment(new Date).format("yyyy-MM-DD HH:mm"),
+                        "disabled2": true
+                    })
+                    wx.showToast({
+                        title: '打卡成功',
+                        icon: 'success',
+                        duration: 1500
+                    });
+                } else {
+                    this.setData({
+                        "currentHabit2.num": total,
+                    })
+                    var that = this;
+                    wx.showModal({
+                        title: '恭喜你！完成30次打卡',
+                        content: '奖励一下自己，准备接受新挑战吧',
+                        showCancel: false,
+                        success(res) {
+                            that.setData({
+                                pageStatus2: 1,
+                                disabled2: false
+                            })
+                        }
+                    })
+                }
             })
 
         }
     },
 
-    onDel1:function(){
+    onDel1: function() {
         wx.showModal({
             title: '',
             content: '删除后不能恢复，确认删除嘛？',
             confirmText: "确认删除",
             cancelText: "取消",
-            success:  (res) =>{
+            success: (res) => {
                 if (res.confirm) {
-                    habitApi.del(this.data.currentHabit1._id).then(() =>{
+                    habitApi.del(this.data.currentHabit1._id).then(() => {
                         wx.showToast({
                             title: '删除成功',
                             icon: 'success',
@@ -259,8 +302,8 @@ Page({
                         });
                         this.setData({
                             pageStatus1: 1,
-                            disabled1:false,
-                            currentHabit1:{}
+                            disabled1: false,
+                            currentHabit1: {}
                         })
                     })
                 } else {
@@ -270,15 +313,15 @@ Page({
         });
     },
 
-    onDel2:function(){
+    onDel2: function() {
         wx.showModal({
             title: '',
             content: '删除后不能恢复，确认删除嘛？',
             confirmText: "确认删除",
             cancelText: "取消",
-            success:  (res) =>{
+            success: (res) => {
                 if (res.confirm) {
-                    habitApi.del(this.data.currentHabit2._id).then(() =>{
+                    habitApi.del(this.data.currentHabit2._id).then(() => {
                         wx.showToast({
                             title: '删除成功',
                             icon: 'success',
@@ -286,8 +329,8 @@ Page({
                         });
                         this.setData({
                             pageStatus2: 1,
-                            disabled2:false,
-                            currentHabit2:{}
+                            disabled2: false,
+                            currentHabit2: {}
                         })
                     })
                 } else {

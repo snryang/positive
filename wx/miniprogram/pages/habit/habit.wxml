@@ -7,6 +7,11 @@
                 例行公事规则
             </navigator>
         </view>
+        <view>
+            <navigator url="/pages/habitList/index" class="link">
+                例行公事广场
+            </navigator>
+        </view>
     </view>
 
     <view class="fx-1 firstHabit">

@@ -1,20 +1,24 @@
 //app.js
-
-const Towxml = require('/towxml/main.js');  
+const commonApi = require('/api/commonApi.js');
+const Towxml = require('/towxml/main.js');
 
 App({
-  onLaunch: function () {
-    
-    if (!wx.cloud) {
-      console.error('请使用 2.2.3 或以上的基础库以使用云能力')
-    } else {
-      wx.cloud.init({
-        traceUser: true,
-      })
-    }
+    onLaunch: function() {
 
-    this.globalData = {}
-  },
-  towxml: new Towxml(),
-  currentUser:{}
+        if (!wx.cloud) {
+            console.error('请使用 2.2.3 或以上的基础库以使用云能力')
+        } else {
+            wx.cloud.init({
+                traceUser: true,
+            })
+        }
+
+        this.globalData = {}
+
+
+
+        
+
+    },
+    towxml: new Towxml()
 })

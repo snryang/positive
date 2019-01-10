@@ -1,0 +1,24 @@
+<!--miniprogram/pages/habitList/index.wxml-->
+<view class='ywb-page'>
+    <block wx:for="{{items}}">
+        <view class='habit-item'>
+            <view class='fx-row'>
+                <view class="avator mr-10" data-openId='{{item.openId}}' bindtap='toUser'>
+                    <image src="{{item.avatarUrl}}"></image>
+                </view>
+                <view class='fx-1'>
+                    <view class='nickName'>{{item.nickName}}</view>
+                    <view class='fx-row'>
+                        <view class='fx-1 num' >
+                            <text wx:if="{{item.habit.num >0}}">打卡{{item.habit.num}}次</text>
+                        </view>
+                        <view class='fx-1 time' >{{item.habit.lastTime}}</view>
+                    </view>                    
+                </view>
+            </view>            
+            <view class='fx-row'>
+                <text class='habit'>{{item.habit.name}}</text>
+            </view>
+        </view>
+    </block>
+</view>
