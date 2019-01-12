@@ -1,13 +1,33 @@
-/* pages/habit/habit.wxss */
-.habit-name{
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 5px;
-    color: red;
-    margin: 20px auto;
+/* miniprogram/pages/habitList/index.wxss */
+.habit-item{
+    margin-top: 10px;    
+    border-bottom: solid 2px rgb(216, 214, 214);
 }
-.firstHabit{
-    border-bottom: 1px solid gray;
-    height:45vh;
+.habit-item .avator image{
+    display: inline-block;
+    width: 80rpx;
+    height: 80rpx;
+    border-radius: 80rpx;
+    top: 10rpx;
+    vertical-align: middle;    
+}
+
+.habit-item .nickName{
+    font-weight: bold;
+    font-size: 30rpx;    
+}
+.habit-item .num{
+    font-style: normal
+}
+.habit-item .time{
+    font-style: italic
+}
+.habit-item .habit{
+    font-size: 35rpx;
+    font-weight: bold;    
+    color: red;    
+}
+.finish-title{    
+    font-size: 30rpx;
+    font-weight: bold;    
 }

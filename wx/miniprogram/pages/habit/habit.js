@@ -6,12 +6,21 @@ let R = require("../../utils/ramda.min.js")
 
 let isEmpty = R.compose(R.isEmpty, R.trim);
 
+let disabledHander = p => {    
+    p.disabled = moment(new Date).format("YYYY-MM-DD") == moment(p.lastTime).format("YYYY-MM-DD")
+    p.lastTime = moment(p.lastTime || p.createTime).format("YYYY-MM-DD HH:mm")
+    return p;
+}
+
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
+        finish: [],
+        habits: [],
+
         showTopTips: false,
         //页面状态 1创建新习惯 2每日打卡
         pageStatus1: 1,
@@ -39,48 +48,18 @@ Page({
             title: '例行公事',
         })
         this.pageInit();
-
-        //this.showMyHabit()
-
     },
     async pageInit() {
         wx.showLoading({
             title: '加载中',
         })
-        let res1 = await habitApi.currentHabit(1);
-        let res2 = await habitApi.currentHabit(2);
+        let res1 = await habitApi.myHabits(true);
+        let res2 = await habitApi.myHabits(false);
 
-        if (res1.result == null) {
-            this.setData({
-                pageStatus1: 1,
-                disabled1: false
-            })
-        } else {
-            let lastTime = res1.result.lastTime;
-            res1.result.lastTime = moment(lastTime).format("YYYY-MM-DD HH:mm");
-
-            this.setData({
-                pageStatus1: 2,
-                currentHabit1: res1.result,
-                disabled1: moment(new Date).format("YYYY-MM-DD") == moment(lastTime).format("YYYY-MM-DD")
-            })
-        }
-
-        if (res2.result == null) {
-            this.setData({
-                pageStatus2: 1,
-                disabled2: false
-            })
-        } else {
-            let lastTime = res2.result.lastTime;
-            res2.result.lastTime = moment(lastTime).format("YYYY-MM-DD HH:mm");
-
-            this.setData({
-                pageStatus2: 2,
-                currentHabit2: res2.result,
-                disabled2: moment(new Date).format("YYYY-MM-DD") == moment(lastTime).format("YYYY-MM-DD")
-            })
-        }
+        this.setData({
+            finish: R.map(disabledHander, res1.result),
+            habits: R.map(disabledHander, res2.result)
+        });
 
         wx.hideLoading()
         wx.stopPullDownRefresh()
@@ -127,18 +106,23 @@ Page({
     onShareAppMessage: function() {
 
     },
-
-    bindInputHabitName1(e) {
+  
+    addHabit(habit){
+        console.log(habit);
         this.setData({
-            habitName1: e.detail.value
+            habits: R.map(disabledHander, [habit]).concat(this.data.habits)
+        });
+        // wx.showToast({
+        //     title: '创建成功，加油！',
+        //     icon: 'success',
+        //     duration: 1500
+        // });
+    },
+    toAdd(){
+        wx.navigateTo({
+            url: '../habitAdd/index',
         })
     },
-    bindInputHabitName2(e) {
-        this.setData({
-            habitName2: e.detail.value
-        })
-    },
-
     onSubmit1() {
         if (this.data.pageStatus1 == 1) {
             if (isEmpty(this.data.habitName1)) {
@@ -286,34 +270,68 @@ Page({
         }
     },
 
-    onDel1: function() {
-        wx.showModal({
-            title: '',
-            content: '删除后不能恢复，确认删除嘛？',
-            confirmText: "确认删除",
-            cancelText: "取消",
-            success: (res) => {
-                if (res.confirm) {
-                    habitApi.del(this.data.currentHabit1._id).then(() => {
-                        wx.showToast({
-                            title: '删除成功',
-                            icon: 'success',
-                            duration: 1500
-                        });
-                        this.setData({
-                            pageStatus1: 1,
-                            disabled1: false,
-                            currentHabit1: {}
-                        })
+    onInc(e){
+        let habitId = e.currentTarget.dataset.habitid;
+        let num = e.currentTarget.dataset.num;
+        //打卡
+        wx.showLoading({
+            title: '处理中',
+        })
+        habitApi.inc(habitId).then(() => {
+            wx.hideLoading()
+
+            let habit = R.find(p => p._id == habitId, this.data.habits)
+            if(habit){
+                if(num==29){
+                    habit.num++;
+                    habit.disabled = true;
+                    habit.lastTime = moment(new Date).format("YYYY-MM-DD HH:mm");
+                    this.setData({
+                        habits: R.filter(p => p._id != habitId, this.data.habits),
+                        finish: [habit].concat(this.data.finish)
                     })
-                } else {
-                    console.log('用户点击辅助操作')
+                    wx.showModal({
+                        title: '恭喜你！完成30次打卡',
+                        content: '',
+                        showCancel: false,
+                        success(res) {}
+                    })
+                    return
+                }else{
+                    let items = R.map(p=>{
+                        if (p._id == habitId){
+                            p.num++;
+                            p.disabled = true;
+                            p.lastTime = moment(new Date).format("YYYY-MM-DD HH:mm");
+                        }
+                        return p;
+                    })(this.data.habits)
+                    this.setData({ habits: items})
                 }
+            }else{
+                habit = R.find(p => p._id == habitId, this.data.finish)
+                let items = R.map(p => {
+                    if (p._id == habitId) {
+                        p.num++;
+                        p.disabled = true;
+                        p.lastTime = moment(new Date).format("YYYY-MM-DD HH:mm");
+                    }
+                    return p;
+                })(this.data.finish)
+                this.setData({ finish: items })
             }
-        });
+
+            wx.showToast({
+                title: '打卡成功',
+                icon: 'success',
+                duration: 1500
+            });
+
+        })
     },
 
-    onDel2: function() {
+    onDel(e) {
+        let habitId = e.currentTarget.dataset.habitid;
         wx.showModal({
             title: '',
             content: '删除后不能恢复，确认删除嘛？',
@@ -321,16 +339,14 @@ Page({
             cancelText: "取消",
             success: (res) => {
                 if (res.confirm) {
-                    habitApi.del(this.data.currentHabit2._id).then(() => {
+                    habitApi.del(habitId).then(() => {
                         wx.showToast({
                             title: '删除成功',
                             icon: 'success',
                             duration: 1500
                         });
                         this.setData({
-                            pageStatus2: 1,
-                            disabled2: false,
-                            currentHabit2: {}
+                            habits: R.filter(p => p._id != habitId, this.data.habits) 
                         })
                     })
                 } else {
@@ -340,11 +356,5 @@ Page({
         });
     }
 
-    // showMyHabit:function(){
-    //     habitApi.myHabits().then(res =>{
-    //         this.setData({
-    //             myHabits: res.result || [],
-    //         })
-    //     })
-    // }
+   
 })

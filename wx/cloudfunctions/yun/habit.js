@@ -1,25 +1,22 @@
 //习惯 例行工事 
 
-//获取执行中的习惯
-async function getRunningHabit(openId, type, cloud) {
+async function getRunningHabit(openId, finish, cloud) {
     let _ = cloud.database().command
     let res = await cloud.database().collection('habits').where({
         openId,
-        type,
-        num: _.lt(30)
+        finish
     }).get();
-    if (res.data.length > 0) {
-        return res.data[0];
-    } else {
-        return null;
-    }
+    return res.data;
 }
 
 //习惯次数加一
 exports.inc = async(habitId, cloud) => {
+    let habit = await cloud.database().collection('habits').doc(habitId).get();
+    console.log(habit);
     return await cloud.database().collection('habits').doc(habitId).update({
         data: {
             num: cloud.database().command.inc(1),
+            finish: habit.data.num >= 29,
             lastTime: new Date()
         }
     })
@@ -28,54 +25,44 @@ exports.inc = async(habitId, cloud) => {
 
 //添加一个习惯
 exports.add = async(obj, cloud) => {
-
     let openId = cloud.getWXContext().OPENID
-    let habit = await getRunningHabit(openId, obj.type, cloud)
-    if (habit == null) {
-        console.log("habits:add");
-        let habit = {
-            name:obj.name,
-            type:obj.type || 1,
-            num: 0,
-            openId: openId,
-            createTime: new Date(),
-            lastTime: null,
-        }
-        let res = await cloud.database().collection("habits").add({
-            data: habit
-        });
-        habit._id = res._id;
 
-        //将习惯更新到用户表，去数据库不支持group by ，查询不方便。
-        try {
-            await cloud.database().collection('users').where({
-                openId
-            }).update({
-                data: {
-                    habit: obj.name
-                },
-            });
-        } catch (e) {
-            await cloud.database().collection("users").add({
-                data: {
-                    openId,
-                    habit: obj.name
-                }
-            })
-        }
-
-        return habit;
-    } else {
-        return habit;
+    let habit = {
+        name: obj.name,
+        num: 0,
+        finish: false,
+        openId: openId,
+        createTime: new Date(),
+        lastTime: null,
     }
+    let res = await cloud.database().collection("habits").add({
+        data: habit
+    });
+    habit._id = res._id;
+
+    //将习惯更新到用户表，去数据库不支持group by ，查询不方便。
+    try {
+        await cloud.database().collection('users').where({
+            openId
+        }).update({
+            data: {
+                habit: obj.name
+            },
+        });
+    } catch (e) {
+        await cloud.database().collection("users").add({
+            data: {
+                openId,
+                habit: obj.name
+            }
+        })
+    }
+
+    return habit;
+
 }
 
-//当前正在进行的习惯
-exports.currentHabit = async(type, cloud) => {
-    let openId = cloud.getWXContext().OPENID
-    let _ = cloud.database().command
-    return await getRunningHabit(openId, type, cloud)
-}
+
 
 //删除习惯
 exports.del = async(habitId, cloud) => {
@@ -92,12 +79,12 @@ exports.del = async(habitId, cloud) => {
 }
 
 //获取我的习惯
-exports.myHabits = async(num, cloud) => {
+exports.myHabits = async (finish, cloud) => {
     let openId = cloud.getWXContext().OPENID
     let _ = cloud.database().command
     let res = await cloud.database().collection('habits').where({
         openId,
-        num: _.lt(num)
+        finish
     }).orderBy('createTime', 'desc').get();
 
     return res.data;
@@ -105,13 +92,18 @@ exports.myHabits = async(num, cloud) => {
 
 
 exports.selectHabits = async(filter, cloud) => {
-    //filter:{openId:'',pageIndex:1,pageSize}
+    //filter:{openId:'',finish'',pageIndex:1,pageSize}
     filter.pageIndex = filter.pageIndex || 1;
     filter.pageSize = filter.pageSize || 30;
     var list = cloud.database().collection('habits');
     if (filter.hasOwnProperty('openId')) {
         list = list.where({
             openId: filter.openId
+        });
+    }
+    if (filter.hasOwnProperty('finish')) {
+        list = list.where({
+            finish: filter.finish
         });
     }
     if (filter.pageIndex > 1) {

@@ -1,14 +1,8 @@
 let {yun} = require("./yun.js");
 
 
-exports.myHabits = () => {
-    return yun("habit.myHabits",30);
-}
-
+exports.myHabits = yun("habit.myHabits");
 exports.del = yun("habit.del")
-
-exports.currentHabit = yun("habit.currentHabit")
-
 exports.add = yun("habit.add")
 exports.inc = yun("habit.inc")
 exports.selectHabits = yun("habit.selectHabits")

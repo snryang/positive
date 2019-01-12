@@ -1,12 +1,13 @@
 {
     "pages": [
-        "pages/habitList/index",
+        "pages/habit/habit",
+        "pages/habitAdd/index",
         
+        "pages/habitList/index",
         "pages/index/index",
         "pages/articleReply/index",
         "pages/articleDetail/articleDetail",
         "pages/article/article",
-        "pages/habit/habit",
         "pages/articleWrite/index",
         "pages/md/md",
         "pages/positive/index"

@@ -24,8 +24,7 @@
 }
 .habit-item .habit{
     font-size: 35rpx;
-    font-weight: bold;
-    text-align: center;
+    font-weight: bold;    
     
     color: red;
     margin: 20px auto;

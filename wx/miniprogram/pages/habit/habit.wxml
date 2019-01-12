@@ -1,67 +1,64 @@
 <!--pages/habit/habit.wxml-->
-<view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}">不允许为空</view>
-<view class='ywb-page'>
-    <view class="fx-row">
-        <view class="fx-1">
-            <navigator url="/pages/md/md?key=habitRule" class="link">
-                例行公事规则
-            </navigator>
-        </view>
-        <view>
+<view class="ywb-page">
+    <view class='fx-row'>
+        <view class='fx-1'>
             <navigator url="/pages/habitList/index" class="link">
                 例行公事广场
             </navigator>
         </view>
+        <view class='fx-1'>
+            <view class="fx-1" style="text-align: right " wx:if="{{habits.length <3}}">
+                <button type='primary' bindtap='toAdd' size="mini">添加</button>
+            </view>
+        </view>
     </view>
-
-    <view class="fx-1 firstHabit">
-        <view wx:if="{{pageStatus1==2}}">
-            <view class="fx-row habit-name">
-                <text>{{currentHabit1.name}}</text>
-            </view>
+    <view wx:if="{{habits.length == 0}}" class="mt-20">
+        <text>建议最多同时执行2个例行公事\n最多可以创建3个</text>
+    </view>
+    <block wx:for="{{habits}}">
+        <view class='habit-item'>
             <view class='fx-row'>
-                <view class="fx-1"></view>
-                <view class="fx-1" wx:if="{{currentHabit1.num > 0}}">{{currentHabit1.num}}:次</view>
-                <view class="fx-1">
-                <button bindtap='onDel1' type="default" size="mini">删除</button>
-                </view>
+                <text class='habit'>{{item.name}}</text>
             </view>
-        </view> 
-
-        <view class="weui-cells weui-cells_after-title" wx:if="{{pageStatus1==1}}">
-            <view class="weui-cell weui-cell_input">
-                <view class="weui-cell__bd">
-                    <input class="weui-input" bindinput="bindInputHabitName1" placeholder="第一件例行公事 最多20字" maxlength="20" />
+            <view class='fx-row fx-row-center'>
+                <view class='fx-6 time fx-row'>
+                    <view class="time mr-10">{{item.lastTime}}</view>
+                    <view class='num'>
+                        <text wx:if="{{item.num >0}}">打卡{{item.num}}次</text>
+                    </view>
+                </view>
+                <view class='fx-4' style="text-align:right">
+                    <button type='default' bindtap='onDel' size="mini" data-habitid='{{item._id}}' class='mr-10'>删除</button>
+                    <button type='default' bindtap='onInc' size="mini" data-num='{{item.num}}' data-habitid='{{item._id}}' >{{item.disabled?'已打':'打卡'}}</button>
                 </view>
             </view>
         </view>
-    
-        <button bindtap='onSubmit1' class="weui-btn" type="primary" disabled="{{disabled1}}">{{pageStatus1==1?"创建例行公事":disabled1?"今日已打卡":"今日打卡"}}</button>
-    </view>
-    <view class="fx-1">
-        <view wx:if="{{pageStatus2==2}}">
-            <view class="fx-row habit-name">
-                <text>{{currentHabit2.name}}</text>
-            </view>
-            <view class='fx-row'>
-                <view class="fx-1"></view>
-                <view class="fx-1" wx:if="{{currentHabit2.num > 0}}">{{currentHabit2.num}}:次</view>
-                <view class="fx-1">
-                <button bindtap='onDel2' type="default" size="mini">删除</button>
-                </view>
-            </view>
-        </view> 
+    </block>
 
-        <view class="weui-cells weui-cells_after-title" wx:if="{{pageStatus2==1}}">
-            <view class="weui-cell weui-cell_input">
-                <view class="weui-cell__bd">
-                    <input class="weui-input" bindinput="bindInputHabitName2" placeholder="第二件例行公事 最多20字" maxlength="20" />
+
+    <view class="habit-finish" wx:if="{{finish.length > 0}}">
+        <view class="finish-title mv-10 " style="text-align:center">
+            已完成项目
+        </view>
+        <block wx:for="{{finish}}">
+            <view class='habit-item'>
+                <view class='fx-row'>
+                    <text class='habit'>{{item.name}}</text>
+                </view>
+                <view class='fx-row fx-row-center'>
+                    <view class='fx-6 time fx-row'>
+                        <view class="time mr-10">{{item.lastTime}}</view>
+                        <view class='num'>
+                            <text wx:if="{{item.num >0}}">打卡{{item.num}}次</text>
+                        </view>
+                    </view>
+                    <view class='fx-4' style="text-align:right">
+                        <button type='default' bindtap='onInc' size="mini" data-num='{{item.num}}' data-habitid='{{item._id}}' disabled="{{item.disabled}}">{{item.disabled?'已打':'打卡'}}</button>
+                    </view>
                 </view>
             </view>
-        </view>
-    
-        <button bindtap='onSubmit2' class="weui-btn" type="primary" disabled="{{disabled2}}">{{pageStatus2==1?"创建例行公事":disabled2?"今日已打卡":"今日打卡"}}</button>
+        </block>
     </view>
-    
+
+
 </view>
-

@@ -1,27 +1,40 @@
-// pages/md/md.js
+// miniprogram/pages/articleWrite/index.js
+let api = require("../../api/habitApi.js")
+let R = require("../../utils/ramda.min.js")
+
+let isEmpty = R.compose(R.isEmpty, R.trim);
 
 const configApi = require('../../api/configApi.js');
 const app = getApp();
+
+
+
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-        article: {}
+        article:{},
+        disabled: true,
+        habit: ''
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+        wx.setNavigationBarTitle({
+            title: '创建例行公事',
+        })
 
-        configApi.get("ywb-talk").then(res => {
+
+        configApi.get('habitRule').then(res => {
             console.log(res.result);
             let config = res.result || {};
 
             wx.setNavigationBarTitle({
-                title: "推荐序言"
+                title: config.title || "..."
             })
 
             //微信开发者工具云数据库不支持换行字符录入，暂时使用\n代替换行
@@ -38,7 +51,7 @@ Page({
      * 生命周期函数--监听页面初次渲染完成
      */
     onReady: function () {
-
+       
     },
 
     /**
@@ -81,5 +94,27 @@ Page({
      */
     onShareAppMessage: function () {
 
+    },
+
+    onSubmit() {
+        console.log(this.data);
+
+        api.add({
+            name: this.data.habit
+        }).then(res => {
+            var pages = getCurrentPages();
+            if (pages.length > 1) {
+                var prePage = pages[pages.length - 2];
+                prePage.addHabit(res.result)
+                wx.switchTab({
+                    url: '../habit/habit'
+                })
+            }
+
+        });
+    },
+    habitInput(e) {
+        this.setData({ disabled: isEmpty(e.detail.value), habit: e.detail.value });
     }
+
 })

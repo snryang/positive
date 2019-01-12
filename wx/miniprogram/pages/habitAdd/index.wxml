@@ -1,0 +1,24 @@
+<!--miniprogram/pages/articleWrite/index.wxml-->
+<import src="/towxml/entry.wxml"/>
+<view class="">
+    <view class="fx-row fx-row-center mh-15 mt-5">
+        <!-- <view class='fx-1'>
+            <navigator url="/pages/md/md?key=habitRule" class="link">
+                例行公事建议
+            </navigator>
+        </view> -->
+ 
+        <view class="fx-1" style="text-align: right ">
+            <button type='primary' bindtap='onSubmit' size="mini" disabled='{{disabled}}'>发表</button>
+        </view>
+    </view>
+
+    
+    <view class="section ywb-input">        
+        <input bindinput='habitInput' maxlength="20" placeholder="例行公事 最多20字" />
+    </view>
+
+    
+    <template is="entry" data="{{...article}}"/>
+    
+</view>
