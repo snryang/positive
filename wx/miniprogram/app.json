@@ -1,5 +1,6 @@
 {
     "pages": [
+        "pages/positive/index",
         "pages/article/article",
         "pages/habit/habit",
         "pages/habitAdd/index",
@@ -8,8 +9,7 @@
         "pages/articleReply/index",
         "pages/articleDetail/articleDetail",
         "pages/articleWrite/index",
-        "pages/md/md",
-        "pages/positive/index",
+        "pages/md/md",        
         "pages/articleList/index",
         "pages/articleEdit/index"
     ],
