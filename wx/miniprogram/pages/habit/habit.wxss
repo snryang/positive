@@ -17,9 +17,11 @@
     font-size: 30rpx;    
 }
 .habit-item .num{
+    font-size: 14px;
     font-style: normal
 }
 .habit-item .time{
+    font-size: 12px;
     font-style: italic
 }
 .habit-item .habit{

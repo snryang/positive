@@ -32,7 +32,7 @@ exports.selectReplies = async(filter, cloud) => {
     if (filter.pageIndex > 1) {
         list = list.skip((filter.pageIndex - 1) * filter.pageSize);
     }
-    return await list.limit(filter.pageSize).orderBy('time', 'desc').get();
+    return await list.limit(filter.pageSize).orderBy('time', 'asc').get();
 }
 
 exports.delReply = async(replyId, cloud) => {
@@ -65,6 +65,14 @@ exports.addReply = async(reply, cloud) => {
     return reply;
 }
 
+exports.likeStatus = async (articleId,cloud) =>{
+    let openId = cloud.getWXContext().OPENID;
+    let list = await cloud.database().collection('articleLikes').where({
+        openId: openId,
+        articleId: articleId
+    }).get();
+    return list.data.length; //0允许点赞  >0 允许取消点赞
+}
 
 exports.like = async(articleId, cloud) => {
     let openId = cloud.getWXContext().OPENID;
@@ -74,9 +82,10 @@ exports.like = async(articleId, cloud) => {
     }).get();
     if (list.data.length < 1) {
         await cloud.database().collection('articleLikes').add({
-            openId,
-            articleId
-        })
+            data: {
+                openId,
+                articleId
+            }})
         await cloud.database().collection('articles').doc(articleId).update({
             data: {
                 like: cloud.database().command.inc(1)

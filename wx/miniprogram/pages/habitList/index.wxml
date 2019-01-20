@@ -10,7 +10,7 @@
                     <view class='nickName'>{{item.nickName}}</view>
                     <view class='fx-row'>
                         <view class='fx-1 num' >
-                            <text wx:if="{{item.habit.num >0}}">打卡{{item.habit.num}}次</text>
+                            <text wx:if="{{item.habit.num >0}}">第{{item.habit.num}}次</text>
                         </view>
                         <view class='fx-1 time' >{{item.habit.lastTime}}</view>
                     </view>                    

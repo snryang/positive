@@ -31,7 +31,7 @@ Page({
             this.setData({ openid: options.id })
             commonApi.getUser(options.id).then(res =>{
                 wx.setNavigationBarTitle({
-                    title: "例行公事 " + res.userInfo.nickName
+                    title: res.userInfo.nickName + ' 的例行公事'
                 })
             })
         }else{

@@ -20,29 +20,25 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function(options) {
+    onLoad: function (options) {
         commonApi.getOpenId("").then(res => {
             this.setData({ currentOpenId: res.result })
         });
-
-        if (options.id) {
-            this.setData({ openid: options.id })
-            commonApi.getUser(options.id).then(res => {
-                wx.setNavigationBarTitle({
-                    title: res.userInfo.nickName + ' 的日记'
-                })
-            })
-        } else {
+        console.log(options)
+        this.setData({ openid: options.id })
+        commonApi.getUser(options.id).then(res => {
+            console.log(res)
             wx.setNavigationBarTitle({
-                title: "日记广场"
+                title: res.userInfo.nickName + ' 的日记'
             })
-        }
+        })
+
     },
 
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
-    onReady: function() {
+    onReady: function () {
         this.loadArticle();
     },
     async loadArticle() {
@@ -59,9 +55,9 @@ Page({
         let articles = res.result.data;
         let openIds = R.pluck('openId')(articles);
         let res2 = await commonApi.selectUsers(openIds);
-        let users = res2.result.data;        
-        
-        if(pageIndex == 1){
+        let users = res2.result.data;
+
+        if (pageIndex == 1) {
             that.setData({
                 items: []
             });
@@ -78,36 +74,36 @@ Page({
         }, articles);
         that.setData({
             items: that.data.items.concat(items)
-        });   
+        });
         console.log(items);
-        wx.stopPullDownRefresh()        
+        wx.stopPullDownRefresh()
         wx.hideLoading()
     },
     /**
      * 生命周期函数--监听页面显示
      */
-    onShow: function() {
+    onShow: function () {
 
     },
 
     /**
      * 生命周期函数--监听页面隐藏
      */
-    onHide: function() {
+    onHide: function () {
 
     },
 
     /**
      * 生命周期函数--监听页面卸载
      */
-    onUnload: function() {
+    onUnload: function () {
 
     },
 
     /**
      * 页面相关事件处理函数--监听用户下拉动作
      */
-    onPullDownRefresh: function() {
+    onPullDownRefresh: function () {
         console.log("onPullDownRefresh");
         pageIndex = 1;
         this.loadArticle();
@@ -116,15 +112,15 @@ Page({
     /**
      * 页面上拉触底事件的处理函数
      */
-    onReachBottom: function() {
+    onReachBottom: function () {
         console.log("onReachBottom");
-        if(this.data.items.length < pageIndex * 30){
+        if (this.data.items.length < pageIndex * 30) {
             wx.showToast({
                 title: '没有日志了',
                 icon: 'none',
                 duration: 1500
             })
-        }else{
+        } else {
             pageIndex++;
             this.loadArticle();
         }
@@ -133,29 +129,17 @@ Page({
     /**
      * 用户点击右上角分享
      */
-    onShareAppMessage: function() {
+    onShareAppMessage: function () {
 
     },
 
-    addArticle(article) {
-        console.log(article);
-        this.setData({
-            habits: [article].concat(this.data.habits)
-        });
-        // wx.showToast({
-        //     title: '创建成功，加油！',
-        //     icon: 'success',
-        //     duration: 1500
-        // });
-    },
-
-    toEdit(e){
+    toEdit(e) {
         let articleid = e.currentTarget.dataset.articleid;
         wx.navigateTo({
             url: '../articleEdit/index?id=' + articleid
         })
     },
-    toDel(e){
+    toDel(e) {
         let articleid = e.currentTarget.dataset.articleid;
         wx.showModal({
             title: '',
@@ -180,16 +164,7 @@ Page({
             }
         });
     },
-
-    toUser(e) {
-        
-        if (this.data.openid == null && e.currentTarget.dataset.anonymity == false) {            
-            console.log(e)
-            wx.navigateTo({
-                url: '../articleList/index?id=' + e.currentTarget.dataset.openid
-            })
-        }
-    },
+    
     //转到详细
     bindToDetail(e) {
         console.log(e.currentTarget.id)

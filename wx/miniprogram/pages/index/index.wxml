@@ -16,13 +16,13 @@
 
 
     <!-- 上传图片 -->
-    <view class="uploader">
+    <view class="uploader"  wx:if="{{logged}}">
         <view class="uploader-text" bindtap="toMyArticles">
             <text>我的日记</text>
         </view>
     </view>
 
-    <view class="uploader">
+    <view class="uploader"  wx:if="{{logged}}">
         <view class="uploader-text" bindtap="toMyHabits">
             <text>我的例行公事</text>
         </view>

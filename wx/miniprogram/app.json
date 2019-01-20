@@ -1,17 +1,17 @@
 {
     "pages": [
+        "pages/article/article",
         "pages/habit/habit",
         "pages/habitAdd/index",
-        
         "pages/habitList/index",
         "pages/index/index",
         "pages/articleReply/index",
         "pages/articleDetail/articleDetail",
-        "pages/article/article",
         "pages/articleWrite/index",
         "pages/md/md",
-        "pages/positive/index"
-        
+        "pages/positive/index",
+        "pages/articleList/index",
+        "pages/articleEdit/index"
     ],
     "window": {
         "backgroundColor": "#F6F6F6",
@@ -31,7 +31,7 @@
             },
             {
                 "pagePath": "pages/article/article",
-                "text": "日记"
+                "text": "日记广场"
             },
             {
                 "pagePath": "pages/habit/habit",

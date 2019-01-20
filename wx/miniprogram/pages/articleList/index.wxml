@@ -1,20 +1,8 @@
 <!--index.wxml-->
-<!-- <view class="fx-row fx-row-center mh-15 mt-5">      
-    <view class="fx-1" style="text-align: right ">
-        <button type='primary' bindtap='onSubmit' size="mini" >写日记</button>
-    </view>
-</view> -->
-<view class="page__hd" style="position:fixed; top:0;width: 750rpx;">
-    <view class="fx-1 mh-15 mt-5" style="text-align: right ">
-        <button type='primary' bindtap='onSubmit' size="mini">写日记</button>
-    </view>
-</view>
-
-<view class="article-page mt-40">
-
+<view class="article-page">
     <block wx:for="{{items}}">
         <view class="article-item pv-5 ph-15">
-            <view class="fx-row" data-anonymity='{{item.article.anonymity}}' data-openid='{{item.article.openId}}' bindtap="toUser">
+            <view class="fx-row">
                 <view class="avator">
                     <image src="{{item.avatarUrl}}" wx:if="{{!item.article.anonymity}}"></image>
                     <image src="../../images/logo.png" wx:if="{{item.article.anonymity}}"></image>

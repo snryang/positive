@@ -13,8 +13,8 @@
         </view>
     </view>
 
-    <view class='at pl-10'>
-        @杨文兵
+    <view class='at pl-10' wx:if="{{nickName.length > 0}}">
+        @{{nickName}}
     </view>
 
     <view class="page-section">

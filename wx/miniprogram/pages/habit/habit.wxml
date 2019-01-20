@@ -24,12 +24,12 @@
                 <view class='fx-6 time fx-row'>
                     <view class="time mr-10">{{item.lastTime}}</view>
                     <view class='num'>
-                        <text wx:if="{{item.num >0}}">打卡{{item.num}}次</text>
+                        <text wx:if="{{item.num >0}}">第{{item.num}}次</text>
                     </view>
                 </view>
                 <view class='fx-4' style="text-align:right">
                     <button type='default' bindtap='onDel' size="mini" data-habitid='{{item._id}}' class='mr-10'>删除</button>
-                    <button type='default' bindtap='onInc' size="mini" data-num='{{item.num}}' data-habitid='{{item._id}}' >{{item.disabled?'已打':'打卡'}}</button>
+                    <button type='default' bindtap='onInc' size="mini" data-num='{{item.num}}' data-habitid='{{item._id}}' disabled="{{item.disabled}}">{{item.disabled?'已打':'打卡'}}</button>
                 </view>
             </view>
         </view>
@@ -46,14 +46,14 @@
                     <text class='habit'>{{item.name}}</text>
                 </view>
                 <view class='fx-row fx-row-center'>
-                    <view class='fx-6 time fx-row'>
+                    <view class='fx-7 time fx-row'>
                         <view class="time mr-10">{{item.lastTime}}</view>
                         <view class='num'>
-                            <text wx:if="{{item.num >0}}">打卡{{item.num}}次</text>
+                            <text wx:if="{{item.num >0}}">第{{item.num}}次</text>
                         </view>
                     </view>
-                    <view class='fx-4' style="text-align:right">
-                        <button type='default' bindtap='onInc' size="mini" data-num='{{item.num}}' data-habitid='{{item._id}}' disabled="{{item.disabled}}">{{item.disabled?'已打':'打卡'}}</button>
+                    <view class='fx-3' style="text-align:right">
+                        <button type='default' bindtap='onInc' size="mini" data-num='{{item.num}}' data-habitid='{{item._id}}' disabled="{{item.disabled}}">{{item.disabled?'真棒':'坚持'}}</button>
                     </view>
                 </view>
             </view>

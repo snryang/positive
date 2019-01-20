@@ -17,15 +17,16 @@
     font-size: 30rpx;    
 }
 .habit-item .num{
-
+    font-size: 14px;
+    font-style: normal
 }
 .habit-item .time{
+    font-size: 12px;
     font-style: italic
 }
 .habit-item .habit{
     font-size: 35rpx;
-    font-weight: bold;    
-    
+    font-weight: bold;        
     color: red;
-    margin: 20px auto;
+    margin: 20px 0px;
 }

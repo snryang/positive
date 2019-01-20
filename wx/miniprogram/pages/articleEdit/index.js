@@ -1,4 +1,5 @@
 // miniprogram/pages/articleWrite/index.js
+import regeneratorRuntime from '../../utils/runtime.js'
 let api = require("../../api/articleApi.js")
 let R = require("../../utils/ramda.min.js")
 let commonApi = require("../../api/commonApi.js");
@@ -23,69 +24,79 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function(options) {
-
+    onLoad: function (options) {
+        this.articleId = options.id || "";
         wx.setNavigationBarTitle({
-            title: '写日记',
+            title: '修改日记',
         })
     },
 
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
-    onReady: function() {
-        var that = this;
-        wx.getStorage({
-            key: contentCacheKey,
-            success(res) {
-                console.log(res)
-                that.setData({
-                    content: res.data,
-                    disabled: isEmpty(res.data)
-                });
-            }
+    onReady: function () {
+        this.loadArticle()
+        
+
+
+    },
+    loadArticle(){
+        wx.showLoading({
+            title: '加载中...',
         })
+        api.getArticle(this.articleId).then(res=>{
+            console.log(res);
+            this.setData({
+                anonymity: res.result.data.anonymity,
+                disabled: isEmpty(res.result.data.content),
+                title: res.result.data.title,
+                content: res.result.data.content
+            })
+
+            wx.hideLoading()
+        });
+        
     },
 
     /**
      * 生命周期函数--监听页面显示
      */
-    onShow: function() {
+    onShow: function () {
 
     },
 
     /**
      * 生命周期函数--监听页面隐藏
      */
-    onHide: function() {
+    onHide: function () {
 
     },
 
     /**
      * 生命周期函数--监听页面卸载
      */
-    onUnload: function() {
+    onUnload: function () {
 
     },
 
     /**
      * 页面相关事件处理函数--监听用户下拉动作
      */
-    onPullDownRefresh: function() {
+    onPullDownRefresh: function () {
 
     },
 
     /**
      * 页面上拉触底事件的处理函数
      */
-    onReachBottom: function() {
+    onReachBottom: function () {
 
     },
 
     /**
      * 用户点击右上角分享
      */
-    onShareAppMessage: function() {
+    onShareAppMessage: function () {
 
     },
 
@@ -97,7 +108,8 @@ Page({
     },
     onSubmit() {
         console.log(this.data);
-        api.addArticle({
+        api.updateArticle({
+            _id:this.articleId,
             title: this.data.title,
             content: this.data.content,
             anonymity: this.data.anonymity
@@ -106,21 +118,9 @@ Page({
                 key: contentCacheKey,
                 data: ""
             })
-            commonApi.selectUsers([res.result.openId]).then(res1 => {
-                var pages = getCurrentPages();
-                if (pages.length > 1) {
-                    var prePage = pages[pages.length - 2];
-                    prePage.addArticle({
-                        nickName: res1.result.data[0].userInfo.nickName,
-                        avatarUrl: res1.result.data[0].userInfo.avatarUrl,
-                        habit: res1.result.data[0].habit,
-                        article: res.result
-                    })
-                    wx.switchTab({
-                        url: '../article/article'
-                    })
-                }
-            });
+            wx.switchTab({
+                url: '../article/article'
+            })
         });
     },
     titleInput(e) {

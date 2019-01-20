@@ -19,3 +19,5 @@ exports.updateArticle = yun("article.updateArticle")
 exports.addArticle = yun("article.addArticle")
 
 exports.delArticle = yun("article.delArticle")
+
+exports.likeStatus = yun("article.likeStatus")

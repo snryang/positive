@@ -48,6 +48,7 @@
     content: "•";
 }
 
+
 .article-item .footer .link {
     margin-left: 10px;
 }

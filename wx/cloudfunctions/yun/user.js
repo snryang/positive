@@ -3,7 +3,7 @@ exports.update = async(currentUser, cloud) => {
     let db = cloud.database()
 
     try {
-        return await db.collection('users').where({
+        await db.collection('users').where({
             openId
         }).update({
             data: {
@@ -11,13 +11,14 @@ exports.update = async(currentUser, cloud) => {
             },
         });
     } catch (e) {
-        return await db.collection("users").add({
+        await db.collection("users").add({
             data: {
                 openId,
                 userInfo: currentUser
             }
         })
     }
+    return openId;
 }
 
 exports.selectUsers = async(openIds,cloud) =>{

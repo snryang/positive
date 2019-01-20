@@ -21,6 +21,7 @@
 .article-time {
     line-height: 50rpx;
     font-size: 24rpx;
+    
 }
 
 .follow {
@@ -32,9 +33,14 @@
     font-weight: bold;
 }
 
+
+
+
 .article-content {
     font-size: 16px;
     color: #5b5b5b;
+    word-break: break-all;
+
 }
 
 .ywb-separator {
@@ -67,6 +73,7 @@
 
 .reply-content {
     border-bottom: 2px solid #ebe8e8;
+    word-break: break-all;
 }
 
 .page-footer {

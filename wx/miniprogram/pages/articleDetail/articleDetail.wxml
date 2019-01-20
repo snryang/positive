@@ -1,5 +1,5 @@
 <!--miniprogram/pages/articleDetail/articleDetail.wxml-->
-<view class="ywb-page">
+<view class="ywb-page mb-40">
     <view class='fx-row'>
         <view class="article-avator">
             <image src="{{user.userInfo.avatarUrl}}" wx:if="{{!article.anonymity}}"></image>
@@ -10,7 +10,7 @@
             <view class="article-time">{{article.time}}</view>
         </view>
         <view class="fx-1 follow" wx:if="{{!article.anonymity}}">
-            <button size='mini'>关注</button>
+            <!-- <button size='mini'>关注</button> -->
         </view>
     </view>
     <view class="fx-row article-title" wx:if="article.title.length > 0">
@@ -24,42 +24,48 @@
     </view>
 
     <view class="article-replies">
-        <view class="article-reply-item mv-10">
+        <view class="article-reply-item mv-10" wx:for="{{replies}}">
             <view class='fx-row'>
                 <view class='reply-avator'>
-                    <image src="../../images/logo.png"></image>
+                    <image src="../../images/logo.png" wx:if="{{item.openId == article.openId && article.anonymity }}"></image>
+                    <image src="{{item.user.userInfo.avatarUrl}}" wx:else></image>
                 </view>
                 <view class='fx-1'>
-                    <view class="reply-nickName">yx-ytwb</view>
-                    <view class="reply-time">2019-01-01 20:22</view>
+                    <view class="reply-nickName" wx:if="{{item.openId == article.openId && article.anonymity }}">作者</view>
+                    <view class="reply-nickName" wx:else>{{item.user.userInfo.nickName}}</view>
+                    <view class="reply-time">{{item.time}}</view>
                 </view>
                 <view class='fx-1' style='text-align: right'>
-                    <button size='mini' bindtap='reply' data-openid="sdfdf" data-nickname="yxywb">回复</button>
-                    <button size='mini'>删除</button>
+                    <text class="link" bindtap='reply' data-articleid="{{article._id}}" data-openid="{{item.openId}}" data-nickname="{{item.openId == article.openId && article.anonymity ? '作者' :item.user.userInfo.nickName}}" bindtap='toReply' wx:if="{{item.openId != currentOpenId }}">回复</text>
+                    <text class="ml-5 link" data-replyid="{{item._id}}" wx:if="{{item.openId == currentOpenId }}" bindtap="toDel">删除</text>
                 </view>
             </view>
             <view class='fx-row'>
                 <view class='fx-1'>
-                    <view class='reply-at'>@xxx</view>
+                    <view class='reply-at' wx:if="{{item.at.length > 0}}">@{{item.openId == article.openId && article.anonymity ? '作者':item.atUser.userInfo.nickName}}</view>
                     <view class='reply-content'>
-                        <text>{{article.content}}</text>
+                        <text>{{item.content}}</text>
                     </view>
                 </view>
             </view>
         </view>
     </view>
 
-    <view class="page-footer">
-        <view class="fx-row">
-            <view class='fx-1'></view>
-            <view class='fx-1 good'>
-                <image src="../../images/xg.png" ></image>
-                <text>128</text>
-            </view>
-            <view class='fx-1 '>
-                <button bindtap='reply'  data-openid="" data-nickname="" size='mini'>回复</button>
-            </view>
-            <view class='fx-1'></view>
+
+</view>
+
+
+<view class="page__hd" style="position:fixed; bottom:0;width: 750rpx;background-color: #b2d6f8">
+    <view class="fx-row">
+        <view class='fx-1'></view>
+        <view class='fx-1 good'>
+            <image src="../../images/xg.png" bindtap="toLike" wx:if="{{like==0}}"></image>
+            <image src="../../images/xi.png" bindtap="toUnlike" wx:else></image>
+            <text class='ml-10'>{{article.like}}</text>
         </view>
+        <view class='fx-1' style='vertical-align: middle'>
+            <button class='mt-5' data-articleid="{{article._id}}" data-openid="" data-nickname="" size='mini' bindtap='toReply'>回复</button>
+        </view>
+        <view class='fx-1'></view>
     </view>
 </view>

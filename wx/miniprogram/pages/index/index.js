@@ -3,7 +3,8 @@ const commonApi = require('../../api/commonApi.js');
 
 Page({
     data: {
-        logged: false
+        logged: false,
+        openid:''
     },
 
     onLoad: function() {
@@ -15,10 +16,16 @@ Page({
                     // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
                     wx.getUserInfo({
                         success: res => {
-                            commonApi.updateUser(res.userInfo);
-                            this.setData({
-                                logged: true
-                            })
+                            commonApi.updateUser(res.userInfo).then(res =>{
+                                console.log(res)
+                                this.setData({
+                                    logged: true,
+                                    openid:res.result
+
+                                })
+                            });
+                            
+                            
                         }
                     })
                 }
@@ -36,6 +43,16 @@ Page({
         }
     },
 
+    toMyArticles(e){
+        wx.navigateTo({
+            url: '../articleList/index?id=' + this.data.openid
+        })
+    },
+    toMyHabits(e) {
+        wx.navigateTo({
+            url: '../habitList/index?id=' + this.data.openid
+        })
+    }
 
 
 })
