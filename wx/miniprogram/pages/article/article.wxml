@@ -6,7 +6,7 @@
 </view> -->
 <view class="page__hd" style="position:fixed; top:0;width: 750rpx;">
     <view class="fx-1 mh-15 mt-5" style="text-align: right ">
-        <button type='primary' bindtap='onSubmit' size="mini">写日记</button>
+        <button type='primary' bindtap='bindToWrite' size="mini">写日记</button>
     </view>
 </view>
 
