@@ -7,14 +7,11 @@
             </navigator>
         </view>
         <view class='fx-1'>
-            <view class="fx-1" style="text-align: right " wx:if="{{habits.length <3}}">
+            <view class="fx-1" style="text-align: right ">
                 <button type='primary' bindtap='toAdd' size="mini">添加</button>
             </view>
         </view>
-    </view>
-    <view wx:if="{{habits.length == 0}}" class="mt-20">
-        <text>建议最多同时执行2个例行公事\n最多可以创建3个</text>
-    </view>
+    </view>   
     <block wx:for="{{habits}}">
         <view class='habit-item'>
             <view class='fx-row'>
