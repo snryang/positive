@@ -30,7 +30,7 @@ func main() {
 	// 	ctx.WriteString("value:" + configValue)
 	// })
 
-	app.Run(iris.Addr(":8080"))
+	app.Run(iris.Addr(":8099"))
 }
 
 func Reg(ctx iris.Context) {
