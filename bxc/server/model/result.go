@@ -6,19 +6,6 @@ type Result struct {
 	Data    interface{} `json:"data"`
 }
 
-func NewResult(data interface{}, c bool, m ...string) *Result {
-	r := &Result{Data: data, Success: c}
-
-	if e, ok := data.(error); ok {
-		if m == nil {
-			r.Msg = e.Error()
-		}
-	} else {
-		r.Msg = "SUCCESS"
-	}
-	if len(m) > 0 {
-		r.Msg = m[0]
-	}
-
-	return r
+func NewResult(data interface{}, c bool, m string) Result {
+	return Result{Data: data, Success: c, Msg: m}
 }

@@ -31,6 +31,6 @@ func init() {
 	// 启用Logger，显示详细日志
 	db.LogMode(true)
 
-	db.AutoMigrate(&model.User{}, &model.Config{})
+	db.AutoMigrate(&model.User{}, &model.Config{}, &model.UserDetail{})
 
 }
