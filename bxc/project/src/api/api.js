@@ -8,7 +8,8 @@ export  default {
             return res.data
         },
         async login(phone,password){
-
+            let res = await axios.post('/api/user/login',{phone,password,gender:'',nickname:''})
+            return res.data
         },
         async getDetail(id32){
 

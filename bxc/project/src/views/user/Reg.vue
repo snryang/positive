@@ -32,7 +32,7 @@ export default {
     };
   },
   methods: {
-    async userRegister(position) {        
+    async userRegister() {        
       if (this.phone.length != 11) {
         this.$vux.toast.text("手机号不正确", "top");
         return;
@@ -75,7 +75,7 @@ export default {
     }
   },
   created() {
-    console.log(111);
+    
   }
 };
 </script>

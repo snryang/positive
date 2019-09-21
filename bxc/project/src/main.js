@@ -5,12 +5,13 @@ import FastClick from 'fastclick'
 import VueRouter from 'vue-router'
 import App from './App'
 import router from './router/index'
-import  { ToastPlugin,AlertPlugin } from 'vux'
+import  { ToastPlugin,AlertPlugin,LoadingPlugin } from 'vux'
 import * as R from 'ramda'
 import Storage from 'vue-ls'
 
 Vue.use(ToastPlugin, {position: 'top',time:800})
 Vue.use(AlertPlugin)
+Vue.use(LoadingPlugin)
 
 
 Vue.use(VueRouter)
