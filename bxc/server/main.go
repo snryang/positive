@@ -51,9 +51,8 @@ func Reg(ctx iris.Context) {
 		user.Gender = userRegister.Gender
 		user.Nickname = userRegister.Nickname
 		user.CreatedAt = time.Now()
-		u1 := uuid.Must(uuid.NewV4())
-		fmt.Printf("UUIDv4: %s\n", u1)
-		user.Id32 = u1.String()
+		user.Id32 = uuid.Must(uuid.NewV4()).String()
+		userService.Save(user)
 		ctx.JSON(model.NewResult(nil, true, "注册成功"))
 	} else {
 		ctx.JSON(model.NewResult(nil, false, "非法数据"))
@@ -68,7 +67,7 @@ func Login(ctx iris.Context) {
 	if err == nil {
 		var user model.User
 		user, err = userService.GetByPhone(userRegister.Phone)
-		if err == nil {
+		if err != nil {
 			ctx.JSON(model.NewResult(nil, false, "帐号不正确"))
 			return
 		} else {
@@ -95,6 +94,8 @@ func GetUserDetail(ctx iris.Context) {
 func SaveUserDetail(ctx iris.Context) {
 	var userDetail model.UserDetail
 	err := ctx.ReadJSON(&userDetail)
+	fmt.Println("SaveUserDetail")
+	fmt.Println(userDetail)
 	if err == nil {
 		user, _ := userService.GetById(userDetail.UserID)
 		if user.Gender != userDetail.Gender {

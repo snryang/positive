@@ -31,6 +31,6 @@ func init() {
 	// 启用Logger，显示详细日志
 	db.LogMode(true)
 
-	db.AutoMigrate(&model.User{}, &model.Config{}, &model.UserDetail{})
+	db.Set("gorm:table_options", "ENGINE=InnoDB DEFAULT CHARSET=utf8").AutoMigrate(&model.User{}, &model.Config{}, &model.UserDetail{})
 
 }
