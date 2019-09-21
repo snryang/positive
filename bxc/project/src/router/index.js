@@ -3,6 +3,7 @@ import HelloWorld from '@/components/HelloWorld'
 import HelloVux from '@/components/HelloFromVux'
 import UserLogin from '@/views/user/Login'
 import UserReg from '@/views/user/Reg'
+import UserDetail from '@/views/user/UserDetail'
 
 export default {
   routes: [
@@ -25,6 +26,11 @@ export default {
       path: '/userreg',
       name: 'userReg',
       component: UserReg
+    },
+    {
+      path: '/userdetail',
+      name: 'userDetail',
+      component: UserDetail
     }
   ]
 }

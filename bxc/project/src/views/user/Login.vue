@@ -1,6 +1,6 @@
 <template lang="pug">
     div    
-        H2(style="text-align:center;margin:20px") 拨草社群
+        H2(style="text-align:center;margin:20px") 拨小草
         group(label-width="4.5em" label-margin-right="2em" label-align="right")
             x-input(title="手机号" v-model="phone" required )
             x-input(title="密码" type="password" required v-model="password")
