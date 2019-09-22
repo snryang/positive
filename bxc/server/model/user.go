@@ -25,8 +25,8 @@ type UserDetail struct {
 	Gender      string `gorm:"type:varchar(16)" json:"gender"`
 	Nationality string `gorm:"type:varchar(16)" json:"nationality"`
 	Birth       string `gorm:"type:varchar(16)" json:"birth"`
-	Height      int    `json:"height"`
-	Weight      int    `json:"weight"`
+	Height      string `gorm:"type:varchar(16)" json:"height"`
+	Weight      string `gorm:"type:varchar(16)" json:"weight"`
 	//学历
 	Education string `gorm:"type:varchar(16)" json:"education"`
 	//星座

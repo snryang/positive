@@ -56,7 +56,7 @@
                 flexbox-item 
                     selector(:options="pagePrivate.height" v-model="entity.forHeight2")
             flexbox
-                flexbox-item(:span="3" style="text-align:right") 体量:
+                flexbox-item(:span="3" style="text-align:right") 体重:
                 flexbox-item 
                     selector(:options="pagePrivate.weight" v-model="entity.forWeight1")
                 flexbox-item(:span="1") 到
@@ -281,6 +281,7 @@ export default {
         if (_.isEmpty(entity.education)) entity.education = "大专";
         if (_.isEmpty(entity.marriage)) entity.marriage = "单身";
 
+debugger
         if (_.isEmpty(entity.address)) {
           console.log(11);
           entity.address = ["四川省", "成都市", "金牛区"];
@@ -339,13 +340,20 @@ export default {
       }
       this.$vux.loading.hide();
     },
+    getAddressName(value){
+        if(value == '') return ''
+        let item = _.find(_.propEq('value',value))(this.pagePrivate.addressData)
+        return item.name || '' 
+    },
     async save() {
       let entity = _.clone(this.entity);
-      console.log(this.$ls.get('userid'))
-      debugger
+      
+      
       entity.userid = this.$ls.get('userid')
-      entity.address = entity.address.join(",");
-      entity.hometown = entity.hometown.join(",");
+      
+      entity.address = [this.getAddressName(entity.address[0]),this.getAddressName(entity.address[1]),this.getAddressName(entity.address[2])].join(",");
+      entity.hometown = [this.getAddressName(entity.hometown[0]),this.getAddressName(entity.hometown[1]),this.getAddressName(entity.hometown[2])].join(",");
+  
       entity.forAge = `${entity.forAge1}-${entity.forAge2}`;
       entity.forHeight = `${entity.forWeight1}-${entity.c}`;
       entity.forWeight = `${entity.forWeight1}-${entity.forWeight2}`;
