@@ -22,7 +22,7 @@ func main() {
 	app.Post("api/user/reg", Reg)
 	app.Post("api/user/login", Login)
 	app.Get("api/userdetail/{id32}", GetUserDetail)
-	app.Post("api/userdetail/save", SaveUserDetail)
+	app.Post("api/userdetail/save/{id32}", SaveUserDetail)
 
 	// app.Post("api/user/reg", func(ctx iris.Context) {
 
@@ -76,6 +76,9 @@ func Login(ctx iris.Context) {
 				return
 			}
 		}
+		//每次登录修改id32标识
+		user.Id32 = uuid.Must(uuid.NewV4()).String()
+		userService.Save(user)
 		ctx.JSON(model.NewResult(user, true, "登录成功"))
 	} else {
 		ctx.JSON(model.NewResult(nil, false, "非法数据"))
@@ -92,6 +95,7 @@ func GetUserDetail(ctx iris.Context) {
 
 }
 func SaveUserDetail(ctx iris.Context) {
+	id32 := ctx.Params().Get("id32")
 	var userDetail model.UserDetail
 	err := ctx.ReadJSON(&userDetail)
 	fmt.Println("SaveUserDetail")
@@ -102,6 +106,12 @@ func SaveUserDetail(ctx iris.Context) {
 			user.Gender = userDetail.Gender
 			userService.Save(user)
 		}
+		fmt.Println(user.Id32, "==", id32)
+		if user.Id32 != id32 {
+			ctx.JSON(model.NewResult(nil, false, "非法操作"))
+			return
+		}
+
 		userService.SaveDetail(userDetail)
 		ctx.JSON(model.NewResult(nil, true, "操作成功"))
 	} else {

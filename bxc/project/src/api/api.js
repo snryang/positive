@@ -12,10 +12,12 @@ export  default {
             return res.data
         },
         async getDetail(id32){
-
+            let res = await axios.get('/api/userdetail/'+id32)
+            return res.data
         },
-        async saveDetail(userDetail){
-
+        async saveDetail(userDetail,id32){
+            let res = await axios.post('/api/userdetail/save/' + id32,userDetail)
+            return res.data
         }
     }
 }

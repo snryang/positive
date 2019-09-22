@@ -17,16 +17,16 @@ type User struct {
 }
 
 type UserDetail struct {
-	ID          uint      `gorm:"primary_key" json:"id"`
-	UserID      uint      `gorm:"column:userid" json:"userid"`
-	Wx          string    `gorm:"type:varchar(32)" json:"wx"`
-	Phone       string    `gorm:"type:varchar(11)" json:"phone"`
-	Name        string    `gorm:"type:varchar(32)" json:"name"`
-	Gender      string    `gorm:"type:varchar(16)" json:"gender"`
-	Nationality string    `gorm:"type:varchar(16)" json:"nationality"`
-	Birth       time.Time `json:"birth"`
-	Height      int       `json:"height"`
-	Weight      int       `json:"weight"`
+	ID          uint   `gorm:"primary_key" json:"id"`
+	UserID      uint   `gorm:"column:userid" json:"userid"`
+	Wx          string `gorm:"type:varchar(32)" json:"wx"`
+	Phone       string `gorm:"type:varchar(11)" json:"phone"`
+	Name        string `gorm:"type:varchar(32)" json:"name"`
+	Gender      string `gorm:"type:varchar(16)" json:"gender"`
+	Nationality string `gorm:"type:varchar(16)" json:"nationality"`
+	Birth       string `gorm:"type:varchar(16)" json:"birth"`
+	Height      int    `json:"height"`
+	Weight      int    `json:"weight"`
 	//学历
 	Education string `gorm:"type:varchar(16)" json:"education"`
 	//星座
@@ -37,6 +37,9 @@ type UserDetail struct {
 	Salary string `gorm:"type:varchar(32)" json:"salary"`
 	Car    string `gorm:"type:varchar(16)" json:"car"`
 	House  string `gorm:"type:varchar(16)" json:"house"`
+	//婚姻状态
+	Marriage string `gorm:"type:varchar(16)" json:"marriage"`
+
 	//当前地址
 	Address string `gorm:"type:varchar(32)" json:"address"`
 	//家乡
@@ -72,4 +75,5 @@ type UserDetail struct {
 	ForSmoke     string `gorm:"type:varchar(32)" json:"forSmoke"`
 	ForDrink     string `gorm:"type:varchar(32)" json:"forDrink"`
 	ForPet       string `gorm:"type:varchar(32)" json:"forPet"`
+	ForOther     string `gorm:"type:varchar(32)" json:"forOther"`
 }

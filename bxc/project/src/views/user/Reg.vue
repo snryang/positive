@@ -56,7 +56,7 @@ export default {
           title: "操作提示",
           content: "注册成功，去登录吧",
           buttonText: "去登录",
-          onHide() {
+          onHide:()=>{
             this.$router.push({ name: "userLogin" }); 
           }
         });
