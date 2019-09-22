@@ -1,6 +1,8 @@
 package service
 
 import (
+	"fmt"
+
 	"../model"
 )
 
@@ -38,10 +40,12 @@ func (u UserService) GetUserDetailById(userid uint) (userDetail model.UserDetail
 func (u UserService) SaveDetail(userDetail model.UserDetail) (err error) {
 	obj, objErr := u.GetUserDetailById(userDetail.UserID)
 	if objErr == nil {
-		err = db.Create(&userDetail).Error
-	} else {
+		fmt.Println("update UserDetail")
 		userDetail.ID = obj.ID
 		err = db.Save(&userDetail).Error
+	} else {
+		fmt.Println("insert UserDetail")
+		err = db.Create(&userDetail).Error
 	}
 	return
 }

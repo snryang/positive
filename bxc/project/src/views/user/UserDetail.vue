@@ -281,7 +281,7 @@ export default {
         if (_.isEmpty(entity.education)) entity.education = "大专";
         if (_.isEmpty(entity.marriage)) entity.marriage = "单身";
 
-debugger
+
         if (_.isEmpty(entity.address)) {
           console.log(11);
           entity.address = ["四川省", "成都市", "金牛区"];
@@ -355,7 +355,7 @@ debugger
       entity.hometown = [this.getAddressName(entity.hometown[0]),this.getAddressName(entity.hometown[1]),this.getAddressName(entity.hometown[2])].join(",");
   
       entity.forAge = `${entity.forAge1}-${entity.forAge2}`;
-      entity.forHeight = `${entity.forWeight1}-${entity.c}`;
+      entity.forHeight = `${entity.forWeight1}-${entity.forWeight2}`;
       entity.forWeight = `${entity.forWeight1}-${entity.forWeight2}`;
       entity.hobbies = entity.hobbies
         .concat(entity.attachHobbies.split(" "))
@@ -373,6 +373,7 @@ debugger
       delete entity.forWeight2;
 
       this.$vux.loading.show({ text: "数据保存中..." });
+      debugger
       let res = await api.user.saveDetail(entity, this.id32);
       this.$vux.loading.hide();
       if (res.success) {
