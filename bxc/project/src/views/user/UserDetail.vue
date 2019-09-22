@@ -1,39 +1,39 @@
 <template lang="pug">
     div
-        div(style="padding:5px 15px;color:red") 您的个人信息不会对外公开
+        div(style="padding:5px 15px;color:red") 会员ID:{{entity.userid}} 您的个人信息不会对外公开
         group(label-width="4.5em" label-margin-right="2em" label-align="right")
-            group-title(slot="title") 基本信息 您的会员ID是:{{entity.userid}}
-            x-input(title="手机号" v-model="entity.phone" required )
-            x-input(title="微信号" v-model="entity.wx" required )
-            x-input(title="姓名" v-model="entity.name" required )
-            selector(title="性别" :options="['男', '女','保密']" v-model="entity.gender")
-            selector(title="民族" :options="pagePrivate.nationality" v-model="entity.nationality")
-            datetime(title="出生日期" v-model="entity.birth" :min-year="1960" :max-year="2010" value-text-align="left")
-            selector(title="身高" :options="pagePrivate.height" v-model="entity.height")
-            selector(title="体重" :options="pagePrivate.weight" v-model="entity.weight")
-            selector(title="学历" :options="pagePrivate.education" v-model="entity.education")
-            selector(title="星座" :options="pagePrivate.constellation" v-model="entity.constellation")
-            x-input(title="职业" v-model="entity.profession")
-            selector(title="年薪" :options="pagePrivate.salary" v-model="entity.salary")
-            selector(title="住房" :options="['已购无贷款','已购有贷款','无','保密']" v-model="entity.house")
-            selector(title="汽车" :options="['豪华型','经济型', '无','保密']" v-model="entity.car")
-            selector(title="婚烟状态" :options="['单身','离异', '丧偶']" v-model="entity.marriage")
-            x-address(title="居住地" v-model="entity.address" raw-value :list="pagePrivate.addressData" value-text-align="left")
-            x-address(title="家乡" v-model="entity.hometown" raw-value :list="pagePrivate.addressData" value-text-align="left")
+            group-title(slot="title") 基本信息 
+            x-input(title="手机号:" type="number" v-model="entity.phone" required )
+            x-input(title="微信号:" v-model="entity.wx" required )
+            x-input(title="姓名:" v-model="entity.name" required )
+            selector(title="性别:" :options="['男', '女','保密']" v-model="entity.gender")
+            selector(title="民族:" :options="pagePrivate.nationality" v-model="entity.nationality")
+            datetime(title="出生日期:" v-model="entity.birth" :min-year="1960" :max-year="2010" value-text-align="left")
+            selector(title="身高:" :options="pagePrivate.height" v-model="entity.height")
+            selector(title="体重:" :options="pagePrivate.weight" v-model="entity.weight")
+            selector(title="学历:" :options="pagePrivate.education" v-model="entity.education")
+            selector(title="星座:" :options="pagePrivate.constellation" v-model="entity.constellation")
+            x-input(title="职业:" v-model="entity.profession")
+            selector(title="年薪:" :options="pagePrivate.salary" v-model="entity.salary")
+            selector(title="住房:" :options="['已购无贷款','已购有贷款','无','保密']" v-model="entity.house")
+            selector(title="汽车:" :options="['豪华型','经济型', '无','保密']" v-model="entity.car")
+            selector(title="婚烟状态:" :options="['单身','离异', '丧偶']" v-model="entity.marriage")
+            x-address(title="居住地:" v-model="entity.address" raw-value :list="pagePrivate.addressData" value-text-align="left")
+            x-address(title="家乡:" v-model="entity.hometown" raw-value :list="pagePrivate.addressData" value-text-align="left")
         group(label-width="4.5em" label-margin-right="2em" label-align="right")
             group-title(slot="title") 生活状态
-            selector(title="感情经历" :options="['无','1次','2次','3次','4次','5次','5-10次','10次以上']" v-model="entity.sex")
-            selector(title="吸烟" :options="['不吸烟并反感','不吸烟','偶尔','经常']" v-model="entity.smoke")
-            selector(title="饮酒" :options="['不饮酒','偶尔','经常','无酒不欢']" v-model="entity.drink")
-            selector(title="宠物" :options="['养猫','养狗','想养宠物','不喜欢宠物','无']" v-model="entity.pet")
-            x-input(title="饮食习惯" v-model="entity.diet")
-            x-input(title="兴趣爱好" v-model="entity.attachHobbies" placeholder="请选择，可自由输入")
+            selector(title="感情经历:" :options="['无','1次','2次','3次','4次','5次','5-10次','10次以上']" v-model="entity.sex")
+            selector(title="吸烟:" :options="['不吸烟并反感','不吸烟','偶尔','经常']" v-model="entity.smoke")
+            selector(title="饮酒:" :options="['不饮酒','偶尔','经常','无酒不欢']" v-model="entity.drink")
+            selector(title="宠物:" :options="['养猫','养狗','想养宠物','不喜欢宠物','无']" v-model="entity.pet")
+            x-input(title="饮食习惯:" v-model="entity.diet")
+            x-input(title="兴趣爱好:" v-model="entity.attachHobbies" placeholder="请选择，可自由输入")
         scroller(lock-x height="200px")
             checker(v-model="entity.hobbies" type="checkbox" default-item-class="demo1-item" selected-item-class="demo1-item-selected")
                 checker-item(:value="item" v-for="item in pagePrivate.hobbies" :key="item") {{item}}
 
         group(label-width="4.5em" label-margin-right="2em" label-align="right")
-            x-input(title="个人标签" v-model="entity.attachLabel" placeholder="请选择，可自由输入")
+            x-input(title="个人标签:" v-model="entity.attachLabel" placeholder="请选择，可自由输入")
         scroller(lock-x height="200px")
             checker(v-model="entity.label" type="checkbox" default-item-class="demo1-item" selected-item-class="demo1-item-selected")
                 checker-item(:value="item" v-for="item in pagePrivate.label" :key="item") {{item}}
@@ -211,7 +211,7 @@ export default {
         attachHobbies: "",
         attachLabel: "",
         id: 1,
-        userid: 1,
+        userid: 0,
         wx: "",
         phone: "",
         name: "",
@@ -258,7 +258,7 @@ export default {
     };
   },
   created() {
-    console.log(this.$route);
+    document.title = '填写个人资料'
     this.id32 = this.$route.query.id32;
     this.loadUserDetail();
   },
@@ -268,7 +268,8 @@ export default {
       console.log("id32:" + this.id32);
       let res = await api.user.getDetail(this.id32);
       if (res.success) {
-        var entity = res.data;
+        var entity = res.data;        
+        entity.userid = this.$ls.get('userid')
         if (_.isEmpty(entity.phone)) {
           entity.phone = this.$ls.get("phone");
         }
@@ -299,12 +300,12 @@ export default {
         entity.hobbies = entity.hobbies.split(" ") || [];
         entity.label = entity.label.split(" ") || [];
 
-        this.pagePrivate.hobbies = _.uniq(
+        this.pagePrivate.hobbies = _.filter(p => p != '',_.uniq(
           this.pagePrivate.hobbies.concat(entity.hobbies)
-        );
-        this.pagePrivate.label = _.uniq(
+        ))
+        this.pagePrivate.label = _.filter(p => p != '',_.uniq(
           this.pagePrivate.label.concat(entity.label)
-        );
+        ))
         if (_.isEmpty(entity.forAge)) {
           entity.forAge1 = "";
           entity.forAge2 = "";
@@ -340,6 +341,8 @@ export default {
     },
     async save() {
       let entity = _.clone(this.entity);
+      console.log(this.$ls.get('userid'))
+      debugger
       entity.userid = this.$ls.get('userid')
       entity.address = entity.address.join(",");
       entity.hometown = entity.hometown.join(",");
@@ -389,5 +392,7 @@ export default {
 }
 .demo1-item-selected {
   border: 1px solid green;
+  background-color: green;
+  color:#ffffff
 }
 </style>

@@ -1,7 +1,7 @@
 <template lang="pug">
     div        
         group(label-width="4.5em" label-margin-right="2em" label-align="right")
-            x-input(title="手机号" v-model="phone" required )
+            x-input(title="手机号" type="number" v-model="phone" required )
             x-input(title="密码" type="password" required v-model="password")
             x-input(title="确认密码" type="password" required v-model="password2")
             x-input(title="昵称" v-model="nickname")
@@ -30,6 +30,9 @@ export default {
       gender: "女",
       nickname: ""
     };
+  },
+  created(){
+    document.title = '注册'
   },
   methods: {
     async userRegister() {        

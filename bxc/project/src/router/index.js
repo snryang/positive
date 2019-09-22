@@ -1,6 +1,5 @@
 
-import HelloWorld from '@/components/HelloWorld'
-import HelloVux from '@/components/HelloFromVux'
+
 import UserLogin from '@/views/user/Login'
 import UserReg from '@/views/user/Reg'
 import UserDetail from '@/views/user/UserDetail'
@@ -9,13 +8,9 @@ export default {
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
-    },
-    {
-      path: '/1',
-      name: 'HelloVux',
-      component: HelloVux
+      name: 'index',
+      redirect:'/userlogin',
+      // component: HelloWorld
     },
     {
       path: '/userlogin',

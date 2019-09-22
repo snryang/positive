@@ -13,3 +13,19 @@
 - iris https://www.studyiris.com/doc/irisDoc/Overview.html
 
 - https://www.jianshu.com/p/37f1d9265fd0 vscode 
+
+
+### 部署golang
+方法二：本地编译
+cmd控制台到main.go文件目录下
+set GOARCH=amd64
+set GOOS=windows
+set GOOS=linux
+go build main.go
+会生成一个没有后缀的二进制文件
+main
+将该文件放入linux系统某个文件夹下
+赋予权限
+chmod 777 main
+最后执行 ./main 就行了。
+如果想让项目在后台执行：执行 nohup ./main & ，这样就可以程序在后台运行了

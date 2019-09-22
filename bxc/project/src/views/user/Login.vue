@@ -73,8 +73,9 @@ export default {
       }
     }
   },
-  created() {
-    console.log(111);
+  created(){
+    document.title = '登录'
+    this.phone = this.$ls.get('phone')
   }
 };
 </script>
