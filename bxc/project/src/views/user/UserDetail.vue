@@ -2,7 +2,7 @@
     div
         div(style="padding:5px 15px;color:red") 您的个人信息不会对外公开
         group(label-width="4.5em" label-margin-right="2em" label-align="right")
-            group-title(slot="title") 基本信息
+            group-title(slot="title") 基本信息 您的会员ID是:{{entity.userid}}
             x-input(title="手机号" v-model="entity.phone" required )
             x-input(title="微信号" v-model="entity.wx" required )
             x-input(title="姓名" v-model="entity.name" required )
