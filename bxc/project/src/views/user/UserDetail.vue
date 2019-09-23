@@ -355,7 +355,7 @@ export default {
       entity.hometown = [this.getAddressName(entity.hometown[0]),this.getAddressName(entity.hometown[1]),this.getAddressName(entity.hometown[2])].join(",");
   
       entity.forAge = `${entity.forAge1}-${entity.forAge2}`;
-      entity.forHeight = `${entity.forWeight1}-${entity.forWeight2}`;
+      entity.forHeight = `${entity.forHeight1}-${entity.forHeight2}`;
       entity.forWeight = `${entity.forWeight1}-${entity.forWeight2}`;
       entity.hobbies = entity.hobbies
         .concat(entity.attachHobbies.split(" "))
