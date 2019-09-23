@@ -1,6 +1,9 @@
 <template lang="pug">
     div
         div(style="padding:5px 15px;color:red") 会员ID:{{entity.userid}} 您的个人信息不会对外公开
+        //- cell
+        //-     <input id="lifephotoFile" class="file" name="file" type="file" accept="image/png,image/jpeg" @change="fileUpload"/>
+        
         group(label-width="4.5em" label-margin-right="2em" label-align="right")
             group-title(slot="title") 基本信息 
             x-input(title="手机号:" type="number" v-model="entity.phone" required )
@@ -103,6 +106,7 @@
 </template>
 <script>
 import * as _ from "ramda";
+import axios from 'axios'
 import {
   Group,
   GroupTitle,
@@ -117,7 +121,7 @@ import {
   Checker,
   CheckerItem,
   Flexbox,
-  FlexboxItem
+  FlexboxItem,Cell
 } from "vux";
 import api from "@/api/api";
 
@@ -163,7 +167,7 @@ export default {
     XTextarea,
     Scroller,
     Checker,
-    CheckerItem
+    CheckerItem,Cell
   },
   watch: {
     $route(to, from) {
@@ -263,6 +267,20 @@ export default {
     this.loadUserDetail();
   },
   methods: {
+    fileUpload(event){    
+      debugger
+            let formData=new FormData();
+            formData.append('type',document.getElementById("lifephotoFile").files[0].type)
+            formData.append('uploadfile', document.getElementById("lifephotoFile").files[0])
+            axios.post('/api/uploadlifephoto',formData,{
+                'Content-Type':'multipart/form-data'
+            }).then(res=>{
+                debugger
+            })
+        // 获取input里的文件
+        // this.file.push(event.target.files[0]);
+        // console.log(this.file);
+      },
     async loadUserDetail() {
       this.$vux.loading.show({ text: "数据加载..." });
       console.log("id32:" + this.id32);
