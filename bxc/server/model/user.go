@@ -8,6 +8,7 @@ import (
 type User struct {
 	ID        uint      `gorm:"primary_key" json:"id"`
 	CreatedAt time.Time `json:"createdAt"`
+	Avatar    string    `gorm:"type:varchar(64)" json:"avatar"`
 	Id32      string    `gorm:"type:varchar(36)" json:"id32"`
 	Phone     string    `gorm:"type:varchar(11)" json:"phone"`
 	Password  string    `gorm:"type:varchar(200)" json:"password"`
@@ -76,4 +77,15 @@ type UserDetail struct {
 	ForDrink     string `gorm:"type:varchar(32)" json:"forDrink"`
 	ForPet       string `gorm:"type:varchar(32)" json:"forPet"`
 	ForOther     string `gorm:"type:varchar(32)" json:"forOther"`
+}
+
+type UserLifePhoto struct {
+	UserID uint   `gorm:"column:userid" json:"userid"`
+	Url    string `gorm:"type:varchar(64)" json:"url"`
+}
+
+type UserLimit struct {
+	UserID   uint      `gorm:"column:userid" json:"userid"`
+	Type     string    `gorm:"type:varchar(64)" json:"type"`
+	Nexttime time.Time `json:"nexttime"`
 }

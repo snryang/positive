@@ -2,6 +2,7 @@ package service
 
 import (
 	"fmt"
+	"time"
 
 	"../model"
 )
@@ -48,4 +49,38 @@ func (u UserService) SaveDetail(userDetail model.UserDetail) (err error) {
 		err = db.Create(&userDetail).Error
 	}
 	return
+}
+
+func (u UserService) GetUserLifePhoto(userid uint) (userLifePhoto []model.UserLifePhoto) {
+	db.Find(&userLifePhoto, "userid = ?", userid)
+	return
+}
+
+func (u UserService) RemoveUserLifePhoto(userid uint, url string) {
+	db.Delete(&model.UserLifePhoto{UserID: userid, Url: url})
+}
+
+func (u UserService) InsertUserLifePhoto(userid uint, url string) {
+	db.Create(&model.UserLifePhoto{UserID: userid, Url: url})
+}
+
+func (u UserService) AllowAction(userid uint, action string) bool {
+	var userLimit model.UserLimit
+	if (db.Where(&model.UserLimit{UserID: userid, Type: action}).First(&userLimit).Error != nil) {
+		return true
+	} else {
+		return time.Now().After(userLimit.Nexttime)
+	}
+}
+
+//设置用户second秒后才能执行动作action
+func (u UserService) SetActionTime(userid uint, action string, second int) {
+
+	nexttime := time.Now().Add(time.Duration(second) * time.Minute)
+	userLimit := model.UserLimit{UserID: userid, Type: action, Nexttime: nexttime}
+
+	if db.Save(&userLimit).Error != nil {
+		db.Create(&userLimit)
+	}
+
 }
