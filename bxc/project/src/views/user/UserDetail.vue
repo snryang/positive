@@ -1,9 +1,9 @@
 <template lang="pug">
     div
         div(style="padding:5px 15px;color:red") 会员ID:{{entity.userid}} 您的个人信息不会对外公开
-        //- cell
-        //-     <input id="lifephotoFile" class="file" name="file" type="file" accept="image/png,image/jpeg" @change="fileUpload"/>
-        
+        cell
+            <input id="lifephotoFile" class="file" name="file" type="file" accept="image/png,image/jpeg" @change="fileUpload"/>
+        img(:src="livePhoto" width="100" height="100")
         group(label-width="4.5em" label-margin-right="2em" label-align="right")
             group-title(slot="title") 基本信息 
             x-input(title="手机号:" type="number" v-model="entity.phone" required )
@@ -106,7 +106,7 @@
 </template>
 <script>
 import * as _ from "ramda";
-import axios from 'axios'
+import axios from "axios";
 import {
   Group,
   GroupTitle,
@@ -121,7 +121,8 @@ import {
   Checker,
   CheckerItem,
   Flexbox,
-  FlexboxItem,Cell
+  FlexboxItem,
+  Cell
 } from "vux";
 import api from "@/api/api";
 
@@ -167,7 +168,8 @@ export default {
     XTextarea,
     Scroller,
     Checker,
-    CheckerItem,Cell
+    CheckerItem,
+    Cell
   },
   watch: {
     $route(to, from) {
@@ -177,6 +179,7 @@ export default {
   },
   data() {
     return {
+      livePhoto: "",
       pagePrivate: {
         nationality: _nationality,
         height: _height,
@@ -262,32 +265,47 @@ export default {
     };
   },
   created() {
-    document.title = '填写个人资料'
+    document.title = "填写个人资料";
     this.id32 = this.$route.query.id32;
     this.loadUserDetail();
   },
   methods: {
-    fileUpload(event){    
-      debugger
-            let formData=new FormData();
-            formData.append('type',document.getElementById("lifephotoFile").files[0].type)
-            formData.append('uploadfile', document.getElementById("lifephotoFile").files[0])
-            axios.post('/api/uploadlifephoto',formData,{
-                'Content-Type':'multipart/form-data'
-            }).then(res=>{
-                debugger
-            })
-        // 获取input里的文件
-        // this.file.push(event.target.files[0]);
-        // console.log(this.file);
-      },
+    fileUpload(event) {
+      debugger;
+      let formData = new FormData();
+      formData.append(
+        "type",
+        document.getElementById("lifephotoFile").files[0].type
+      );
+      formData.append(
+        "uploadfile",
+        document.getElementById("lifephotoFile").files[0]
+      );
+      axios
+        .post("/api/uploadlifephoto", formData, {
+          "Content-Type": "multipart/form-data"
+        })
+        .then(res => {
+          if (res.data.success) {
+            this.livePhoto = res.data.data
+          } else {
+            this.$vux.alert.show({
+              title: "操作提示",
+              content: res.data.msg
+            });
+          }
+        });
+      // 获取input里的文件
+      // this.file.push(event.target.files[0]);
+      // console.log(this.file);
+    },
     async loadUserDetail() {
       this.$vux.loading.show({ text: "数据加载..." });
       console.log("id32:" + this.id32);
       let res = await api.user.getDetail(this.id32);
       if (res.success) {
-        var entity = res.data;        
-        entity.userid = this.$ls.get('userid')
+        var entity = res.data;
+        entity.userid = this.$ls.get("userid");
         if (_.isEmpty(entity.phone)) {
           entity.phone = this.$ls.get("phone");
         }
@@ -298,7 +316,6 @@ export default {
         if (_.isEmpty(entity.weight)) entity.weight = "50kg";
         if (_.isEmpty(entity.education)) entity.education = "大专";
         if (_.isEmpty(entity.marriage)) entity.marriage = "单身";
-
 
         if (_.isEmpty(entity.address)) {
           console.log(11);
@@ -319,12 +336,14 @@ export default {
         entity.hobbies = entity.hobbies.split(" ") || [];
         entity.label = entity.label.split(" ") || [];
 
-        this.pagePrivate.hobbies = _.filter(p => p != '',_.uniq(
-          this.pagePrivate.hobbies.concat(entity.hobbies)
-        ))
-        this.pagePrivate.label = _.filter(p => p != '',_.uniq(
-          this.pagePrivate.label.concat(entity.label)
-        ))
+        this.pagePrivate.hobbies = _.filter(
+          p => p != "",
+          _.uniq(this.pagePrivate.hobbies.concat(entity.hobbies))
+        );
+        this.pagePrivate.label = _.filter(
+          p => p != "",
+          _.uniq(this.pagePrivate.label.concat(entity.label))
+        );
         if (_.isEmpty(entity.forAge)) {
           entity.forAge1 = "";
           entity.forAge2 = "";
@@ -352,26 +371,33 @@ export default {
         }
         delete entity.forWeight;
 
-        this.entity = entity;        
+        this.entity = entity;
       } else {
         alert(res.msg);
       }
       this.$vux.loading.hide();
     },
-    getAddressName(value){
-        if(value == '') return ''
-        let item = _.find(_.propEq('value',value))(this.pagePrivate.addressData)
-        return item.name || '' 
+    getAddressName(value) {
+      if (value == "") return "";
+      let item = _.find(_.propEq("value", value))(this.pagePrivate.addressData);
+      return item.name || "";
     },
     async save() {
       let entity = _.clone(this.entity);
-      
-      
-      entity.userid = this.$ls.get('userid')
-      
-      entity.address = [this.getAddressName(entity.address[0]),this.getAddressName(entity.address[1]),this.getAddressName(entity.address[2])].join(",");
-      entity.hometown = [this.getAddressName(entity.hometown[0]),this.getAddressName(entity.hometown[1]),this.getAddressName(entity.hometown[2])].join(",");
-  
+
+      entity.userid = this.$ls.get("userid");
+
+      entity.address = [
+        this.getAddressName(entity.address[0]),
+        this.getAddressName(entity.address[1]),
+        this.getAddressName(entity.address[2])
+      ].join(",");
+      entity.hometown = [
+        this.getAddressName(entity.hometown[0]),
+        this.getAddressName(entity.hometown[1]),
+        this.getAddressName(entity.hometown[2])
+      ].join(",");
+
       entity.forAge = `${entity.forAge1}-${entity.forAge2}`;
       entity.forHeight = `${entity.forHeight1}-${entity.forHeight2}`;
       entity.forWeight = `${entity.forWeight1}-${entity.forWeight2}`;
@@ -391,7 +417,7 @@ export default {
       delete entity.forWeight2;
 
       this.$vux.loading.show({ text: "数据保存中..." });
-      debugger
+      debugger;
       let res = await api.user.saveDetail(entity, this.id32);
       this.$vux.loading.hide();
       if (res.success) {
@@ -420,6 +446,6 @@ export default {
 .demo1-item-selected {
   border: 1px solid green;
   background-color: green;
-  color:#ffffff
+  color: #ffffff;
 }
 </style>

@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"crypto/md5"
 	"fmt"
 	"time"
 
@@ -58,8 +57,8 @@ func main() {
 				SecretKey: "GZhaDFeqr42lERVO1OXDfrrCMIyTjkVQ",
 			},
 		})
-		name := "lifephoto/" + string(md5.New().Sum(nil))
-
+		name := "lifephoto/" + uuid.Must(uuid.NewV4()).String()
+		fmt.Println("name:" + name)
 		opt := &cos.ObjectPutOptions{
 			ObjectPutHeaderOptions: &cos.ObjectPutHeaderOptions{
 				ContentType: info.Header["Content-Type"][0],
@@ -70,11 +69,13 @@ func main() {
 		}
 		_, errPut := c.Object.Put(context.Background(), name, file, opt)
 		if errPut != nil {
+			fmt.Println(errPut)
+
 			ctx.JSON(model.NewResult(nil, false, "文件上传"+errPut.Error()))
 			return
 			// panic(err)
 		}
-		ctx.JSON(model.NewResult(nil, true, "https://bxc-1300253269.cos.ap-chengdu.myqcloud.com/"+name))
+		ctx.JSON(model.NewResult("https://bxc-1300253269.cos.ap-chengdu.myqcloud.com/"+name, true, "https://bxc-1300253269.cos.ap-chengdu.myqcloud.com/"+name))
 		// 2.Put object by local file path
 		// _, err = c.Object.PutFromFile(context.Background(), name, "./test", nil)
 		// if err != nil {
