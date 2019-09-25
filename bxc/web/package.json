@@ -3,90 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
   },
   "dependencies": {
-    "axios": "^0.19.0",
     "core-js": "^2.6.5",
-    "moment": "^2.24.0",
-    "nprogress": "^0.2.0",
-    "pug-plain-loader": "^1.0.0",
-    "ramda": "^0.26.1",
+    "vant": "^2.2.3",
     "vue": "^2.6.10",
-    "vue-ls": "^3.2.1",
-    "vue-router": "^3.1.3"
+    "vue-router": "^3.0.3"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.11.0",
-    "@vue/cli-plugin-eslint": "^3.11.0",
     "@vue/cli-service": "^3.11.0",
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.0.0",
-    "pug": "^2.0.4",
+    "sass": "^1.18.0",
+    "sass-loader": "^7.1.0",
     "vue-template-compiler": "^2.6.10"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/strongly-recommended",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {
-      "generator-star-spacing": "off",
-      "no-mixed-operators": 0,
-      "vue/max-attributes-per-line": [
-        2,
-        {
-          "singleline": 5,
-          "multiline": {
-            "max": 1,
-            "allowFirstLine": false
-          }
-        }
-      ],
-      "vue/attribute-hyphenation": 0,
-      "vue/html-self-closing": 0,
-      "vue/component-name-in-template-casing": 0,
-      "vue/html-closing-bracket-spacing": 0,
-      "vue/singleline-html-element-content-newline": 0,
-      "vue/no-unused-components": 0,
-      "vue/multiline-html-element-content-newline": 0,
-      "vue/no-use-v-if-with-v-for": 0,
-      "vue/html-closing-bracket-newline": 0,
-      "vue/no-parsing-error": 0,
-      "no-console": 0,
-      "quotes": [
-        2,
-        "single",
-        {
-          "avoidEscape": true,
-          "allowTemplateLiterals": true
-        }
-      ],
-      "semi": [
-        2,
-        "never",
-        {
-          "beforeStatementContinuationChars": "never"
-        }
-      ],
-      "no-delete-var": 2,
-      "prefer-const": [
-        2,
-        {
-          "ignoreReadBeforeAssign": false
-        }
-      ]
-    }
   },
   "postcss": {
     "plugins": {

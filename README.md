@@ -16,3 +16,6 @@ mpvue和mpvue-weui只是对微信原生组件的封装，微信官方文档js和
 - https://github.com/sherlock221/zhihuZhuanlan
 
 使用了云数据库，请先在云数据库中添加以下集合：articles articleLikes articleReplies config habits users，添加后即可运行小程序
+
+
+https://blog.csdn.net/paulowina/article/details/79894995 安装nginx
