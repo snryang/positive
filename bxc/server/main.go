@@ -4,19 +4,19 @@ import (
 	"context"
 	"crypto/md5"
 	"fmt"
-	"time"
-
 	"net/http"
 	"net/url"
+	"time"
 
 	"./model"
 	"./req"
+	"./session"
 	"./service"
 	"github.com/kataras/iris"
 	uuid "github.com/satori/go.uuid"
-	"github.com/tencentyun/cos-go-sdk-v5"
 )
 
+//https://iris-go.com/start/#another-example-query-post-form demo
 var configService = service.ConfigService{}
 var userService = service.UserService{}
 
@@ -27,16 +27,66 @@ func main() {
 
 	app.HandleDir("/", "./public")
 
-	app.Post("api/user/reg", Reg)
-	app.Post("api/user/login", Login)
-	app.Get("api/userdetail/{id32}", GetUserDetail)
-	app.Post("api/userdetail/save/{id32}", SaveUserDetail)
+	//拦截所有的请求
+	app.Use(func(ctx iris.Context) {
+
+		s := session.IrisSession().Start(ctx)
+		userid := s.GetStringDefault("userid",0)
+		role := s.GetIntDefault("role",0)
+
+		ctx.Values().Save("userid",uint(userid),true)
+		ctx.Values().Save("role",role,true)
+		ctx.Next()
+	})
+
+	v1:=app.Party("/api/v1"){
+		v1.Post("/user/reg", Reg)
+		v1.Post("/user/login", Login)
+	}
+
+	v2:=app.Party("/api/v2",func(ctx iris.Context){
+		role := ctx.Values().GetIntDefault("role", 0)
+		if role < 1{
+			ctx.JSON(model.NewResult(nil, false, "请登录"))
+		}else{
+			ctx.Next()
+		}		
+	}){
+		app.Get("/userdetail/{id32}", GetUserDetail)
+		app.Post("/userdetail/save/{id32}", SaveUserDetail)
+	}
+
+	v3:=app.Party("/api/v3",func(ctx iris.Context){
+		role := ctx.Values().GetIntDefault("role", 0)
+		if role < 2{
+			ctx.JSON(model.NewResult(nil, false, "无权限"))
+		}else{
+			ctx.Next()
+		}	
+	}){
+
+	}
+
+	v4:=app.Party("/api/v4",func(ctx iris.Context){
+		role := ctx.Values().GetIntDefault("role", 0)
+		if role < 3{
+			ctx.JSON(model.NewResult(nil, false, "无权限"))
+		}else{
+			ctx.Next()
+		}	
+	}){
+
+	}
+
 
 	// app.Post("api/user/reg", func(ctx iris.Context) {
 
 	// 	configValue := configService.Get("ywbTest")
 	// 	ctx.WriteString("value:" + configValue)
 	// })
+
+	//ctx.JSON(iris.Map{"message": "Hello Iris!"})
+
 
 	// Handle the post request from the upload_form.html to the server
 	app.Post("api/uploadlifephoto", iris.LimitRequestBodySize(maxSize+1<<20), func(ctx iris.Context) {
@@ -86,6 +136,7 @@ func main() {
 	app.Run(iris.Addr(":8099"))
 }
 
+
 func Reg(ctx iris.Context) {
 
 	var userRegister req.UserRegister
@@ -132,15 +183,18 @@ func Login(ctx iris.Context) {
 		//每次登录修改id32标识
 		user.Id32 = uuid.Must(uuid.NewV4()).String()
 		userService.Save(user)
+		s := session.IrisSession().Start(ctx)
+		s.Set("userid", string(user.ID))
+		s.Set("role", user.Role)
 		ctx.JSON(model.NewResult(user, true, "登录成功"))
 	} else {
 		ctx.JSON(model.NewResult(nil, false, "非法数据"))
 	}
 }
-func GetUserDetail(ctx iris.Context) {
-	user, err := userService.GetById32(ctx.Params().Get("id32"))
+func GetUserDetail(ctx iris.Context) {	
+	userID :=ctx.Values().GetUint("userid")
 	if err == nil {
-		userDetail, _ := userService.GetUserDetailById(user.ID)
+		userDetail, _ := userService.GetUserDetailById(userID)
 		ctx.JSON(model.NewResult(userDetail, true, ""))
 		return
 	}
@@ -148,22 +202,21 @@ func GetUserDetail(ctx iris.Context) {
 
 }
 func SaveUserDetail(ctx iris.Context) {
-	id32 := ctx.Params().Get("id32")
+	userID :=ctx.Values().GetUint("userid")
 	var userDetail model.UserDetail
 	err := ctx.ReadJSON(&userDetail)
-	fmt.Println("SaveUserDetail")
-	fmt.Println(userDetail)
+		
 	if err == nil {
 		user, _ := userService.GetById(userDetail.UserID)
-		if user.Gender != userDetail.Gender {
-			user.Gender = userDetail.Gender
-			userService.Save(user)
-		}
-		fmt.Println(user.Id32, "==", id32)
-		if user.Id32 != id32 {
+		if userDetail.UserID != userID {
 			ctx.JSON(model.NewResult(nil, false, "非法操作"))
 			return
 		}
+
+		if user.Gender != userDetail.Gender {
+			user.Gender = userDetail.Gender
+			userService.Save(user)
+		}		
 
 		userService.SaveDetail(userDetail)
 		ctx.JSON(model.NewResult(nil, true, "操作成功"))

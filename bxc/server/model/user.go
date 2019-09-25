@@ -7,11 +7,12 @@ import (
 //`gorm:"default:'galeone'"`
 type User struct {
 	ID        uint      `gorm:"primary_key" json:"id"`
-	CreatedAt time.Time `json:"createdAt"`
+	CreatedAt time.Time `json:"-"`
 	Avatar    string    `gorm:"type:varchar(64)" json:"avatar"`
-	Id32      string    `gorm:"type:varchar(36)" json:"id32"`
-	Phone     string    `gorm:"type:varchar(11)" json:"phone"`
-	Password  string    `gorm:"type:varchar(200)" json:"password"`
+	Role      int       `json:"-"`
+	Id32      string    `gorm:"type:varchar(36)" json:"-"`
+	Phone     string    `gorm:"type:varchar(11)" json:"-"`
+	Password  string    `gorm:"type:varchar(200)" json:"-"`
 	Gender    string    `gorm:"type:varchar(16)" json:"gender"`
 	Nickname  string    `gorm:"type:varchar(32)" json:"nickname"`
 	// Json      string    `gorm:"type:text" json:"json"`
