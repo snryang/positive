@@ -9,10 +9,11 @@ import (
 
 	"./model"
 	"./req"
-	"./session"
 	"./service"
+	"./session"
 	"github.com/kataras/iris"
 	uuid "github.com/satori/go.uuid"
+	"github.com/tencentyun/cos-go-sdk-v5"
 )
 
 //https://iris-go.com/start/#another-example-query-post-form demo
@@ -28,55 +29,61 @@ func main() {
 
 	//拦截所有的请求
 	app.Use(func(ctx iris.Context) {
-
 		s := session.IrisSession().Start(ctx)
-		userid := s.GetStringDefault("userid",0)
-		role := s.GetIntDefault("role",0)
+		userid := s.GetIntDefault("userid", 0)
+		role := s.GetIntDefault("role", 0)
 
-		ctx.Values().Save("userid",uint(userid),true)
-		ctx.Values().Save("role",role,true)
+		ctx.Values().Save("userid", uint(userid), true)
+		ctx.Values().Save("role", role, true)
 		ctx.Next()
 	})
 
-	v1:=app.Party("/api/v1"){
+	v1 := app.Party("/api/v1")
+	{
 		v1.Post("/user/reg", Reg)
 		v1.Post("/user/login", Login)
 	}
 
-	v2:=app.Party("/api/v2",func(ctx iris.Context){
+	v2 := app.Party("/api/v2", func(ctx iris.Context) {
 		role := ctx.Values().GetIntDefault("role", 0)
-		if role < 1{
+		if role < 1 {
 			ctx.JSON(model.NewResult(nil, false, "请登录"))
-		}else{
+		} else {
 			ctx.Next()
-		}		
-	}){
-		app.Get("/userdetail/{id32}", GetUserDetail)
-		app.Post("/userdetail/save/{id32}", SaveUserDetail)
+		}
+	})
+	{
+		v2.Get("/userdetail/{id32}", GetUserDetail)
+		v2.Post("/userdetail/save/{id32}", SaveUserDetail)
 	}
 
-	v3:=app.Party("/api/v3",func(ctx iris.Context){
+	v3 := app.Party("/api/v3", func(ctx iris.Context) {
 		role := ctx.Values().GetIntDefault("role", 0)
-		if role < 2{
+		if role < 2 {
 			ctx.JSON(model.NewResult(nil, false, "无权限"))
-		}else{
+		} else {
 			ctx.Next()
-		}	
-	}){
-
+		}
+	})
+	{
+		v3.Get("/", func(ctx iris.Context) {
+			ctx.JSON(iris.Map{"message": "Hello Iris!"})
+		})
 	}
 
-	v4:=app.Party("/api/v4",func(ctx iris.Context){
+	v4 := app.Party("/api/v4", func(ctx iris.Context) {
 		role := ctx.Values().GetIntDefault("role", 0)
-		if role < 3{
+		if role < 3 {
 			ctx.JSON(model.NewResult(nil, false, "无权限"))
-		}else{
+		} else {
 			ctx.Next()
-		}	
-	}){
-
+		}
+	})
+	{
+		v4.Get("/", func(ctx iris.Context) {
+			ctx.JSON(iris.Map{"message": "Hello Iris!"})
+		})
 	}
-
 
 	// app.Post("api/user/reg", func(ctx iris.Context) {
 
@@ -85,7 +92,6 @@ func main() {
 	// })
 
 	//ctx.JSON(iris.Map{"message": "Hello Iris!"})
-
 
 	// Handle the post request from the upload_form.html to the server
 	app.Post("api/uploadlifephoto", iris.LimitRequestBodySize(maxSize+1<<20), func(ctx iris.Context) {
@@ -136,7 +142,6 @@ func main() {
 
 	app.Run(iris.Addr(":8099"))
 }
-
 
 func Reg(ctx iris.Context) {
 
@@ -192,9 +197,9 @@ func Login(ctx iris.Context) {
 		ctx.JSON(model.NewResult(nil, false, "非法数据"))
 	}
 }
-func GetUserDetail(ctx iris.Context) {	
-	userID :=ctx.Values().GetUint("userid")
-	if err == nil {
+func GetUserDetail(ctx iris.Context) {
+	userID, _ := ctx.Values().GetUint("userid")
+	if userID > 0 {
 		userDetail, _ := userService.GetUserDetailById(userID)
 		ctx.JSON(model.NewResult(userDetail, true, ""))
 		return
@@ -203,10 +208,10 @@ func GetUserDetail(ctx iris.Context) {
 
 }
 func SaveUserDetail(ctx iris.Context) {
-	userID :=ctx.Values().GetUint("userid")
+	userID, _ := ctx.Values().GetUint("userid")
 	var userDetail model.UserDetail
 	err := ctx.ReadJSON(&userDetail)
-		
+
 	if err == nil {
 		user, _ := userService.GetById(userDetail.UserID)
 		if userDetail.UserID != userID {
@@ -217,7 +222,7 @@ func SaveUserDetail(ctx iris.Context) {
 		if user.Gender != userDetail.Gender {
 			user.Gender = userDetail.Gender
 			userService.Save(user)
-		}		
+		}
 
 		userService.SaveDetail(userDetail)
 		ctx.JSON(model.NewResult(nil, true, "操作成功"))
