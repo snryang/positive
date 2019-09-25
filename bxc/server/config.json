@@ -1,7 +1,7 @@
 {
   "Port": "8088",
-  "DBUserName": "root",
-  "DBPassword": "Ywb19*^",
+  "DBUserName": "bxcdev",
+  "DBPassword": "dev123456",
   "DBIp": "49.234.92.172",
   "DBPort": "3306",
   "DBName": "bxc"
