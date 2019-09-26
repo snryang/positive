@@ -8,6 +8,9 @@
   },
   "dependencies": {
     "core-js": "^2.6.5",
+    "minigridcss": "^0.0.5",
+    "moment": "^2.24.0",
+    "ramda": "^0.26.1",
     "vant": "^2.2.3",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3"
@@ -15,6 +18,8 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.11.0",
     "@vue/cli-service": "^3.11.0",
+    "pug": "^2.0.4",
+    "pug-plain-loader": "^1.0.0",
     "sass": "^1.18.0",
     "sass-loader": "^7.1.0",
     "vue-template-compiler": "^2.6.10"
