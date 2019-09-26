@@ -1,1 +1,10 @@
-@import "class-tools.min.css";
+// @import "class-tools.min.css";
+
+body{
+    min-width: 100vw;
+    color: #323233;
+    font-family: 'PingFang SC', Helvetica, 'STHeiti STXihei', 'Microsoft YaHei', Tohoma, Arial, sans-serif;
+    line-height: 1;
+    background-color: #f8f8f8;
+    -webkit-font-smoothing: antialiased;
+}

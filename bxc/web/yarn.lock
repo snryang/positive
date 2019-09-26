@@ -6575,7 +6575,7 @@ validate-npm-package-license@^3.0.1:
 
 vant@^2.2.3:
   version "2.2.3"
-  resolved "https://registry.yarnpkg.com/vant/-/vant-2.2.3.tgz#58889b6effa9d0a560b67a459c553db93205a6b4"
+  resolved "http://npm.1024.team/vant/-/vant-2.2.3.tgz#58889b6effa9d0a560b67a459c553db93205a6b4"
   dependencies:
     "@babel/runtime" "7.x"
     "@vant/icons" "1.1.14"

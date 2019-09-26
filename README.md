@@ -19,3 +19,6 @@ mpvue和mpvue-weui只是对微信原生组件的封装，微信官方文档js和
 
 
 https://blog.csdn.net/paulowina/article/details/79894995 安装nginx
+
+https://www.vaptcha.com/account 验证码解决方案
+https://segmentfault.com/a/1190000012572452 GOlang生成验证码

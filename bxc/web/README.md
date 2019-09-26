@@ -1,3 +1,6 @@
+vant组件地址： https://youzan.github.io/vant/#/zh-CN/field
+
+
 # web
 
 ## Project setup
