@@ -7,12 +7,15 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "axios": "^0.19.0",
     "core-js": "^2.6.5",
+    "markdown": "^0.5.0",
     "minigridcss": "^0.0.5",
     "moment": "^2.24.0",
     "ramda": "^0.26.1",
     "vant": "^2.2.3",
     "vue": "^2.6.10",
+    "vue-ls": "^3.2.1",
     "vue-router": "^3.0.3"
   },
   "devDependencies": {

@@ -1,10 +1,37 @@
-// @import "class-tools.min.css";
+@import "class-tools.min.css";
+//https://github.com/sumight/class-tools
+body,html{
+    background: #fff!important;
+    overflow-x: inherit!important;
 
-body{
-    min-width: 100vw;
-    color: #323233;
-    font-family: 'PingFang SC', Helvetica, 'STHeiti STXihei', 'Microsoft YaHei', Tohoma, Arial, sans-serif;
+    padding: 0;
+    margin: 0 auto;
+    font-size: 20px;
+    -webkit-tap-highlight-color: rgba(255,255,255,0);
+    color: #303030;
+    width: 100%;
+    font-family: Helvetica;
+    -webkit-overflow-scrolling: touch;
+    max-width: 640px;
+}
+
+.bxc-link{
+    display: inline-block;
+    font-size: .75rem;
     line-height: 1;
-    background-color: #f8f8f8;
-    -webkit-font-smoothing: antialiased;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    color: #8d8d8d;
+    right: 0;
+    float: right;
+}
+.bxc-link1{
+    display: inline-block;
+    font-size: .75rem;
+    line-height: 1;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    color: #378bd3;
+    right: 0;
+    float: right;
 }

@@ -1,5 +1,5 @@
 vant组件地址： https://youzan.github.io/vant/#/zh-CN/field
-
+UI 组件： https://didi.github.io/cube-ui/#/zh-CN/docs/internationalization
 
 # web
 
