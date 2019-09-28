@@ -37,6 +37,16 @@ export const constantRouterMap = [
                 path: '/usercenter/detail',
                 name: 'usercenterdetail',
                 component: () => import( '@/views/usercenter/Detail')
+            },
+            {
+                path: '/usercenter/lifephoto',
+                name: 'usercenterlifephoto',
+                component: () => import( '@/views/usercenter/Lifephoto')
+            },
+            {
+                path: '/grassland/index',
+                name: 'grasslandindex',
+                component: () => import( '@/views/grassland/Index')
             }
         ]
     },

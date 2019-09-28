@@ -1,11 +1,11 @@
 <template lang="pug">
     div
-        //- <div class="store_header">
-        //-     <div class="store_avatar">
-        //-         <img src="../../assets/images/bxclogo.png" width="55" height="55">
-        //-     </div>
-        //-     <div class="store_name">XXX</div>
-        //- </div>        
+        <div class="store_header">
+            <div class="store_avatar">
+                <img src="../../assets/images/bxclogo.png" width="55" height="55">
+            </div>
+            <div class="store_name">拨小草</div>
+        </div>        
         van-cell-group(style="border:1px solid #ebedf0;border-radius:5px;margin:15px;padding:5px;")
             van-field(label="手机号" type="number" maxlength="11" label-width="60" left-icon="phone" v-model="phone" placeholder="请输入手机号")
             van-field(label="密码"  label-width="60" left-icon="bag" placeholder="请输入密码" v-model="password" type="password")            
@@ -13,7 +13,7 @@
             van-button(type="primary" style="border-radius:10px;" size="large" @click="login") 登录
         van-row
             van-col(offset="8" span="8")
-                a(href="/#/reg" class="bxc-link") 去注册 
+                a(href="/#/reg" class="bxc-link") 注册 
   
         //- <div class="text-desc text-center bottom_positon">技术支持: xxxxxx</div>
 </template>
@@ -27,8 +27,7 @@ export default {
           password:''
       }
   },
-  created(){
-    document.title = '登录'
+  created(){    
     this.phone = this.$ls.get('phone')
   },
   methods:{
@@ -44,18 +43,18 @@ export default {
       this.$toast({type:'loading',forbidClick:true,duration: 0,message: '登录中...'});      
       let res = await api.user.login(this.phone, this.password);
       this.$toast.clear();
-      if (res.success) {        
+      if (res.success) {         
         this.$ls.set("userid", res.data.id);
-        this.$ls.set("id32", res.data.id32);
-        this.$ls.set("phone", res.data.phone);
+        this.$ls.set("phone", this.phone);
+        this.$ls.set("role", res.data.role);
+        this.$ls.set("avatar", res.data.avatar);
         this.$ls.set("nickname", res.data.nickname);
 
         this.$router.push({
-          name: "userDetail",
-          query: { id32: res.data.id32 }
+          name: "usercenterindex",          
         });
       } else {
-        this.$notify('res.msg')
+        this.$notify(res.msg)
       }
     }
   }

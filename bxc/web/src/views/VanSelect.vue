@@ -1,6 +1,6 @@
 <template lang="pug">
-    div
-        van-field(:label="label" :value="value" :required="required" :placeholder="placeholder"  readonly clickable @click="showPicker = true" :label-width="labelWidth" :left-icon="leftIcon")
+    div()
+        van-field(:label="label" :value="value" :required="required" :placeholder="placeholder"  readonly clickable @click="showPicker = true" :label-width="labelWidth" :left-icon="leftIcon" class="van-select")
         van-popup(v-model="showPicker" position="bottom")
             van-picker(show-toolbar :columns="options" @cancel="showPicker = false" @confirm="onConfirm" :default-index="defaultIndex")
 </template>
@@ -58,3 +58,17 @@ export default {
   }
 };
 </script>
+<style>
+.van-select:after{
+position: absolute;
+    box-sizing: border-box;
+    content: ' ';
+    pointer-events: none;
+    right: 0;
+    bottom: 0;
+    left: 16px;
+    border-bottom: 1px solid #ebedf0;
+    -webkit-transform: scaleY(.5);
+    transform: scaleY(.5);
+}
+</style>

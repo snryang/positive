@@ -6,10 +6,10 @@ import (
 
 //`gorm:"default:'galeone'"`
 type User struct {
-	ID        uint      `gorm:"primary_key" json:"id"`
+	ID        int       `gorm:"primary_key" json:"id"`
 	CreatedAt time.Time `json:"-"`
 	Avatar    string    `gorm:"type:varchar(64)" json:"avatar"`
-	Role      int       `json:"-"`
+	Role      int       `json:"role" gorm:"default:1" `
 	Id32      string    `gorm:"type:varchar(36)" json:"-"`
 	Phone     string    `gorm:"type:varchar(11)" json:"-"`
 	Password  string    `gorm:"type:varchar(200)" json:"-"`
@@ -19,8 +19,8 @@ type User struct {
 }
 
 type UserDetail struct {
-	ID          uint   `gorm:"primary_key" json:"id"`
-	UserID      uint   `gorm:"column:userid" json:"userid"`
+	ID          int    `gorm:"primary_key" json:"id"`
+	UserID      int    `gorm:"column:userid" json:"userid"`
 	Wx          string `gorm:"type:varchar(32)" json:"wx"`
 	Phone       string `gorm:"type:varchar(11)" json:"phone"`
 	Name        string `gorm:"type:varchar(32)" json:"name"`
@@ -81,12 +81,12 @@ type UserDetail struct {
 }
 
 type UserLifePhoto struct {
-	UserID uint   `gorm:"column:userid" json:"userid"`
+	UserID int    `gorm:"column:userid" json:"userid"`
 	Url    string `gorm:"type:varchar(64)" json:"url"`
 }
 
 type UserLimit struct {
-	UserID   uint      `gorm:"column:userid" json:"userid"`
+	UserID   int       `gorm:"column:userid" json:"userid"`
 	Type     string    `gorm:"type:varchar(64)" json:"type"`
 	Nexttime time.Time `json:"nexttime"`
 }

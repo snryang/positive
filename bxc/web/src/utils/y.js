@@ -65,11 +65,12 @@ function routeHistory(){
 }
 
 const cache={}
+const storagePrefix = "ywb_bxc_"
 function cacheSet(key,value){
-    localStorage.setItem(key,JSON.stringify(value))
+    localStorage.setItem(storagePrefix+key,JSON.stringify(value))
 }
 function cacheGet(key){
-    let value = localStorage.getItem(key)
+    let value = localStorage.getItem(storagePrefix+key)
     if(value == null) return null;
     return JSON.parse(value)
 }

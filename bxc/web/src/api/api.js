@@ -15,15 +15,15 @@ export  default {
             return res.data
         },
         async login(phone,password){
-            let res = await axios.post('/api/v1/user/login',{phone,password,gender:'',nickname:''})
+            let res = await axios.post('/api/v1/user/login',{phone,password,gender:'',nickname:''})            
             return res.data
         },
-        async getDetail(id32){
-            let res = await axios.get('/api/v2/userdetail/'+id32)
+        async getDetail(){
+            let res = await axios.get('/api/v2/userdetail')
             return res.data
         },
-        async saveDetail(userDetail,id32){
-            let res = await axios.post('/api/v2/userdetail/save/' + id32,userDetail)
+        async saveDetail(userDetail){
+            let res = await axios.post('/api/v2/userdetail/save',userDetail)
             return res.data
         }
     }

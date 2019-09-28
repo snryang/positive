@@ -33,7 +33,7 @@ func main() {
 		userid := s.GetIntDefault("userid", 0)
 		role := s.GetIntDefault("role", 0)
 
-		ctx.Values().Save("userid", uint(userid), true)
+		ctx.Values().Save("userid", userid, true)
 		ctx.Values().Save("role", role, true)
 		ctx.Next()
 	})
@@ -53,8 +53,8 @@ func main() {
 		}
 	})
 	{
-		v2.Get("/userdetail/{id32}", GetUserDetail)
-		v2.Post("/userdetail/save/{id32}", SaveUserDetail)
+		v2.Get("/userdetail", GetUserDetail)
+		v2.Post("/userdetail/save", SaveUserDetail)
 	}
 
 	v3 := app.Party("/api/v3", func(ctx iris.Context) {
@@ -190,7 +190,7 @@ func Login(ctx iris.Context) {
 		user.Id32 = uuid.Must(uuid.NewV4()).String()
 		userService.Save(user)
 		s := session.IrisSession().Start(ctx)
-		s.Set("userid", string(user.ID))
+		s.Set("userid", int(user.ID))
 		s.Set("role", user.Role)
 		ctx.JSON(model.NewResult(user, true, "登录成功"))
 	} else {
@@ -198,7 +198,7 @@ func Login(ctx iris.Context) {
 	}
 }
 func GetUserDetail(ctx iris.Context) {
-	userID, _ := ctx.Values().GetUint("userid")
+	userID, _ := ctx.Values().GetInt("userid")
 	if userID > 0 {
 		userDetail, _ := userService.GetUserDetailById(userID)
 		ctx.JSON(model.NewResult(userDetail, true, ""))
@@ -208,7 +208,7 @@ func GetUserDetail(ctx iris.Context) {
 
 }
 func SaveUserDetail(ctx iris.Context) {
-	userID, _ := ctx.Values().GetUint("userid")
+	userID, _ := ctx.Values().GetInt("userid")
 	var userDetail model.UserDetail
 	err := ctx.ReadJSON(&userDetail)
 

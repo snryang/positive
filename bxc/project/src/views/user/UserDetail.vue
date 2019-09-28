@@ -12,10 +12,15 @@
             selector(title="性别:" :options="['男', '女','保密']" v-model="entity.gender")
             selector(title="民族:" :options="pagePrivate.nationality" v-model="entity.nationality")
             datetime(title="出生日期:" v-model="entity.birth" :min-year="1960" :max-year="2010" value-text-align="left")
+
+
+
             selector(title="身高:" :options="pagePrivate.height" v-model="entity.height")
             selector(title="体重:" :options="pagePrivate.weight" v-model="entity.weight")
             selector(title="学历:" :options="pagePrivate.education" v-model="entity.education")
             selector(title="星座:" :options="pagePrivate.constellation" v-model="entity.constellation")
+            
+
             x-input(title="职业:" v-model="entity.profession")
             selector(title="年薪:" :options="pagePrivate.salary" v-model="entity.salary")
             selector(title="住房:" :options="['已购无贷款','已购有贷款','无','保密']" v-model="entity.house")
@@ -23,6 +28,7 @@
             selector(title="婚烟状态:" :options="['单身','离异', '丧偶']" v-model="entity.marriage")
             x-address(title="居住地:" v-model="entity.address" raw-value :list="pagePrivate.addressData" value-text-align="left")
             x-address(title="家乡:" v-model="entity.hometown" raw-value :list="pagePrivate.addressData" value-text-align="left")
+            
         group(label-width="4.5em" label-margin-right="2em" label-align="right")
             group-title(slot="title") 生活状态
             selector(title="感情经历:" :options="['无','1次','2次','3次','4次','5次','5-10次','10次以上']" v-model="entity.sex")
@@ -207,7 +213,7 @@ export default {
           "30万以上",
           "50万以上"
         ],
-        addressData: ChinaAddressData,
+        // addressData: ChinaAddressData,
         hobbies: _hobbies,
         label: _label,
         forAge: _forAge
