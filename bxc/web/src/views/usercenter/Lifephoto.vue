@@ -16,9 +16,7 @@ import { debuglog } from "util";
 export default {
   data: function() {
     return {
-      fileList: [
-        "https://bxc-1300253269.cos.ap-chengdu.myqcloud.com/lifephoto/7ea914b9-8529-44c3-855e-802f3eb725eb"
-      ],
+      fileList: [],
       lifePhotos: []
     };
   },
@@ -37,7 +35,7 @@ export default {
       this.lifePhotos = _.pluck("url")(list.data || []);
       this.fileList = _.map(p => {
         return {
-          url: "https://bxc-1300253269.cos.ap-chengdu.myqcloud.com/" + p,
+          url: "https://bxc-1300253269.cos.ap-chengdu.myqcloud.com/" + p ,
           isImage: true
         };
       }, this.lifePhotos);

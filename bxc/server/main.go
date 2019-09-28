@@ -39,6 +39,8 @@ func main() {
 	{
 		v1.Post("/user/reg", Reg)
 		v1.Post("/user/login", Login)
+		v1.Get("/config/{key}", GetConfig)
+
 	}
 
 	v2 := app.Party("/api/v2", func(ctx iris.Context) {
@@ -53,8 +55,8 @@ func main() {
 		v2.Get("/userdetail", GetUserDetail)
 		v2.Post("/userdetail/save", SaveUserDetail)
 
-		v2.Post("/userdetail/save", SaveUserDetail)
-		v2.Post("/userdetail/save", SaveUserDetail)
+		// v2.Post("/userdetail/save", SaveUserDetail)
+		// v2.Post("/userdetail/save", SaveUserDetail)
 
 		v2.Get("/lifephoto", GetLifePhoto)
 		v2.Post("/uploadlifephoto", iris.LimitRequestBodySize(maxSize+1<<20), UploadLifePhoto)
@@ -70,9 +72,10 @@ func main() {
 		}
 	})
 	{
-		v3.Get("/", func(ctx iris.Context) {
-			ctx.JSON(iris.Map{"message": "Hello Iris!"})
-		})
+		v3.Get("/userdetail/{userid}", GetUserDetailByID)
+		v3.Post("/userdetail/save", SaveUserDetailV3)
+		v3.Get("/lifephoto/{userid}", GetLifePhotoByID)
+
 	}
 
 	v4 := app.Party("/api/v4", func(ctx iris.Context) {
@@ -84,9 +87,7 @@ func main() {
 		}
 	})
 	{
-		v4.Get("/", func(ctx iris.Context) {
-			ctx.JSON(iris.Map{"message": "Hello Iris!"})
-		})
+		v4.Post("/config/{key}", SaveConfig)
 	}
 
 	// app.Post("api/user/reg", func(ctx iris.Context) {
@@ -98,6 +99,30 @@ func main() {
 	//ctx.JSON(iris.Map{"message": "Hello Iris!"})
 
 	app.Run(iris.Addr(":8099"))
+}
+
+func GetUserDetailByID(ctx iris.Context) {
+	userid, _ := ctx.Params().GetIntUnslashed("userid")
+	userDetail, _ := userService.GetUserDetailById(userid)
+	ctx.JSON(model.NewResult(userDetail, true, ""))
+}
+
+func GetLifePhotoByID(ctx iris.Context) {
+	userid, _ := ctx.Params().GetIntUnslashed("userid")
+	userLifePhotos := userService.GetUserLifePhoto(userid)
+	ctx.JSON(model.NewResult(userLifePhotos, true, ""))
+}
+
+func SaveConfig(ctx iris.Context) {
+	key := ctx.Params().Get("key")
+	value := ctx.FormValue("value")
+	configService.Save(key, value)
+	ctx.JSON(model.NewResult(nil, true, ""))
+}
+
+func GetConfig(ctx iris.Context) {
+	key := ctx.Params().Get("key")
+	ctx.JSON(model.NewResult(configService.Get(key), true, ""))
 }
 
 func GetLifePhoto(ctx iris.Context) {
@@ -221,8 +246,27 @@ func GetUserDetail(ctx iris.Context) {
 		return
 	}
 	ctx.JSON(model.NewResult(nil, false, "用户信息不存在"))
-
 }
+
+func SaveUserDetailV3(ctx iris.Context) {
+	var userDetail model.UserDetail
+	err := ctx.ReadJSON(&userDetail)
+
+	if err == nil {
+		user, _ := userService.GetById(userDetail.UserID)
+
+		if user.Gender != userDetail.Gender {
+			user.Gender = userDetail.Gender
+			userService.Save(user)
+		}
+
+		userService.SaveDetail(userDetail)
+		ctx.JSON(model.NewResult(nil, true, "操作成功"))
+	} else {
+		ctx.JSON(model.NewResult(nil, false, "非法数据"))
+	}
+}
+
 func SaveUserDetail(ctx iris.Context) {
 	userID, _ := ctx.Values().GetInt("userid")
 	var userDetail model.UserDetail

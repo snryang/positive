@@ -8,6 +8,12 @@ export  default {
         async get(key){
             let res = await axios.get('/api/v1/config/' + key)
             return res.data || ''
+        },
+        async save(key,value){
+            let formData = new FormData();     
+            formData.append("value",value);
+            let res = await axios.Post('/api/v4/config/' + key,formData, {"Content-Type": "multipart/form-data"})
+            return res.data || ''
         }
     },
     lifephoto:{
@@ -47,5 +53,19 @@ export  default {
             let res = await axios.post('/api/v2/userdetail/save',userDetail)
             return res.data
         }
+    },
+    v3:{
+        async userdetail(userid){
+            let res = await axios.get('/api/v3/userdetail/' + userid)
+            return res.data
+        },
+        async saveUserdetail(userDetail){
+            let res = await axios.post('/api/v3/userdetail/save' ,userDetail)
+            return res.data
+        },
+        async lifephoto(userid){
+            let res = await axios.get('/api/v3/lifephoto/'+ userid)
+            return res.data
+        },
     }
 }

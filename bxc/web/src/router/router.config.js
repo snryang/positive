@@ -51,6 +51,18 @@ export const constantRouterMap = [
         ]
     },
     {
+        path: '/admin',
+        component: () => import('@/views/layout/UserLayout'),
+        redirect: '/admin/userdetail',   
+        children: [
+            {
+                path: '/admin/userdetail',
+                name: 'adminuserdetail',
+                component: () => import( '@/views/admin/UserDetail')
+            }
+        ]
+    },
+    {
         path: '/404',
         component: () => import('@/views/exception/404')
     }
