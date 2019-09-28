@@ -19,7 +19,7 @@
         van-cell-group(title="管理" v-if="role>=2")
             van-cell(title="查看用户资料" to="/admin/userdetail" is-link)
         van-cell-group(title="超级管理" v-if="role>=3")
-            van-cell(title="test" is-link)
+            van-cell(title="字典管理" to="/admin/config" is-link)
 </template>
 <script>
 export default {

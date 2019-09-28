@@ -196,6 +196,13 @@ func Reg(ctx iris.Context) {
 			ctx.JSON(model.NewResult(nil, false, "手机号已被注册"))
 			return
 		}
+		invitationCode := configService.Get("InvitationCode")
+		if len(invitationCode) > 0 {
+			if userRegister.IvitationCode != invitationCode {
+				ctx.JSON(model.NewResult(nil, false, "当前开启了邀请码注册，邀请码不正确"))
+				return
+			}
+		}
 		user := model.User{}
 		user.Phone = userRegister.Phone
 		user.Password = userRegister.Password

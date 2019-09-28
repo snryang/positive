@@ -11,7 +11,8 @@
             van-field(label="密码" required label-width="60" left-icon="browsing-history" placeholder="请输入密码" type="password" v-model="password")            
             van-field(label="确认密码" required label-width="60" left-icon="browsing-history" placeholder="请确认密码" type="password" v-model="password2") 
             van-field(label="昵称" maxlength="16" label-width="60" left-icon="smile" placeholder="昵称" v-model="nickname")           
-            van-select(label="性别"  :labelWidth="60"  left-icon="manager"  :options="['男', '女','保密']" v-model="gender")             
+            van-select(label="性别"  :labelWidth="60"  left-icon="manager"  :options="['男', '女','保密']" v-model="gender")          
+            van-field(label="邀请码" maxlength="16" label-width="60" left-icon="gift" placeholder="邀请码，可不填" v-model="invitationCode")              
         div(style="margin:15px;padding:5px;"): van-button(type="primary" style="border-radius:10px;" size="large" @click="userRegister") 注册
         van-row
             van-col(offset="8" span="8")
@@ -34,11 +35,11 @@ export default {
       password2: "",
       gender: "女",
       nickname: "",
-      XXX: "BBB"
+      invitationCode: ""
     };
   },
   created() {
-    document.title = "注册";
+    document.title = "注册"
   },
   methods: {
     async userRegister() {

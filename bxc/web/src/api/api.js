@@ -7,13 +7,13 @@ export  default {
     config:{
         async get(key){
             let res = await axios.get('/api/v1/config/' + key)
-            return res.data || ''
+            return res.data.data || ''
         },
         async save(key,value){
             let formData = new FormData();     
             formData.append("value",value);
-            let res = await axios.Post('/api/v4/config/' + key,formData, {"Content-Type": "multipart/form-data"})
-            return res.data || ''
+            let res = await axios.post('/api/v4/config/' + key,formData, {"Content-Type": "multipart/form-data"})
+            return res.data
         }
     },
     lifephoto:{
@@ -42,7 +42,7 @@ export  default {
             return res.data
         },
         async login(phone,password){
-            let res = await axios.post('/api/v1/user/login',{phone,password,gender:'',nickname:''})            
+            let res = await axios.post('/api/v1/user/login',{phone,password,gender:'',nickname:'',invitationCode:''})            
             return res.data
         },
         async getDetail(){

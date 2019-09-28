@@ -59,6 +59,11 @@ export const constantRouterMap = [
                 path: '/admin/userdetail',
                 name: 'adminuserdetail',
                 component: () => import( '@/views/admin/UserDetail')
+            },
+            {
+                path: '/admin/config',
+                name: 'adminconfig',
+                component: () => import( '@/views/admin/Config')
             }
         ]
     },
