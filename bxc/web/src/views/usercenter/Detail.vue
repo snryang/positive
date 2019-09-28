@@ -29,7 +29,7 @@
                 van-select(label="婚烟状态" required :options="['单身','离异', '丧偶']" v-model="entity.marriage")             
                 van-field(label="居住地" required placeholder="居住地" v-model="entity.address" error-message="示例：成都市金牛区 XXX")                    
             van-cell-group(title="自我介绍")
-                van-field(v-model="entity.selfIntroduction" type="textarea" :rows="8" maxlength="1024" placeholder="自我介绍")
+                van-field(v-model="entity.selfIntroduction" type="textarea" :rows="8" maxlength="1024" placeholder="自我介绍，填写越详细匹配度越高")
 
 
         div(v-if="activeName=='b'")
@@ -58,7 +58,7 @@
                 van-select(label="饮酒" :options="['不限','不喝酒','接受偶尔喝酒','千杯不醉']" v-model="entity.forDrink")
                 van-select(label="宠物" :options="['不限','不接受宠物','喜欢养宠物']" v-model="entity.forPet")
             van-cell-group(title="其它要求")
-                van-field(v-model="entity.forOther" type="textarea" :rows="8" maxlength="512" placeholder="其它要求")
+                van-field(v-model="entity.forOther" type="textarea" :rows="8" maxlength="512" placeholder="其它要求，填写越详细匹配度越高")
 
 
         div(v-if="activeName=='c'") 
@@ -92,6 +92,7 @@ import * as _ from "ramda";
 import axios from "axios";
 import api from "@/api/api";
 import VanSelect from '@/views/VanSelect'
+import moment from 'moment'
 
 let _nationality = `汉族、满族、蒙古族、回族、藏族、维吾尔族、苗族、彝族、壮族、布依族、侗族、瑶族、白族、土家族、哈尼族、哈萨克族、傣族、黎族、傈僳族、佤族、畲族、高山族、拉祜族、水族、东乡族、纳西族、景颇族、柯尔克孜族、土族、达斡尔族、仫佬族、羌族、布朗族、撒拉族、毛南族、仡佬族、锡伯族、阿昌族、普米族、朝鲜族、塔吉克族、怒族、乌孜别克族、俄罗斯族、鄂温克族、德昂族、保安族、裕固族、京族、塔塔尔族、独龙族、鄂伦春族、赫哲族、门巴族、珞巴族、基诺族`.split(
   "、"
@@ -298,6 +299,65 @@ export default {
       let entity = _.clone(this.entity);
 
       entity.userid = this.$ls.get("userid");
+
+      if (entity.phone.length != 11) {
+        this.$notify('手机号不正确');        
+        this.$vux.toast.text("手机号不正确", "top");
+        return;
+      }
+      if (_.isEmpty(entity.wx)) {
+        this.$notify('请填写微信号');                
+        return;
+      }
+      if (_.isEmpty(entity.name)) {
+        this.$notify('请填写姓名');                
+        return;
+      }
+      if (_.isEmpty(entity.gender)) {
+        this.$notify('请填写性别');                
+        return;
+      }
+      if (moment(entity.birth).format("YYYY-MM-DD") == 'Invalid date') {
+        this.$notify('出生日期格式不正确');                
+        return;
+      }
+        if (_.isEmpty(entity.height)) {
+        this.$notify('请填写身高');                
+        return;
+      }
+      if (_.isEmpty(entity.weight)) {
+        this.$notify('请填写体重');                
+        return;
+      }
+      if (_.isEmpty(entity.education)) {
+        this.$notify('请填写学历');                
+        return;
+      }
+
+      if (_.isEmpty(entity.profession)) {
+        this.$notify('请填写职业');                
+        return;
+      }
+      if (_.isEmpty(entity.salary)) {
+        this.$notify('请填写年薪');                
+        return;
+      }
+      if (_.isEmpty(entity.house)) {
+        this.$notify('请填写住房');                
+        return;
+      }
+      if (_.isEmpty(entity.car)) {
+        this.$notify('请填写汽车');                
+        return;
+      }
+      if (_.isEmpty(entity.marriage)) {
+        this.$notify('请填写婚烟状态');                
+        return;
+      }
+      if (_.isEmpty(entity.address)) {
+        this.$notify('请填写居住地');                
+        return;
+      }
 
       // entity.address = [
       //   this.getAddressName(entity.address[0]),

@@ -58,7 +58,7 @@ func (u UserService) GetUserLifePhoto(userid int) (userLifePhoto []model.UserLif
 }
 
 func (u UserService) RemoveUserLifePhoto(userid int, url string) {
-	db.Delete(&model.UserLifePhoto{UserID: userid, Url: url})
+	db.Where(&model.UserLifePhoto{UserID: userid, Url: url}).Delete(model.UserLifePhoto{})
 }
 
 func (u UserService) InsertUserLifePhoto(userid int, url string) {

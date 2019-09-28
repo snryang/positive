@@ -1,5 +1,6 @@
 import axios from "axios"
 
+
 axios.defaults.withCredentials=true
 //
 export  default {
@@ -7,6 +8,26 @@ export  default {
         async get(key){
             let res = await axios.get('/api/v1/config/' + key)
             return res.data || ''
+        }
+    },
+    lifephoto:{
+        async upload(file){
+            let formData = new FormData();     
+            formData.append("uploadfile",file);
+            let res = await axios.post("/api/v2/uploadlifephoto", formData, {"Content-Type": "multipart/form-data"})      
+            return res.data
+        },
+        async get(){
+            let res = await axios.get('/api/v2/lifephoto')
+            return res.data
+        },
+        async del(filename){
+            let res = await axios.get('/api/v2/deletelifephoto',{
+                params: {
+                    filename
+                }
+              })
+            return res.data
         }
     },
     user:{

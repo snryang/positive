@@ -16,7 +16,7 @@ Vue.use(Storage, {
   storage: 'local', // storage name session, local, memory
 });
 
-import { Lazyload, Icon, Cell, CellGroup, Loading, Button, Toast,Field,Image,Row, Col,Notify,Picker,Popup,Tabbar, TabbarItem,Tab, Tabs,Tag,NavBar,Sticky,Dialog     } from 'vant';
+import { Lazyload, Icon, Cell, CellGroup, Loading, Button, Toast,Field,Image,Row, Col,Notify,Picker,Popup,Tabbar, TabbarItem,Tab, Tabs,Tag,NavBar,Sticky,Dialog ,Uploader     } from 'vant';
 Vue.use(Icon);
 Vue.use(Cell);
 Vue.use(CellGroup);
@@ -33,7 +33,7 @@ Vue.use(Popup)
 Vue.use(Tabbar).use(TabbarItem)
 Vue.use(Tab).use(Tabs)
 Vue.use(Tag)
-Vue.use(NavBar).use(Sticky).use(Dialog)
+Vue.use(NavBar).use(Sticky).use(Dialog).use(Uploader)
 
 Vue.use(Lazyload, {
   preLoad: 1.3,

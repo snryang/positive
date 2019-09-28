@@ -1,6 +1,7 @@
 package session
 
 import (
+	"../conf"
 	"github.com/gorilla/securecookie"
 	"github.com/kataras/iris/sessions"
 )
@@ -12,7 +13,7 @@ var S = &session{}
 var _irisSession = &sessions.Sessions{}
 
 func init() {
-	secureCookie := securecookie.New([]byte("bxc-big-and-secret-fash-ywb-hash"), []byte("bxc-secret-of-characters-ywb-key"))
+	secureCookie := securecookie.New([]byte(conf.Sysconfig.HashKey), []byte(conf.Sysconfig.BlockKey))
 	_irisSession = sessions.New(sessions.Config{
 		Cookie:       "bxcsessionid",
 		Encode:       secureCookie.Encode,

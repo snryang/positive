@@ -43,15 +43,15 @@ export default {
   methods: {
     async userRegister() {
       if (this.phone.length != 11) {
-        this.$vux.toast.text("手机号不正确", "top");
+        this.$notify('手机号不正确');        
         return;
       }
       if (this.password != this.password2) {
-        this.$vux.toast.text("密码输入不一致", "top");
+        this.$notify('密码输入不一致');        
         return;
       }
       if (this.$R.empty(this.password)) {
-        this.$vux.toast.text("密码不允许为空", "top");
+        this.$notify('密码不允许为空');        
         return;
       }
 

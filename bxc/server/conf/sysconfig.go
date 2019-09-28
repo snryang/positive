@@ -27,6 +27,10 @@ type sysconfig struct {
 	DBIp   string    `json:"DBIp"`
 	DBPort    string    `json:"DBPort"`
 	DBName string    `json:"DBName"`
+	HashKey string    `json:"hashKey"`
+	BlockKey string    `json:"blockKey"`
+	SecretID string    `json:"SecretID"`
+	SecretKey string    `json:"SecretKey"`
 
 }
 

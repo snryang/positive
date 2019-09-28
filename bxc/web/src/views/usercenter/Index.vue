@@ -7,7 +7,7 @@
                 p 会员ID:10000
                 p 这里是昵称
             van-col(span="6")
-                div(class="vm" style="width:100%;height:100%;text-align:center;margin-top:15px;"): van-button(type="primary" size="mini") 退出
+                div(class="vm" style="width:100%;height:100%;text-align:center;margin-top:15px;"): van-button(type="primary" @click="logout" size="mini") 退出
         van-cell-group()
             van-cell(title="上传头像" is-link)
             van-cell(title="修改昵称" is-link)
@@ -21,6 +21,10 @@
 </template>
 <script>
 export default {
-    
+    methods:{
+        logout(){
+            this.$router.push({ name: "login" });
+        }
+    }
 }
 </script>

@@ -4,5 +4,9 @@
   "DBPassword": "dev123456",
   "DBIp": "49.234.92.172",
   "DBPort": "3306",
-  "DBName": "bxc"
+  "DBName": "bxc",
+  "hashKey": "bxc-big-and-secret-fash-dev-hash",
+  "blockKey": "433528a760de450db00e87e2852ba632",
+  "SecretID":"AKIDeAQUO4GmkRvGOGpTmwpW6QXQ4TdaD6ap",
+  "SecretKey":"GZhaDFeqr42lERVO1OXDfrrCMIyTjkVQ"
 }
