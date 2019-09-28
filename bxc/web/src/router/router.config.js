@@ -12,12 +12,16 @@ export const constantRouterMap = [
         redirect: '/login',        
         children: [
             {
-                path: 'login',
+                path:'/userlogin',
+                redirect: '/login',     
+            },
+            {
+                path: '/login',
                 name: 'login',
                 component: () => import( '@/views/user/Login')
             },
             {
-                path: 'reg',
+                path: '/reg',
                 name: 'reg',
                 component: () => import( '@/views/user/Reg')
             }
