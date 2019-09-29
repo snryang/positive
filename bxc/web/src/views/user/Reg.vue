@@ -39,7 +39,7 @@ export default {
     };
   },
   created() {
-    document.title = "注册"
+    // document.title = "注册"
   },
   methods: {
     async userRegister() {
