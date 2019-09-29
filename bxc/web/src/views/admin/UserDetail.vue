@@ -33,6 +33,11 @@
                     van-select(label="汽车" required :options="['豪华型','经济型', '无','保密']" v-model="entity.car")             
                     van-select(label="婚烟状态" required :options="['单身','离异', '丧偶']" v-model="entity.marriage")             
                     van-field(label="居住地" required placeholder="居住地" v-model="entity.address" error-message="示例：成都市金牛区 XXX")                    
+                    van-field(label="家乡" placeholder="家乡" v-model="entity.hometown")   
+                    van-field(label="兴趣爱好" v-model="entity.attachHobbies" placeholder="请选择，可自由输入")
+                div(class="scroller")
+                    van-tag(color="#f2826a" )
+                    van-tag(color="#f2826a" v-for="item in entity.hobbies" :plain="!item.checked" @click="item.checked = !item.checked") {{item.value}}   
                 van-cell-group(title="自我介绍")
                     van-field(v-model="entity.selfIntroduction" type="textarea" :rows="8" maxlength="1024" placeholder="自我介绍，填写越详细匹配度越高")
 
@@ -70,16 +75,13 @@
                 van-cell-group()
                     van-select(label="民族" :options="pagePrivate.nationality" v-model="entity.nationality")  
                     van-select(label="星座" :options="pagePrivate.constellation" v-model="entity.constellation")                                 
-                    van-field(label="家乡" placeholder="家乡" v-model="entity.hometown")      
+                    
                     van-select(label="感情经历" :options="['无','1次','2次','3次','4次','5次','5-10次','10次以上']" v-model="entity.sex")
                     van-select(label="吸烟" :options="['不吸烟并反感','不吸烟','偶尔','经常']" v-model="entity.smoke")
                     van-select(label="饮酒" :options="['不饮酒','偶尔','经常','无酒不欢']" v-model="entity.drink")
                     van-select(label="宠物" :options="['养猫','养狗','想养宠物','不喜欢宠物','无']" v-model="entity.pet")
                     van-field(label="饮食习惯" v-model="entity.diet")
-                    van-field(label="兴趣爱好" v-model="entity.attachHobbies" placeholder="请选择，可自由输入")
-                div(class="scroller")
-                    van-tag(color="#f2826a" )
-                    van-tag(color="#f2826a" v-for="item in entity.hobbies" :plain="!item.checked" @click="item.checked = !item.checked") {{item.value}}
+                    
                 van-cell-group()
                     van-field(label="个人标签" v-model="entity.attachLabel" placeholder="请选择，可自由输入")
                 div(class="scroller")
@@ -87,10 +89,10 @@
                     van-tag(color="#f2826a" v-for="item in entity.label" :plain="!item.checked" @click="item.checked = !item.checked") {{item.value}}
             div(v-if="activeName=='d'")
                 p(v-if="lifePhotos.length < 1") 会员没有上传生活照片
-                div(v-else)
-                    img(v-lazy="lifePhotos[0]" @click="showPreview = true" )
+                div(v-else)                
+                    img(v-lazy="lifePhotos[0]" @click="showPreview = true" width="640" )
                     van-image-preview(v-model="showPreview" :images="lifePhotos")
-                    span 点击图片查看更多照片
+                    p 点击图片查看更多照片
         //- div(style="margin:15px;padding:5px;"): van-button(type="primary" style="border-radius:10px;" size="large" @click="save") 保存
         br
         br
