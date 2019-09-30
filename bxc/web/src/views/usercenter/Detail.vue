@@ -4,7 +4,7 @@
             van-nav-bar(left-arrow @click-left="onClickLeft" title="填写个人资料")
                 div(slot="right")
                     van-button(type="primary" size="small" @click="save") 保存
-        img(v-if="imgUrl != ''" :src="imgUrl" style="max-width:640px")
+        div(class="fx-row"): div(span="fx-1"): img(v-if="imgUrl != ''" :src="imgUrl" style="width:100%")
 
         van-sticky(:offset-top="46")
             van-tabs(v-model="activeName")
@@ -81,8 +81,8 @@
                 van-tag(color="#f2826a" )
                 van-tag(color="#f2826a" v-for="item in entity.label" :plain="!item.checked" @click="item.checked = !item.checked") {{item.value}}
 
-        //- div(style="margin:15px;padding:5px;"): van-button(type="primary" style="border-radius:10px;" size="large" @click="save") 保存
-        img(v-if="imgUrl2 != ''" :src="imgUrl2" style="max-width:640px")
+        
+        div(class="fx-row"): div(span="fx-1"): img(v-if="imgUrl2 != ''" :src="imgUrl2" style="width:100%")
         br
         br
 </template>
@@ -129,6 +129,7 @@ export default {
   data: function() {
     return {
       imgUrl: "",
+      imgUrl2:'',
       activeName: "a",
       livePhoto: "",
       pagePrivate: {
