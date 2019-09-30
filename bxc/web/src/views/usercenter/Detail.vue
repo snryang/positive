@@ -82,8 +82,7 @@
                 van-tag(color="#f2826a" v-for="item in entity.label" :plain="!item.checked" @click="item.checked = !item.checked") {{item.value}}
 
         //- div(style="margin:15px;padding:5px;"): van-button(type="primary" style="border-radius:10px;" size="large" @click="save") 保存
-        br
-        br
+        img(v-if="imgUrl2 != ''" :src="imgUrl2" style="max-width:640px")
         br
         br
 </template>
@@ -224,7 +223,8 @@ export default {
   methods: {
     async init(){
         let value = await api.config.get("page_usercenter_detail")            
-        this.imgUrl = value
+        this.imgUrl = value.split(';')[0] || ''
+        this.imgUrl2 = value.split(';')[1] || ''
     },
     onClickLeft(){
       this.$router.go(-1)
