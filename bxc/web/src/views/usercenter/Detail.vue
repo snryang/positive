@@ -4,7 +4,7 @@
             van-nav-bar(left-arrow @click-left="onClickLeft" title="填写个人资料")
                 div(slot="right")
                     van-button(type="primary" size="small" @click="save") 保存
-        div( style="margin:10px;" v-html="desc" v-if="desc != ''")
+        img(v-if="imgUrl != ''" :src="imgUrl" style="max-width:640px")
 
         van-sticky(:offset-top="46")
             van-tabs(v-model="activeName")
@@ -88,6 +88,7 @@
         br
 </template>
 <script>
+import {markdown} from 'markdown';
 import * as _ from "ramda";
 import axios from "axios";
 import api from "@/api/api";
@@ -128,7 +129,7 @@ export default {
   },
   data: function() {
     return {
-      desc: "",
+      imgUrl: "",
       activeName: "a",
       livePhoto: "",
       pagePrivate: {
@@ -217,9 +218,14 @@ export default {
     };
   },
   created() {
+    this.init()
     this.loadUserDetail();
   },
   methods: {
+    async init(){
+        let value = await api.config.get("page_usercenter_detail")            
+        this.imgUrl = value
+    },
     onClickLeft(){
       this.$router.go(-1)
     },
@@ -402,7 +408,7 @@ export default {
 };
 </script>
 <style>
-.scroller{
+.scroller{    
     padding:5px;
     height:154px;
     overflow-y: scroll;    
