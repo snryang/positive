@@ -65,6 +65,15 @@ func (u UserService) InsertUserLifePhoto(userid int, url string) {
 	db.Create(&model.UserLifePhoto{UserID: userid, Url: url})
 }
 
+func (u UserService) UpdateAvatar(userid int, avatar string) {
+	db.Model(&model.User{}).Where("id = ?", userid).Update("avatar", avatar)
+}
+
+func (u UserService) GetUserInfo(userids []int) (users []model.User) {
+	db.Where(userids).Find(&users)
+	return
+}
+
 func (u UserService) AllowAction(userid int, action string) bool {
 	var userLimit model.UserLimit
 	if (db.Where(&model.UserLimit{UserID: userid, Type: action}).First(&userLimit).Error != nil) {
@@ -84,4 +93,20 @@ func (u UserService) SetActionTime(userid int, action string, second int) {
 		db.Create(&userLimit)
 	}
 
+}
+
+func (u UserService) AddGrass(userid, grass int) bool {
+	rows := db.Exec("UPDATE user_grass SET grass = grass + ? WHERE userid=?", grass, userid).RowsAffected
+	if rows == 0 {
+		db.Create(&model.UserGrass{UserID: userid, Grass: grass})
+	}
+	return true
+}
+
+func (u UserService) SubtractGrass(userid, grass int) bool {
+	rows := db.Exec("UPDATE user_grass SET grass = grass - ? WHERE userid=? AND grass > ? ", grass, userid, grass).RowsAffected
+	if rows == 0 {
+		return false
+	}
+	return true
 }

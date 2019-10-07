@@ -90,3 +90,8 @@ type UserLimit struct {
 	Type     string    `gorm:"type:varchar(64)" json:"type"`
 	Nexttime time.Time `json:"nexttime"`
 }
+
+type UserGrass struct {
+	UserID int `gorm:"column:userid" json:"userid"`
+	Grass  int `gorm:"column:grass" json:"grass"`
+}

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 	"time"
 
 	"./model"
@@ -16,6 +17,7 @@ import (
 //https://iris-go.com/start/#another-example-query-post-form demo
 var configService = service.ConfigService{}
 var userService = service.UserService{}
+var momentsService = service.MomentsService{}
 
 const maxSize = 4 << 20 // 4MB 图片最大4M
 
@@ -41,6 +43,9 @@ func main() {
 		v1.Post("/user/login", Login)
 		v1.Get("/config/{key}", GetConfig)
 
+		v1.Get("/moments/{id}", GetMoments)
+		v1.Get("/moments/reply/{id}", GetMomentsReply)
+		v1.Post("/moments", SearchMoments)
 	}
 
 	v2 := app.Party("/api/v2", func(ctx iris.Context) {
@@ -61,6 +66,11 @@ func main() {
 		v2.Get("/lifephoto", GetLifePhoto)
 		v2.Post("/uploadlifephoto", iris.LimitRequestBodySize(maxSize+1<<20), UploadLifePhoto)
 		v2.Get("/deletelifephoto", DeleteLifePhoto)
+
+		v2.Post("/update/avatar", UpdateAvatar)
+		
+		v2.Post("/moments/add", AddMoments)
+		v2.Post("/moments/reply/add", AddMomentsReply)
 	}
 
 	v3 := app.Party("/api/v3", func(ctx iris.Context) {
@@ -99,6 +109,124 @@ func main() {
 	//ctx.JSON(iris.Map{"message": "Hello Iris!"})
 
 	app.Run(iris.Addr(":8099"))
+}
+
+func UpdateAvatar(ctx iris.Context) {
+	userID, _ := ctx.Values().GetInt("userid")
+
+	file, info, err := ctx.FormFile("uploadfile")
+	if err != nil {
+		ctx.JSON(model.NewResult(nil, false, "文件上传"+err.Error()))
+		return
+	}
+	defer file.Close()
+
+	name := "avatar/" + uuid.Must(uuid.NewV4()).String()
+
+	_, errPut := util.TencentYun.Put(name, info.Header["Content-Type"][0], file)
+
+	if errPut != nil {
+		fmt.Println(errPut)
+		ctx.JSON(model.NewResult(nil, false, "文件上传"+errPut.Error()))
+		return
+	}
+	userService.UpdateAvatar(userID, name)
+	ctx.JSON(model.NewResult("https://bxc-1300253269.cos.ap-chengdu.myqcloud.com/"+name, true, name))
+}
+
+func GetMoments(ctx iris.Context) {
+	id := ctx.Params().Get("id")
+
+	moments, err := momentsService.Get(id)
+	if err != nil {
+		ctx.JSON(model.NewResult(nil, false, "非法参数"))
+		return
+	}
+	ctx.JSON(model.NewResult(moments, true, ""))
+}
+
+func GetMomentsReply(ctx iris.Context) {
+	id := ctx.Params().Get("id")
+	replyList := momentsService.SearchMomentsReply(id, 20000)
+	ctx.JSON(model.NewResult(replyList, true, ""))
+}
+
+func AddMomentsReply(ctx iris.Context) {
+	userID, _ := ctx.Values().GetInt("userid")
+	momentsId := ctx.FormValue("momentsId")
+	// toUser := ctx.FormValue("toUser")
+	// toUser := ctx.FormValue("toUser")
+	text := ctx.FormValueDefault("text", "")
+
+	if userService.AllowAction(userID, "add_reply") == false {
+		ctx.JSON(model.NewResult(nil, false, "30秒内只允许回复一次"))
+		return
+	}
+	userService.SetActionTime(userID, "add_reply", 30)
+	momentsService.AddReply(&model.MomentsReply{
+		MomentsID: momentsId,
+		ToUser:    0,
+		FromUser:  userID,
+		Text:      text})
+	ctx.JSON(model.NewResult(nil, true, "发布成功"))
+}
+
+func AddMoments(ctx iris.Context) {
+	userID, _ := ctx.Values().GetInt("userid")
+	tag := ctx.FormValueDefault("tag", "")
+	text := ctx.FormValueDefault("text", "")
+	imgNumber := ctx.FormValueDefault("imgNumber", "")
+	img := ""
+	if userService.AllowAction(userID, "add_moments") == false {
+		ctx.JSON(model.NewResult(nil, false, "四小时内只允许发布一次"))
+		return
+	}
+	// fileList := []multipart.File{}
+	if imgNumber != "" {
+		num, _ := strconv.Atoi(imgNumber)
+		for a := 1; a <= num; a++ {
+			file, info, err := ctx.FormFile("file" + strconv.Itoa(a))
+			if err != nil {
+				break
+			}
+			defer file.Close()
+			name := "moments/" + uuid.Must(uuid.NewV4()).String()
+			_, errPut := util.TencentYun.Put(name, info.Header["Content-Type"][0], file)
+			if errPut != nil {
+				break
+			}
+			img = img + name + ";"
+		}
+	}
+
+	userService.SetActionTime(userID, "add_moments", 60*60*4)
+	momentsService.Add(&model.Moments{
+		UserID: userID,
+		Tag:    tag,
+		Text:   text,
+		Img:    img})
+	ctx.JSON(model.NewResult(nil, true, "发布成功"))
+
+}
+
+func SearchMoments(ctx iris.Context) {
+	// userid, _ := ctx.Params().GetIntUnslashed("userid")
+	var req req.Req_search_moments
+	err := ctx.ReadJSON(&req)
+	if err == nil {
+
+		list := momentsService.SearchMoments(req.MomentsID, req.Created, req.UserID, req.Tag, req.PageSize)
+
+		//TODO 下面方法比较笨，后续修改实现方式
+		userids := []int{}
+		for _, item := range list {
+			userids = append(userids, item.UserID)
+		}
+		userList := userService.GetUserInfo(userids)
+		ctx.JSON(model.NewResult(iris.Map{"moments": list, "users": userList}, true, ""))
+	} else {
+		ctx.JSON(model.NewResult(nil, false, "非法数据"))
+	}
 }
 
 func GetUserDetailByID(ctx iris.Context) {
@@ -185,9 +313,9 @@ func UploadLifePhoto(ctx iris.Context) {
 }
 
 func Reg(ctx iris.Context) {
-
 	var userRegister req.UserRegister
 	err := ctx.ReadJSON(&userRegister)
+
 	fmt.Println("register")
 	fmt.Println(userRegister)
 	if err == nil {

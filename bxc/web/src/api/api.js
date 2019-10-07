@@ -52,6 +52,50 @@ export  default {
         async saveDetail(userDetail){
             let res = await axios.post('/api/v2/userdetail/save',userDetail)
             return res.data
+        },
+        async updateAvatar(file){
+            let formData = new FormData();     
+            formData.append("uploadfile",file);
+            let res = await axios.post("/api/v2/update/avatar", formData, {"Content-Type": "multipart/form-data"})      
+            return res.data
+        }
+    },
+    moments:{
+        async getMoments(id){
+            let res = await axios.get('/api/v1/moments/' + id)
+            return res.data
+        },
+        async getReply(id){
+            let res = await axios.get('/api/v1/moments/reply/' + id)
+            return res.data
+        },
+        async search(momentsID,created,userID,tag,pageSize){
+            let res = await axios.post('/api/v1/moments',{
+                momentsID,created,userID,tag,pageSize
+            })
+            return res.data
+        },
+        async addMoments(tag,text,imgs){
+            let formData = new FormData()
+            formData.append("tag",tag)
+            formData.append("text",text)
+            if(imgs.length > 0){
+                formData.append("imgNumber", String(imgs.length))
+                for(var i=0,item;item=imgs[i];i++){
+                    formData.append("file" + String(i+1) ,item)
+                }
+            }else{
+                formData.append("imgNumber",'');
+            }            
+            let res = await axios.post("/api/v2/moments/add", formData, {"Content-Type": "multipart/form-data"})      
+            return res.data
+        },
+        async addReply(momentsId,text){
+            let formData = new FormData()
+            formData.append("momentsId",momentsId)
+            formData.append("text",text)
+            let res = await axios.post("/api/v2/moments/reply/add", formData, {"Content-Type": "multipart/form-data"})      
+            return res.data
         }
     },
     v3:{
