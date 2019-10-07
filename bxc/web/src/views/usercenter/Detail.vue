@@ -4,7 +4,7 @@
             van-nav-bar(left-arrow @click-left="onClickLeft" title="填写个人资料")
                 div(slot="right")
                     van-button(type="primary" size="small" @click="save") 保存
-        div( style="margin:10px;" v-html="desc" v-if="desc != ''")
+        div(class="fx-row"): div(span="fx-1"): img(v-if="imgUrl != ''" :src="imgUrl" style="width:100%")
 
         van-sticky(:offset-top="46")
             van-tabs(v-model="activeName")
@@ -81,13 +81,13 @@
                 van-tag(color="#f2826a" )
                 van-tag(color="#f2826a" v-for="item in entity.label" :plain="!item.checked" @click="item.checked = !item.checked") {{item.value}}
 
-        //- div(style="margin:15px;padding:5px;"): van-button(type="primary" style="border-radius:10px;" size="large" @click="save") 保存
-        br
-        br
+        
+        div(class="fx-row"): div(span="fx-1"): img(v-if="imgUrl2 != ''" :src="imgUrl2" style="width:100%")
         br
         br
 </template>
 <script>
+import {markdown} from 'markdown';
 import * as _ from "ramda";
 import axios from "axios";
 import api from "@/api/api";
@@ -128,7 +128,8 @@ export default {
   },
   data: function() {
     return {
-      desc: "",
+      imgUrl: "",
+      imgUrl2:'',
       activeName: "a",
       livePhoto: "",
       pagePrivate: {
@@ -217,9 +218,15 @@ export default {
     };
   },
   created() {
+    this.init()
     this.loadUserDetail();
   },
   methods: {
+    async init(){
+        let value = await api.config.get("page_usercenter_detail")            
+        this.imgUrl = value.split(';')[0] || ''
+        this.imgUrl2 = value.split(';')[1] || ''
+    },
     onClickLeft(){
       this.$router.go(-1)
     },
@@ -402,7 +409,7 @@ export default {
 };
 </script>
 <style>
-.scroller{
+.scroller{    
     padding:5px;
     height:154px;
     overflow-y: scroll;    

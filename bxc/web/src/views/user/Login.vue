@@ -2,7 +2,7 @@
     div
         <div class="store_header">
             <div class="store_avatar">
-                <img src="../../assets/images/bxclogo.png" width="55" height="55">
+                <img src="https://bxc-1300253269.cos.ap-chengdu.myqcloud.com/img/bxclogo.png" width="55" height="55">
             </div>
             <div class="store_name">拨小草</div>
         </div>        

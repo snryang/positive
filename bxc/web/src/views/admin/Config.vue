@@ -21,8 +21,7 @@ export default {
     },
     methods:{
         async load(){
-            var res = await api.config.get(this.key)            
-            this.value = res.data.data || ''
+            this.value = await api.config.get(this.key)            
         },
         async save(){
             var res = await api.config.save(this.key,this.value)
